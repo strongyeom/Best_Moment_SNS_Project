@@ -69,14 +69,20 @@ enum Router : URLRequestConvertible {
     
     // asURLRequest() 만 외부에서 사용할 것이기 때문에 그 외의 프로퍼티는 private으로 설정해준다.
     func asURLRequest() throws -> URLRequest {
-        var request = URLRequest(url: baseURL)
+        let url = baseURL.appendingPathComponent(path)
+        var request = URLRequest(url: url)
         // 헤더 및 메서드 추가
         request.headers = header
         request.method = method
         
-        // encoding ~ 했던것 처럼 추가 코드 필요, 오픈 API 사용시 destination: .methodDependent 많이 씀
-        request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
         
+        
+        // encoding ~ 했던것 처럼 추가 코드 필요, 오픈 API 사용시 destination: .methodDependent 많이 씀
+//        request = try URLEncodedFormParameterEncoder(destination: .httpBody).encode(query, into: request)
+        // => ❗️타임 아웃 에러 발생
+        request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)
+        // => ❗️The data couldn’t be read because it is missing.
+        print("request - \(request)")
         // 내부에서 만들어 놓은 url : endPoint 사용
         // var request = URLRequest(url: url)
         return request

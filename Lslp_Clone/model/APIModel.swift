@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct Signup {
+struct Signup: Encodable {
     let email: String
     let password: String
     let nickname: String
 }
 
-struct Login {
+struct Login: Encodable {
     let email: String
     let password: String
 }

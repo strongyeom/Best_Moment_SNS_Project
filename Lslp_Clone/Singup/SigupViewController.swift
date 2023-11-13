@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SigupViewController: BaseViewController {
 
@@ -14,8 +16,17 @@ class SigupViewController: BaseViewController {
         
     }
     
+    let disposeBag = DisposeBag()
+    
     override func configure() {
         super.configure()
+        print("SigupViewController - configure")
+        APIManager.shared.request(api: Router.signup(email: "aasxcza@sdsc1aa.com", password: "1234", nickname: "yeom"))
+            .asDriver(onErrorJustReturn: JoinResponse(email: "", nick: ""))
+            .drive(with: self) { owner, response in
+                print(response)
+            }
+            .disposed(by: disposeBag)
     }
 
 
