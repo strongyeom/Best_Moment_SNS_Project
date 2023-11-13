@@ -7,11 +7,15 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class SigupViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+    }
+    
+    override func configure() {
+        super.configure()
     }
 
 
