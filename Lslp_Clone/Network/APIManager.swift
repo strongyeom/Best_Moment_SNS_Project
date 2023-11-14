@@ -169,7 +169,7 @@ class APIManager {
                         }
                     case 400:
                         observer.onError(ValidateEmailError.isNotRequeird)
-                    case 401:
+                    case 409:
                         observer.onError(ValidateEmailError.isExistUser)
                     case 500:
                         observer.onError(ValidateEmailError.serverError)

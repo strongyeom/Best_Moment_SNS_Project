@@ -106,9 +106,10 @@ class SigupViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         /// 이메일 검증
+        // 회원가입 할때 Email TextField에서 검증해야함
         button123.rx.tap
             .bind(with: self) { owner, _ in
-                APIManager.shared.requestIsValidateEmail(api: Router.valid(emial: "aacom"))
+                APIManager.shared.requestIsValidateEmail(api: Router.valid(emial: "aasx123@sdsc1aa.com"))
                     .catch { err -> Observable<ValidateEmail> in
                         if let err = err as? ValidateEmailError {
                             print(err.errorDescription)
