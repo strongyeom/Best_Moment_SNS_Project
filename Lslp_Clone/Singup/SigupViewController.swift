@@ -24,7 +24,7 @@ class SigupViewController: BaseViewController {
         APIManager.shared.request(api: Router.signup(email: "aasxcza@sdsc1aa.com", password: "1234", nickname: "yeom"))
             .asDriver(onErrorJustReturn: JoinResponse(email: "", nick: ""))
             .drive(with: self) { owner, response in
-                print(response)
+                dump(response)
             }
             .disposed(by: disposeBag)
     }

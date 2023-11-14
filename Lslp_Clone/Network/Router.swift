@@ -57,7 +57,7 @@ enum Router : URLRequestConvertible {
             return [
                 "email": email,
                 "password": password,
-                "nickname": nickname
+                "nick": nickname
             ]
         case .login(email: let email, password: let password):
             return [
@@ -82,9 +82,11 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
         request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)
         // => ❗️The data couldn’t be read because it is missing.
-        print("request - \(request)")
+        print("Router request URL- \(request)")
         // 내부에서 만들어 놓은 url : endPoint 사용
         // var request = URLRequest(url: url)
+        
+//        String(data: request.httpBody, encoding: .utf8)
         return request
     }
     
