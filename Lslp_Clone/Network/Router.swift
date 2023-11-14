@@ -83,10 +83,6 @@ enum Router : URLRequestConvertible {
         request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)
         // => ❗️The data couldn’t be read because it is missing.
         print("Router request URL- \(request)")
-        // 내부에서 만들어 놓은 url : endPoint 사용
-        // var request = URLRequest(url: url)
-        
-//        String(data: request.httpBody, encoding: .utf8)
         return request
     }
     
