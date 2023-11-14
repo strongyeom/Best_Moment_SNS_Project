@@ -15,6 +15,9 @@ enum Router : URLRequestConvertible {
     case signup(email: String, password: String, nickname: String)
     case login(email: String, password: String)
     case valid(emial: String)
+    case content(accessToken: String)
+    case refresh(access: String, refresh: String)
+    case logOut(access: String)
     
     var baseURL: URL {
         return URL(string: BaseAPI.baseUrl)!
@@ -30,6 +33,12 @@ enum Router : URLRequestConvertible {
             return "login"
         case .valid:
             return "validation/email"
+        case .content:
+            return "content"
+        case .refresh:
+            return "refresh"
+        case .logOut:
+            return "withdraw"
         }
     }
     
@@ -40,17 +49,36 @@ enum Router : URLRequestConvertible {
             "Content-Type": "application/json",
             "SesacKey" : APIKey.secretKey
            ]
+        case .content(accessToken: let token):
+            return [
+                "Authorization" : token,
+                "SesacKey" : APIKey.secretKey
+            ]
+        case .refresh(access: let toekn, refresh: let refresh):
+            return [
+                "Content-Type": "application/json",
+                "Authorization" : toekn,
+                "SesacKey" : APIKey.secretKey,
+                "Refresh": refresh
+            ]
+        case .logOut(access: let token):
+            return [
+                "Authorization" : token,
+                "SesacKey" : APIKey.secretKey
+            ]
         }
     }
     
     private var method: HTTPMethod {
         switch self {
-        case .signup, .login, .valid:
+        case .signup, .login, .valid, .logOut:
             return .post
+        case .content, .refresh:
+            return .get
         }
     }
     
-    var query: [String: String] {
+    var query: [String: String]? {
         switch self {
         case .signup(email: let email, password: let password, nickname: let nickname):
             return [
@@ -67,6 +95,8 @@ enum Router : URLRequestConvertible {
             return [
                 "email" : email
             ]
+        case .content, .refresh, .logOut:
+            return nil
         }
     }
     

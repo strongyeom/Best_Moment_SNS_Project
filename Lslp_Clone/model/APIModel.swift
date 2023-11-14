@@ -26,11 +26,25 @@ struct JoinResponse: Decodable {
     let nick : String
 }
 
-struct Token: Decodable {
+struct TokenResponse: Decodable {
     let token: String
     let refreshToken: String
 }
 
-struct ValidateEmail : Decodable {
+struct ValidateEmailResponse : Decodable {
     let message: String
+}
+
+struct ContentResponse: Decodable {
+    let message: String
+}
+
+struct RefreshResponse: Decodable {
+    let reAccessToken: String
+}
+
+struct LogOutResponse: Decodable {
+    let _id: String
+    let email: String
+    let nick: String
 }
