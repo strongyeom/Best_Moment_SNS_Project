@@ -26,6 +26,13 @@ class SigupViewController: BaseViewController {
         return view
     }()
     
+    let button123 = {
+        let view = UIButton()
+        view.setTitle("이메일 검증", for: .normal)
+        view.setTitleColor(.blue, for: .normal)
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,6 +45,7 @@ class SigupViewController: BaseViewController {
         print("SigupViewController - configure")
         view.addSubview(button12)
         view.addSubview(button11)
+        view.addSubview(button123)
         
         button11.snp.makeConstraints { make in
             make.centerY.equalToSuperview().offset(-40)
@@ -49,29 +57,12 @@ class SigupViewController: BaseViewController {
             make.center.equalToSuperview()
         }
         
-        button11.rx.tap
-            .bind(with: self) { owner, _ in
-                print("로그인")
-                
-                APIManager.shared.reqeustLogin(api: Router.login(email: "aasx11223@sdsc1aa.com", password: "1234"))
-                //  .catch(<#T##handler: (Error) throws -> Observable<Token>##(Error) throws -> Observable<Token>#>)
-                    .catch { // catch : Error가 발생하면 스트림이 끊어지지 않게 새로운 Observable을 방출함
-                        if let err = $0 as? LoginError {
-                            print(err)
-                        }
-                        return Observable.just(Token(token: "", refreshToken: ""))
-                    }// 여기까지는 Observable<Token>
-                // 해당 Observable만 내려오기 때문에 drive를 사용해도 가능
-                    .asDriver(onErrorJustReturn: Token(token: "", refreshToken: ""))
-                    .drive(with: self, onNext: { owner, response in
-                        dump(response)
-                    })
-                    .disposed(by: owner.disposeBag)
-            }
-            .disposed(by: disposeBag)
+        button123.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(40)
+        }
         
-        
-        
+        /// 회원가입
         button12.rx.tap
             .bind(with: self, onNext: { owner, _ in
                 print("회원가입")
@@ -92,6 +83,45 @@ class SigupViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
+        /// 로그인
+        button11.rx.tap
+            .bind(with: self) { owner, _ in
+                print("로그인")
+                
+                APIManager.shared.reqeustLogin(api: Router.login(email: "aasx123@sdsc1aa.com", password: "1234"))
+                //  .catch(<#T##handler: (Error) throws -> Observable<Token>##(Error) throws -> Observable<Token>#>)
+                    .catch { // catch : Error가 발생하면 스트림이 끊어지지 않게 새로운 Observable을 방출함
+                        if let err = $0 as? LoginError {
+                            print(err.errorDescription)
+                        }
+                        return Observable.just(Token(token: "", refreshToken: ""))
+                    }// 여기까지는 Observable<Token>
+                // 해당 Observable만 내려오기 때문에 drive를 사용해도 가능
+                    .asDriver(onErrorJustReturn: Token(token: "", refreshToken: ""))
+                    .drive(with: self, onNext: { owner, response in
+                        dump(response)
+                    })
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+        /// 이메일 검증
+        button123.rx.tap
+            .bind(with: self) { owner, _ in
+                APIManager.shared.requestIsValidateEmail(api: Router.valid(emial: "aacom"))
+                    .catch { err -> Observable<ValidateEmail> in
+                        if let err = err as? ValidateEmailError {
+                            print(err.errorDescription)
+                        }
+                        return Observable.just(ValidateEmail(message: ""))
+                    }
+                    .asDriver(onErrorJustReturn: ValidateEmail(message: ""))
+                    .drive(with: self) { owner, response in
+                        dump(response)
+                    }
+                    .disposed(by: owner.disposeBag)
+            }
+            .disposed(by: disposeBag)
         
     }
     

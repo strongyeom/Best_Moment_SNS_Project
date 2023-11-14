@@ -14,13 +14,10 @@ enum Router : URLRequestConvertible {
     
     case signup(email: String, password: String, nickname: String)
     case login(email: String, password: String)
-    
+    case valid(emial: String)
     
     var baseURL: URL {
-        switch self {
-        case .signup, .login:
-            return URL(string: BaseAPI.baseUrl)!
-        }
+        return URL(string: BaseAPI.baseUrl)!
     }
     
     
@@ -31,12 +28,14 @@ enum Router : URLRequestConvertible {
             return "join"
         case .login:
             return "login"
+        case .valid:
+            return "validation/email"
         }
     }
     
     var header: HTTPHeaders {
         switch self {
-        case .signup, .login:
+        case .signup, .login, .valid:
            return [
             "Content-Type": "application/json",
             "SesacKey" : APIKey.secretKey
@@ -46,7 +45,7 @@ enum Router : URLRequestConvertible {
     
     private var method: HTTPMethod {
         switch self {
-        case .signup, .login:
+        case .signup, .login, .valid:
             return .post
         }
     }
@@ -63,6 +62,10 @@ enum Router : URLRequestConvertible {
             return [
                 "email": email,
                 "password": password
+            ]
+        case .valid(emial: let email):
+            return [
+                "email" : email
             ]
         }
     }

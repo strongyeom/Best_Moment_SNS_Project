@@ -60,11 +60,29 @@ enum LoginError: Error {
     }
 }
 
+enum ValidateEmailError: Error {
+    case isNotRequeird
+    case isExistUser
+    case serverError
+    
+    var errorDescription: String {
+        switch self {
+        case .isNotRequeird:
+            return "필수값을 채워주세요"
+        case .isExistUser:
+            return "이미 사용중인 이메일 입니다."
+        case .serverError:
+            return "서버 오류 입니다."
+        }
+    }
+}
+
 class APIManager {
     static let shared = APIManager()
     
     private init() { }
     
+    /// 회원가입
     func request(api: Router) -> Observable<JoinResponse> {
         return Observable<JoinResponse>.create { observer in
             
@@ -98,6 +116,7 @@ class APIManager {
         }
     }
     
+    ///로그인
     func reqeustLogin(api: Router) -> Observable<Token> {
         return Observable<Token>.create { observer in
             AF.request(api)
@@ -126,6 +145,38 @@ class APIManager {
                     default:
                         break
                     }
+                }
+            return Disposables.create()
+        }
+    }
+    
+    /// 이메일 검증
+    func requestIsValidateEmail(api: Router) -> Observable<ValidateEmail> {
+        return Observable<ValidateEmail>.create { observer in
+            
+            AF.request(api)
+                .validate(statusCode: 200...500)
+                .responseDecodable(of: ValidateEmail.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    
+                    switch status {
+                    case 200:
+                        switch response.result {
+                        case .success(let data):
+                            observer.onNext(data)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    case 400:
+                        observer.onError(ValidateEmailError.isNotRequeird)
+                    case 401:
+                        observer.onError(ValidateEmailError.isExistUser)
+                    case 500:
+                        observer.onError(ValidateEmailError.serverError)
+                    default:
+                        break
+                    }
+                    
                 }
             return Disposables.create()
         }

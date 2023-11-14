@@ -30,3 +30,7 @@ struct Token: Decodable {
     let token: String
     let refreshToken: String
 }
+
+struct ValidateEmail : Decodable {
+    let message: String
+}
