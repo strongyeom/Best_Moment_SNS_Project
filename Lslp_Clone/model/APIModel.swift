@@ -40,7 +40,7 @@ struct ContentResponse: Decodable {
 }
 
 struct RefreshResponse: Decodable {
-    let reAccessToken: String
+    let accessToken: String
 }
 
 struct LogOutResponse: Decodable {

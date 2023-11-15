@@ -153,7 +153,7 @@ class APIManager {
                     print("APIManager - StatusCode : \(response.response!.statusCode)")
                     
                     guard let status = response.response?.statusCode else { return }
-                    
+                    print("회원가입 상태 코드 ", status)
                     switch status {
                     case 200:
                         switch response.result {
@@ -219,7 +219,7 @@ class APIManager {
                 .validate(statusCode: 200...500)
                 .responseDecodable(of: ValidateEmailResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
-                    
+                    print("이메일 검증 상태 코드 ", status)
                     switch status {
                     case 200:
                         switch response.result {
@@ -250,7 +250,7 @@ class APIManager {
                 .validate(statusCode: 200...500)
                 .responseDecodable(of: ContentResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
-                    
+                    print("컨텐츠 상태 코드 ", status)
                     switch status {
                     case 200:
                         switch response.result {
@@ -281,6 +281,7 @@ class APIManager {
                 .validate(statusCode: 200...500)
                 .responseDecodable(of: RefreshResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
+                    print("리프레쉬 상태 코드 ", status)
                     switch status {
                     case 200:
                         switch response.result {
@@ -319,7 +320,7 @@ class APIManager {
                 .validate(statusCode: 200...500)
                 .responseDecodable(of: LogOutResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
-                    
+                    print("회원탈퇴 상태 코드 ", status)
                     switch status {
                     case 200:
                         switch response.result {
