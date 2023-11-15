@@ -293,3 +293,33 @@ extension SignupViewController {
 //
 //    }
 }
+
+
+
+
+/*
+ 
+ nicknameTextField.rx.text.orEmpty
+     .debounce(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
+     .bind { value in
+         print("nick - \(value)")
+     }
+     .disposed(by: disposeBag)
+ 
+ emailTextField.rx.text.orEmpty
+     .throttle(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
+     .bind { value in
+         print("email - \(value)")
+     }
+     .disposed(by: disposeBag)
+ 
+ passwordTextField.rx.text.orEmpty
+     .throttle(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
+     .bind { value in
+         print("password - \(value)")
+     }
+     .disposed(by: disposeBag)
+ 
+ // ==> 이렇게 나온 결과값을 비교해야함
+ 
+ */
