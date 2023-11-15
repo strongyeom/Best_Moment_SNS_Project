@@ -144,7 +144,7 @@ class APIManager {
     private init() { }
     
     /// 회원가입
-    func request(api: Router) -> Observable<JoinResponse> {
+    func requestSignup(api: Router) -> Observable<JoinResponse> {
         return Observable<JoinResponse>.create { observer in
             
             AF.request(api)

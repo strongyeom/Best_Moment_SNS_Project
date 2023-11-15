@@ -12,14 +12,27 @@ import SnapKit
 
 class SignupViewController: BaseViewController {
     
-    let nicknameTextField = SignInTextField(placeHolder: "닉네임을 설정해주세요.")
-    let emailTextField = SignInTextField(placeHolder: "이메일을 입력해주세요.")
-    let passwordTextField = SignInTextField(placeHolder: "비밀번호를 입력해주세요", isSecure: true)
-    let signupBtn = {
+    let nicknameTextField = SignInTextField(placeHolder: "닉네임을 설정해주세요.", brandColor: .blue)
+    let emailTextField = SignInTextField(placeHolder: "이메일을 입력해주세요.", brandColor: .blue)
+    let passwordTextField = SignInTextField(placeHolder: "비밀번호를 입력해주세요", isSecure: true, brandColor: .blue)
+    let duplicateBtn = {
        let button = UIButton()
-        button.setCornerButton(text: "회원 가입 완료")
+        button.setCornerButton(text: "중복확인", brandColor: .lightGray)
         return button
     }()
+    
+    let signupBtn = {
+       let button = UIButton()
+        button.setCornerButton(text: "회원 가입 완료", brandColor: .blue)
+        return button
+    }()
+    
+    let viewModel = SignupViewModel()
+    
+    // 이메일 검증 문구
+   // let emailValidMessage = PublishSubject<String>()
+    let emailValid = PublishSubject<Bool>()
+    let disposeBag = DisposeBag()
     
     
     override func viewDidLoad() {
@@ -27,22 +40,74 @@ class SignupViewController: BaseViewController {
         
     }
     
-    // 로그인하면 나오는 accessToken
-    // 로그인하면 나오는 RefreshToken
-//    let accessToken = BehaviorSubject(value: "")
-//    let refreshToken = BehaviorSubject(value: "")
-    let disposeBag = DisposeBag()
-    
     override func configure() {
         super.configure()
         print("SigupViewController - configure")
+        bind()
+    }
+    
+    func bind() {
         
+       // nick, email, password 세가지가 다 들어가야지만 회원 가입이 완료
+        // email <- 중복확인 거쳐야함 false , true 던져주면 true일때만 회원가입 가능하게 만들기
+          
+        Observable.zip(nicknameTextField.rx.text.orEmpty, emailTextField.rx.text.orEmpty, passwordTextField.rx.text.orEmpty)
+            .throttle(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
+            .bind(with: self) { owner, value in
+               // response.0 : nick, response.1: email, response.2: password
+                // 이메일 중복 검증을 통해 알럿으로 띄어주기
+           
+                    
+                
+                APIManager.shared.requestIsValidateEmail(api: Router.valid(emial: value.1))
+                    .catch { err in
+                        if let err = err as? ValidateEmailError {
+                            owner.emailValid.onNext(false)
+                            print(err.errorDescription)
+                        }
+                        return Observable.never()
+                    }
+                    .asDriver(onErrorJustReturn: ValidateEmailResponse(message: ""))
+                    .drive(with: self) { owner, reponse in
+                        print("reponse.message - \(reponse.message)")
+                        owner.emailValid.onNext(true)
+                    }
+                    .disposed(by: owner.disposeBag)
+                
+                owner.emailValid.bind(with: self) { owner, validResult in
+                    if validResult {
+                        APIManager.shared.requestSignup(api: Router.signup(email: value.1, password: value.2, nickname: value.0))
+                            .catch { err in
+                                if let err = err as? SignupError {
+                                    owner.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
+                                }
+                                return Observable.never()
+                            }
+                            .asDriver(onErrorJustReturn: JoinResponse(email: "", nick: ""))
+                            .drive(with: self) { owner, response in
+                                print(response)
+                            }
+                            .disposed(by: owner.disposeBag)
+                        
+                    } else {
+                        owner.setEmailValidAlet(text: "이메일 중복 확인을 눌러주세요", completionHandler: nil)
+                    }
+                }
+                .disposed(by: owner.disposeBag)
+           
+                
+                
+                
+            }
+            .disposed(by: disposeBag)
+        
+       
     }
     
    
     
     override func setConstraints() {
-        [nicknameTextField, emailTextField, passwordTextField, signupBtn].forEach {
+        [nicknameTextField, emailTextField, passwordTextField, duplicateBtn, signupBtn].forEach {
             view.addSubview($0)
         }
         
@@ -55,7 +120,14 @@ class SignupViewController: BaseViewController {
         emailTextField.snp.makeConstraints { make in
             make.height.equalTo(50)
             make.top.equalTo(nicknameTextField.snp.bottom).offset(30)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.leading.equalTo(view.safeAreaLayoutGuide).inset(20)
+        }
+        
+        duplicateBtn.snp.makeConstraints { make in
+            make.centerY.equalTo(emailTextField)
+            make.width.equalTo(100)
+            make.leading.equalTo(emailTextField.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(10)
         }
         
         passwordTextField.snp.makeConstraints { make in

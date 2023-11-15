@@ -9,14 +9,14 @@ import UIKit
 
 class SignInTextField : UITextField {
     
-    init(placeHolder: String) {
+    init(placeHolder: String, brandColor: UIColor) {
         super.init(frame: .zero)
-        self.setCornerTextField(placeHolder: placeHolder)
+        self.setCornerTextField(placeHolder: placeHolder, brandColor: brandColor)
     }
     
-    init(placeHolder: String, isSecure: Bool) {
+    init(placeHolder: String, isSecure: Bool, brandColor: UIColor) {
         super.init(frame: .zero)
-        self.setCornerTextField(placeHolder: placeHolder)
+        self.setCornerTextField(placeHolder: placeHolder, brandColor: brandColor)
         self.isSecureTextEntry = isSecure
     }
     
