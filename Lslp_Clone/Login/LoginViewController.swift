@@ -22,16 +22,28 @@ class LoginViewController : BaseViewController {
         return button
     }()
     
+    let disposeBag = DisposeBag()
     
     override func configure() {
         super.configure()
-        
+        bind()
+    }
+    
+    func bind() {
+        // 회원 가입 View로 전환
+        signupBtn.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.navigationController?.pushViewController(SignupViewController(), animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
     override func setConstraints() {
         [emailTextField, passwordTextField, signInBtn, signupBtn].forEach {
             view.addSubview($0)
         }
+        
+        
         
         emailTextField.snp.makeConstraints { make in
             make.height.equalTo(50)
