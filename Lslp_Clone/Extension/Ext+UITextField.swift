@@ -16,5 +16,6 @@ extension UITextField {
         self.layer.borderColor = brandColor.cgColor
         self.layer.borderWidth = 1
         self.textAlignment = .center
+        self.autocapitalizationType = .none
     }
 }

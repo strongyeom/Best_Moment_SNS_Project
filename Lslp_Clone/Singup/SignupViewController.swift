@@ -31,7 +31,7 @@ class SignupViewController: BaseViewController {
     
     // 이메일 검증 문구
    // let emailValidMessage = PublishSubject<String>()
-    let emailValid = PublishSubject<Bool>()
+    let emailValid = BehaviorSubject(value: false)
     let disposeBag = DisposeBag()
     
     
@@ -48,60 +48,58 @@ class SignupViewController: BaseViewController {
     
     func bind() {
         
-       // nick, email, password 세가지가 다 들어가야지만 회원 가입이 완료
-        // email <- 중복확인 거쳐야함 false , true 던져주면 true일때만 회원가입 가능하게 만들기
-          
-        Observable.zip(nicknameTextField.rx.text.orEmpty, emailTextField.rx.text.orEmpty, passwordTextField.rx.text.orEmpty)
-            .throttle(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
-            .bind(with: self) { owner, value in
-               // response.0 : nick, response.1: email, response.2: password
-                // 이메일 중복 검증을 통해 알럿으로 띄어주기
-           
-                    
-                
-                APIManager.shared.requestIsValidateEmail(api: Router.valid(emial: value.1))
-                    .catch { err in
+        emailValid
+            .bind(with: self, onNext: { owner, result in
+                owner.signupBtn.isEnabled = result
+                let color = result ? UIColor.blue : UIColor.lightGray
+                owner.signupBtn.backgroundColor = color
+            })
+            .disposed(by: disposeBag)
+ 
+        /// 이메일 중복 체크
+        duplicateBtn.rx.tap
+            .flatMap {
+                APIManager.shared.requestIsValidateEmail(api: Router.valid(emial: self.emailTextField.text ?? ""))
+                    .catch { err -> Observable<ValidateEmailResponse> in
                         if let err = err as? ValidateEmailError {
-                            owner.emailValid.onNext(false)
-                            print(err.errorDescription)
+                            self.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
                         }
                         return Observable.never()
                     }
-                    .asDriver(onErrorJustReturn: ValidateEmailResponse(message: ""))
-                    .drive(with: self) { owner, reponse in
-                        print("reponse.message - \(reponse.message)")
-                        owner.emailValid.onNext(true)
-                    }
-                    .disposed(by: owner.disposeBag)
-                
-                owner.emailValid.bind(with: self) { owner, validResult in
-                    if validResult {
-                        APIManager.shared.requestSignup(api: Router.signup(email: value.1, password: value.2, nickname: value.0))
-                            .catch { err in
-                                if let err = err as? SignupError {
-                                    owner.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
-                                }
-                                return Observable.never()
-                            }
-                            .asDriver(onErrorJustReturn: JoinResponse(email: "", nick: ""))
-                            .drive(with: self) { owner, response in
-                                print(response)
-                            }
-                            .disposed(by: owner.disposeBag)
-                        
-                    } else {
-                        owner.setEmailValidAlet(text: "이메일 중복 확인을 눌러주세요", completionHandler: nil)
-                    }
-                }
-                .disposed(by: owner.disposeBag)
-           
-                
-                
-                
             }
+            .bind(with: self, onNext: { owner, response in
+                owner.setEmailValidAlet(text: response.message, completionHandler: nil)
+                owner.emailValid.onNext(true)
+            })
             .disposed(by: disposeBag)
         
-       
+        
+        // nick: yeom, email: yeom@12, pass: 12
+        // yeom123 12yeom@12 12  숫자 들어김
+        // bebeen bebeen@12 12
+        // m123 m123 12
+        // n123 n123 12
+        /// 회원 가입
+        signupBtn.rx.tap
+            .flatMap {
+                APIManager.shared.requestSignup(api: Router.signup(email: self.nicknameTextField.text ?? "", password: self.passwordTextField.text ?? "", nickname: self.nicknameTextField.text ?? ""))
+                    .catch { err in
+                        if let err = err as? SignupError {
+                            self.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
+                            self.emailValid.onNext(false)
+                        }
+                        return Observable.never()
+                    }
+            }
+            .bind(with: self, onNext: { owner, response in
+                print(response)
+                
+                // TODO: - 로그인 해서 토큰 UD에 저장하기
+                // TODO: - 회원 가입 후 메인 뷰로 이동 메서드 만들기
+            })
+            .disposed(by: disposeBag)
+        
+ 
     }
     
    
@@ -293,33 +291,3 @@ extension SignupViewController {
 //
 //    }
 }
-
-
-
-
-/*
- 
- nicknameTextField.rx.text.orEmpty
-     .debounce(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
-     .bind { value in
-         print("nick - \(value)")
-     }
-     .disposed(by: disposeBag)
- 
- emailTextField.rx.text.orEmpty
-     .throttle(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
-     .bind { value in
-         print("email - \(value)")
-     }
-     .disposed(by: disposeBag)
- 
- passwordTextField.rx.text.orEmpty
-     .throttle(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
-     .bind { value in
-         print("password - \(value)")
-     }
-     .disposed(by: disposeBag)
- 
- // ==> 이렇게 나온 결과값을 비교해야함
- 
- */
