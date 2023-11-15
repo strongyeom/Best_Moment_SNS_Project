@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class SigupViewController: BaseViewController {
+class SignupViewController: BaseViewController {
     
     let loginBtn = {
         let view = UIButton()
@@ -58,9 +58,9 @@ class SigupViewController: BaseViewController {
         super.viewDidLoad()
         
     }
+    
     // 로그인하면 나오는 accessToken
     // 로그인하면 나오는 RefreshToken
-    
     let accessToken = BehaviorSubject(value: "")
     let refreshToken = BehaviorSubject(value: "")
     let disposeBag = DisposeBag()
@@ -76,6 +76,43 @@ class SigupViewController: BaseViewController {
     
     }
     
+   
+    
+    override func setConstraints() {
+        loginBtn.snp.makeConstraints { make in
+            make.centerY.equalToSuperview().offset(-40)
+            make.centerX.equalToSuperview()
+        }
+        
+        
+        signupBtn.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        
+        validEmailBtn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(40)
+        }
+        
+        contentBtn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(80)
+        }
+        
+        refreshBtn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(120)
+        }
+        
+        logoutBtn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(160)
+        }
+    }
+    
+}
+
+extension SignupViewController {
     func bind() {
         /// 회원가입
         signupBtn.rx.tap
@@ -88,7 +125,7 @@ class SigupViewController: BaseViewController {
                         if let err = error as? SignupError {
                             print(err.errorDescription)
                         }
-                        return Observable.just(JoinResponse(email: "", nick: ""))
+                        return Observable.never()
                     })
                     .asDriver(onErrorJustReturn: JoinResponse(email: "", nick: ""))
                     .drive(with: self) { owner, response in
@@ -109,7 +146,7 @@ class SigupViewController: BaseViewController {
                         if let err = $0 as? LoginError {
                             print(err.errorDescription)
                         }
-                        return Observable.just(TokenResponse(token: "", refreshToken: ""))
+                        return Observable.never()
                     }// 여기까지는 Observable<Token>
                 // 해당 Observable만 내려오기 때문에 drive를 사용해도 가능
                     .asDriver(onErrorJustReturn: TokenResponse(token: "", refreshToken: ""))
@@ -134,7 +171,7 @@ class SigupViewController: BaseViewController {
                         if let err = err as? ValidateEmailError {
                             print(err.errorDescription)
                         }
-                        return Observable.just(ValidateEmailResponse(message: ""))
+                        return Observable.never()
                     }
                     .asDriver(onErrorJustReturn: ValidateEmailResponse(message: ""))
                     .drive(with: self) { owner, response in
@@ -154,7 +191,7 @@ class SigupViewController: BaseViewController {
                         if let err = err as? ContentError {
                             print(err.errorDescrtion)
                         }
-                        return Observable.just(ContentResponse(message: ""))
+                        return Observable.never()
                     }
                     .asDriver(onErrorJustReturn: ContentResponse(message: ""))
                     .drive(with: self) { owner, response in
@@ -198,7 +235,7 @@ class SigupViewController: BaseViewController {
                         if let err = err as? LogOutError {
                             print(err.errorDescrtion)
                         }
-                        return Observable.just(LogOutResponse(_id: "", email: "", nick: ""))
+                        return Observable.never()
                     }
                     .asDriver(onErrorJustReturn: LogOutResponse(_id: "", email: "", nick: ""))
                     .drive(with: self) { owner, response in
@@ -209,44 +246,15 @@ class SigupViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         
-        let observable2 = Observable<Void>.empty()
+        let observable2 = Observable<Void>.never()
 
         observable2
-            .subscribe { print($0) }
+            .subscribe(onNext: { _ in
+                print("어떤게??")
+            }, onDisposed: {
+                print("onDisposed")
+            })
             .disposed(by: disposeBag)
         
     }
-    
-    override func setConstraints() {
-        loginBtn.snp.makeConstraints { make in
-            make.centerY.equalToSuperview().offset(-40)
-            make.centerX.equalToSuperview()
-        }
-        
-        
-        signupBtn.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        
-        validEmailBtn.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(40)
-        }
-        
-        contentBtn.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(80)
-        }
-        
-        refreshBtn.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(120)
-        }
-        
-        logoutBtn.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview().offset(160)
-        }
-    }
-    
 }
