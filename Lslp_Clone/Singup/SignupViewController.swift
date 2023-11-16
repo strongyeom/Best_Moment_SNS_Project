@@ -48,7 +48,7 @@ class SignupViewController: BaseViewController {
     
     func bind() {
         
-        let input = SignupViewModel.Input(emailText: emailTextField.rx.text.orEmpty, duplicateTapped: duplicateBtn.rx.tap)
+        let input = SignupViewModel.Input(emailText: emailTextField.rx.text.orEmpty, nickText: nicknameTextField.rx.text.orEmpty,passwordText: passwordTextField.rx.text.orEmpty,duplicateTapped: duplicateBtn.rx.tap, signupBtnTapped: signupBtn.rx.tap)
         
         let output = viewModel.transform(input: input)
         
@@ -82,26 +82,13 @@ class SignupViewController: BaseViewController {
         // m123 m123 12
         // n123 n123 12
         /// 회원 가입
-        signupBtn.rx.tap
-            .flatMap {
-                APIManager.shared.requestSignup(api: Router.signup(email: self.nicknameTextField.text ?? "", password: self.passwordTextField.text ?? "", nickname: self.nicknameTextField.text ?? ""))
-                    .catch { err in
-                        if let err = err as? SignupError {
-                            self.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
-                            output.isEmailValid.onNext(false)
-                        }
-                        return Observable.never()
-                    }
-            }
+     
+        output.signupBtnTapped
             .bind(with: self, onNext: { owner, response in
                 print(response)
-                
-                // TODO: - 로그인 해서 토큰 UD에 저장하기
-                // TODO: - 회원 가입 후 메인 뷰로 이동 메서드 만들기
             })
             .disposed(by: disposeBag)
-        
- 
+
     }
     
    

@@ -12,12 +12,18 @@ class SignupViewModel: BaseInOutPut {
     
     struct Input {
         let emailText: ControlProperty<String>
+        let nickText: ControlProperty<String>
+        let passwordText: ControlProperty<String>
+        
         let duplicateTapped: ControlEvent<Void>
+        let signupBtnTapped:
+            ControlEvent<Void>
     }
     
     struct Output {
         let isEmailValid: BehaviorSubject<Bool>
         let dulicateTapped: Observable<ValidateEmailResponse>
+        let signupBtnTapped: Observable<JoinResponse>
         let errorMessage: PublishSubject<String>
     }
     
@@ -41,7 +47,23 @@ class SignupViewModel: BaseInOutPut {
             }
             .debug()
         
+        let pairOfThreeInfo = Observable.zip(input.emailText, input.passwordText, input.nickText)
+            
         
-        return Output(isEmailValid: isEmailValid, dulicateTapped: duplicateTapped, errorMessage: errorMessage)
+        let signBtnTapped = input.signupBtnTapped
+            .withLatestFrom(pairOfThreeInfo)
+            .flatMap { email, password, nick in
+                APIManager.shared.requestSignup(api: Router.signup(email: String(email), password: String(password), nickname: String(nick)))
+                    .catch { err in
+                        if let err = err as? SignupError {
+                            errorMessage.onNext(err.errorDescription)
+                            isEmailValid.onNext(false)
+                        }
+                        return Observable.never()
+                    }
+            }
+            .debug()
+        
+        return Output(isEmailValid: isEmailValid, dulicateTapped: duplicateTapped, signupBtnTapped: signBtnTapped, errorMessage: errorMessage)
     }
 }

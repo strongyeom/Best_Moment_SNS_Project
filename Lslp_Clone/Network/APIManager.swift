@@ -148,19 +148,18 @@ class APIManager {
         return Observable<JoinResponse>.create { observer in
             
             AF.request(api)
-                .validate(statusCode: 200...500)
+                .validate(statusCode: 200...300)
                 .responseDecodable(of: JoinResponse.self) { response in
                     print("APIManager - StatusCode : \(response.response!.statusCode)")
                     
                     guard let status = response.response?.statusCode else { return }
                     print("회원가입 상태 코드 ", status)
-                    
+                    print("----", response.result)
                         switch response.result {
                         case .success(let data):
-                            
+                            observer.onNext(data)
+                        case .failure(let error):
                             switch status {
-                            case 200:
-                                observer.onNext(data)
                             case 420:
                                 observer.onError(CommonError.serviceOnly)
                             case 429:
@@ -176,7 +175,6 @@ class APIManager {
                             default:
                                 break
                             }
-                        case .failure(let error):
                             print(error.localizedDescription)
                            // observer.onError(CommonError.networkError)
                         }
@@ -185,12 +183,12 @@ class APIManager {
             return Disposables.create()
         }
     }
-    
+
     ///로그인
     func reqeustLogin(api: Router) -> Observable<TokenResponse> {
         return Observable<TokenResponse>.create { observer in
             AF.request(api)
-                .validate(statusCode: 200...500)
+                .validate(statusCode: 200...300)
                 .responseDecodable(of: TokenResponse.self) {
                     response in
                     
@@ -201,10 +199,11 @@ class APIManager {
                   
                         switch response.result {
                         case .success(let data):
-                           
+                            observer.onNext(data)
+                          
+                        case .failure(let error):
+                            print(error.localizedDescription)
                             switch status {
-                            case 200:
-                                observer.onNext(data)
                             case 420:
                                 observer.onError(CommonError.serviceOnly)
                             case 429:
@@ -220,8 +219,6 @@ class APIManager {
                             default:
                                 break
                             }
-                        case .failure(let error):
-                            print(error.localizedDescription)
                         }
                    
                 }
@@ -234,16 +231,18 @@ class APIManager {
         return Observable<ValidateEmailResponse>.create { observer in
             
             AF.request(api)
-                .validate(statusCode: 200...500)
+                .validate(statusCode: 200...300)
                 .responseDecodable(of: ValidateEmailResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("이메일 검증 상태 코드 ", status)
                     
                         switch response.result {
                         case .success(let data):
+                            observer.onNext(data)
+                           
+                        case .failure(let error):
+                            print(error.localizedDescription)
                             switch status {
-                            case 200:
-                                observer.onNext(data)
                             case 420:
                                 observer.onError(CommonError.serviceOnly)
                             case 429:
@@ -259,8 +258,6 @@ class APIManager {
                             default:
                                 break
                             }
-                        case .failure(let error):
-                            print(error.localizedDescription)
                         }
                 
                     
@@ -275,17 +272,17 @@ class APIManager {
     func requestContent(api: Router) -> Observable<ContentResponse> {
         return Observable<ContentResponse>.create { observer in
             AF.request(api)
-                .validate(statusCode: 200...500)
+                .validate(statusCode: 200...300)
                 .responseDecodable(of: ContentResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("컨텐츠 상태 코드 ", status)
                     
                         switch response.result {
                         case .success(let data):
-                           
+                            observer.onNext(data)
+                        case .failure(let error):
+                            print(error.localizedDescription)
                             switch status {
-                            case 200:
-                                observer.onNext(data)
                             case 420:
                                 observer.onError(CommonError.serviceOnly)
                             case 429:
@@ -301,9 +298,6 @@ class APIManager {
                             default:
                                 break
                             }
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                           // observer.onError(APIError.networkError)
                         }
                  
                 }
@@ -315,17 +309,18 @@ class APIManager {
     func requestRefresh(api: Router) -> Observable<RefreshResponse> {
         return Observable<RefreshResponse>.create { observer in
             AF.request(api)
-                .validate(statusCode: 200...500)
+                .validate(statusCode: 200...300)
                 .responseDecodable(of: RefreshResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("리프레쉬 상태 코드 ", status)
                     
                         switch response.result {
                         case .success(let data):
-                            
+                            observer.onNext(data)
+                           
+                        case .failure(let error):
+                            print(error.localizedDescription)
                             switch status {
-                            case 200:
-                                observer.onNext(data)
                             case 420:
                                 observer.onError(CommonError.serviceOnly)
                             case 429:
@@ -345,9 +340,6 @@ class APIManager {
                             default:
                                 break
                             }
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                           // observer.onError(APIError.networkError)
                         }
                  
                 }
@@ -363,17 +355,18 @@ class APIManager {
         return Observable<LogOutResponse>.create { observer in
             
             AF.request(api)
-                .validate(statusCode: 200...500)
+                .validate(statusCode: 200...300)
                 .responseDecodable(of: LogOutResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("회원탈퇴 상태 코드 ", status)
                     
                         switch response.result {
                         case .success(let data):
-                            
+                            observer.onNext(data)
+                         
+                        case .failure(let error):
+                            print(error.localizedDescription)
                             switch status {
-                            case 200:
-                                observer.onNext(data)
                             case 420:
                                 observer.onError(CommonError.serviceOnly)
                             case 429:
@@ -391,8 +384,6 @@ class APIManager {
                             default:
                                 break
                             }
-                        case .failure(let error):
-                            print(error.localizedDescription)
                         }
                    
                 }
