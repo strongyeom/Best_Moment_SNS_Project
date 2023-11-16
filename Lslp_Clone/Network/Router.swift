@@ -14,7 +14,7 @@ enum Router : URLRequestConvertible {
     
     case signup(email: String, password: String, nickname: String)
     case login(email: String, password: String)
-    case valid(emial: String)
+    case valid(email: String)
     case content(accessToken: String)
     case refresh(access: String, refresh: String)
     case logOut(access: String)
@@ -91,7 +91,7 @@ enum Router : URLRequestConvertible {
                 "email": email,
                 "password": password
             ]
-        case .valid(emial: let email):
+        case .valid(email: let email):
             return [
                 "email" : email
             ]

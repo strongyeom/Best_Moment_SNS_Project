@@ -9,19 +9,19 @@ import Foundation
 import RxSwift
 import Alamofire
 
-enum APIError: Error {
-    case inValidURL
-    case unkwoned
-    case networkError
+enum CommonError: Error {
+    case serviceOnly
+    case overNetwork
+    case inValid
     
     var errorAPIDescription: String {
         switch self {
-        case .inValidURL:
-            return "유효하지 않은 주소입니다."
-        case .unkwoned:
-            return "원인을 알 수 없는 오류입니다."
-        case .networkError:
-            return "네트워크 오류입니다."
+        case .serviceOnly:
+            return "This service sesac_memolease Only"
+        case .overNetwork:
+            return "과호출입니다."
+        case .inValid:
+            return "돌아가 여긴 자네가 올 곳이 아니야"
         }
     }
 }
@@ -148,30 +148,39 @@ class APIManager {
         return Observable<JoinResponse>.create { observer in
             
             AF.request(api)
-                .validate(statusCode: 200..<500)
+                .validate(statusCode: 200...500)
                 .responseDecodable(of: JoinResponse.self) { response in
                     print("APIManager - StatusCode : \(response.response!.statusCode)")
                     
                     guard let status = response.response?.statusCode else { return }
                     print("회원가입 상태 코드 ", status)
-                    switch status {
-                    case 200:
+                    
                         switch response.result {
                         case .success(let data):
-                            observer.onNext(data)
+                            
+                            switch status {
+                            case 200:
+                                observer.onNext(data)
+                            case 420:
+                                observer.onError(CommonError.serviceOnly)
+                            case 429:
+                                observer.onError(CommonError.overNetwork)
+                            case 444:
+                                observer.onError(CommonError.inValid)
+                            case 400:
+                                observer.onError(SignupError.isNotRequired)
+                            case 409:
+                                observer.onError(SignupError.isExistUser)
+                            case 500:
+                                observer.onError(SignupError.severError)
+                            default:
+                                break
+                            }
                         case .failure(let error):
                             print(error.localizedDescription)
-                            observer.onError(APIError.networkError)
+                           // observer.onError(CommonError.networkError)
                         }
-                    case 400:
-                        observer.onError(SignupError.isNotRequired)
-                    case 409:
-                        observer.onError(SignupError.isExistUser)
-                    case 500:
-                        observer.onError(SignupError.severError)
-                    default:
-                        break
-                    }
+                 
                 }
             return Disposables.create()
         }
@@ -189,23 +198,32 @@ class APIManager {
                     guard let status = response.response?.statusCode else { return}
                     print("Login 상태 코드 ", status)
                     
-                    switch status {
-                    case 200:
+                  
                         switch response.result {
                         case .success(let data):
-                            observer.onNext(data)
+                           
+                            switch status {
+                            case 200:
+                                observer.onNext(data)
+                            case 420:
+                                observer.onError(CommonError.serviceOnly)
+                            case 429:
+                                observer.onError(CommonError.overNetwork)
+                            case 444:
+                                observer.onError(CommonError.inValid)
+                            case 400:
+                                observer.onError(LoginError.isNotRequired)
+                            case 401:
+                                observer.onError(LoginError.inNotUser)
+                            case 500:
+                                observer.onError(LoginError.severError)
+                            default:
+                                break
+                            }
                         case .failure(let error):
                             print(error.localizedDescription)
                         }
-                    case 400:
-                        observer.onError(LoginError.isNotRequired)
-                    case 401:
-                        observer.onError(LoginError.inNotUser)
-                    case 500:
-                        observer.onError(LoginError.severError)
-                    default:
-                        break
-                    }
+                   
                 }
             return Disposables.create()
         }
@@ -220,27 +238,37 @@ class APIManager {
                 .responseDecodable(of: ValidateEmailResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("이메일 검증 상태 코드 ", status)
-                    switch status {
-                    case 200:
+                    
                         switch response.result {
                         case .success(let data):
-                            observer.onNext(data)
+                            switch status {
+                            case 200:
+                                observer.onNext(data)
+                            case 420:
+                                observer.onError(CommonError.serviceOnly)
+                            case 429:
+                                observer.onError(CommonError.overNetwork)
+                            case 444:
+                                observer.onError(CommonError.inValid)
+                            case 400:
+                                observer.onError(ValidateEmailError.isNotRequeird)
+                            case 409:
+                                observer.onError(ValidateEmailError.isExistUser)
+                            case 500:
+                                observer.onError(ValidateEmailError.serverError)
+                            default:
+                                break
+                            }
                         case .failure(let error):
                             print(error.localizedDescription)
                         }
-                    case 400:
-                        observer.onError(ValidateEmailError.isNotRequeird)
-                    case 409:
-                        observer.onError(ValidateEmailError.isExistUser)
-                    case 500:
-                        observer.onError(ValidateEmailError.serverError)
-                    default:
-                        break
-                    }
+                
                     
                 }
+
             return Disposables.create()
         }
+        .debug()
     }
     
     /// 컨텐츠
@@ -251,24 +279,33 @@ class APIManager {
                 .responseDecodable(of: ContentResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("컨텐츠 상태 코드 ", status)
-                    switch status {
-                    case 200:
+                    
                         switch response.result {
                         case .success(let data):
-                            observer.onNext(data)
+                           
+                            switch status {
+                            case 200:
+                                observer.onNext(data)
+                            case 420:
+                                observer.onError(CommonError.serviceOnly)
+                            case 429:
+                                observer.onError(CommonError.overNetwork)
+                            case 444:
+                                observer.onError(CommonError.inValid)
+                            case 401:
+                                observer.onError(ContentError.isNotAuth)
+                            case 403:
+                                observer.onError(ContentError.forbidden)
+                            case 419:
+                                observer.onError(ContentError.isExpiration)
+                            default:
+                                break
+                            }
                         case .failure(let error):
                             print(error.localizedDescription)
-                            observer.onError(APIError.networkError)
+                           // observer.onError(APIError.networkError)
                         }
-                    case 401:
-                        observer.onError(ContentError.isNotAuth)
-                    case 403:
-                        observer.onError(ContentError.forbidden)
-                    case 419:
-                        observer.onError(ContentError.isExpiration)
-                    default:
-                        break
-                    }
+                 
                 }
             return Disposables.create()
         }
@@ -282,28 +319,37 @@ class APIManager {
                 .responseDecodable(of: RefreshResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("리프레쉬 상태 코드 ", status)
-                    switch status {
-                    case 200:
+                    
                         switch response.result {
                         case .success(let data):
-                            observer.onNext(data)
+                            
+                            switch status {
+                            case 200:
+                                observer.onNext(data)
+                            case 420:
+                                observer.onError(CommonError.serviceOnly)
+                            case 429:
+                                observer.onError(CommonError.overNetwork)
+                            case 444:
+                                observer.onError(CommonError.inValid)
+                            case 401:
+                                observer.onError(RefreshError.isNotAuth)
+                            case 403:
+                                observer.onError(RefreshError.forbidden)
+                            case 409:
+                                observer.onError(RefreshError.isNotExpiration)
+                            case 418:
+                                observer.onError(RefreshError.isRefreshExpiration)
+                            case 500:
+                                observer.onError(RefreshError.serverError)
+                            default:
+                                break
+                            }
                         case .failure(let error):
                             print(error.localizedDescription)
-                            observer.onError(APIError.networkError)
+                           // observer.onError(APIError.networkError)
                         }
-                    case 401:
-                        observer.onError(RefreshError.isNotAuth)
-                    case 403:
-                        observer.onError(RefreshError.forbidden)
-                    case 409:
-                        observer.onError(RefreshError.isNotExpiration)
-                    case 418:
-                        observer.onError(RefreshError.isRefreshExpiration)
-                    case 500:
-                        observer.onError(RefreshError.serverError)
-                    default:
-                        break
-                    }
+                 
                 }
             return Disposables.create()
         }
@@ -321,25 +367,34 @@ class APIManager {
                 .responseDecodable(of: LogOutResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("회원탈퇴 상태 코드 ", status)
-                    switch status {
-                    case 200:
+                    
                         switch response.result {
                         case .success(let data):
-                            observer.onNext(data)
+                            
+                            switch status {
+                            case 200:
+                                observer.onNext(data)
+                            case 420:
+                                observer.onError(CommonError.serviceOnly)
+                            case 429:
+                                observer.onError(CommonError.overNetwork)
+                            case 444:
+                                observer.onError(CommonError.inValid)
+                            case 401:
+                                observer.onError(LogOutError.isNotAuth)
+                            case 403:
+                                observer.onError(LogOutError.forbidden)
+                            case 419:
+                                observer.onError(LogOutError.isExpiration)
+                            case 500:
+                                observer.onError(LogOutError.severError)
+                            default:
+                                break
+                            }
                         case .failure(let error):
                             print(error.localizedDescription)
                         }
-                    case 401:
-                        observer.onError(LogOutError.isNotAuth)
-                    case 403:
-                        observer.onError(LogOutError.forbidden)
-                    case 419:
-                        observer.onError(LogOutError.isExpiration)
-                    case 500:
-                        observer.onError(LogOutError.severError)
-                    default:
-                        break
-                    }
+                   
                 }
             return Disposables.create()
         }

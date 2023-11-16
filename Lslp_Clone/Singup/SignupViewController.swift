@@ -31,7 +31,7 @@ class SignupViewController: BaseViewController {
     
     // 이메일 검증 문구
    // let emailValidMessage = PublishSubject<String>()
-    let emailValid = BehaviorSubject(value: false)
+   
     let disposeBag = DisposeBag()
     
     
@@ -48,28 +48,30 @@ class SignupViewController: BaseViewController {
     
     func bind() {
         
-        emailValid
+        let input = SignupViewModel.Input(emailText: emailTextField.rx.text.orEmpty, duplicateTapped: duplicateBtn.rx.tap)
+        
+        let output = viewModel.transform(input: input)
+        
+        
+        output.errorMessage
+            .bind(with: self) { owner, err in
+                owner.setEmailValidAlet(text: err, completionHandler: nil)
+            }
+            .disposed(by: disposeBag)
+        
+        output.isEmailValid
             .bind(with: self, onNext: { owner, result in
                 owner.signupBtn.isEnabled = result
                 let color = result ? UIColor.blue : UIColor.lightGray
                 owner.signupBtn.backgroundColor = color
             })
             .disposed(by: disposeBag)
- 
+
         /// 이메일 중복 체크
-        duplicateBtn.rx.tap
-            .flatMap {
-                APIManager.shared.requestIsValidateEmail(api: Router.valid(emial: self.emailTextField.text ?? ""))
-                    .catch { err -> Observable<ValidateEmailResponse> in
-                        if let err = err as? ValidateEmailError {
-                            self.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
-                        }
-                        return Observable.never()
-                    }
-            }
+        output.dulicateTapped
             .bind(with: self, onNext: { owner, response in
                 owner.setEmailValidAlet(text: response.message, completionHandler: nil)
-                owner.emailValid.onNext(true)
+                output.isEmailValid.onNext(true)
             })
             .disposed(by: disposeBag)
         
@@ -86,7 +88,7 @@ class SignupViewController: BaseViewController {
                     .catch { err in
                         if let err = err as? SignupError {
                             self.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
-                            self.emailValid.onNext(false)
+                            output.isEmailValid.onNext(false)
                         }
                         return Observable.never()
                     }
