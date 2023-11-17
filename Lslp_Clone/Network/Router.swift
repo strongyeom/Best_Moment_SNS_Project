@@ -56,7 +56,6 @@ enum Router : URLRequestConvertible {
             ]
         case .refresh(access: let toekn, refresh: let refresh):
             return [
-                "Content-Type": "application/json",
                 "Authorization" : toekn,
                 "SesacKey" : APIKey.secretKey,
                 "Refresh": refresh

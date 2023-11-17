@@ -21,7 +21,7 @@ class LoginViewController : BaseViewController {
         button.setTitleColor(.black, for: .normal)
         return button
     }()
-    
+    let viewModel = LoginViewModel()
     let disposeBag = DisposeBag()
     
     override func configure() {
@@ -29,9 +29,37 @@ class LoginViewController : BaseViewController {
         bind()
     }
     
+    
+    
     func bind() {
+        
+        let input = LoginViewModel.Input(emailText: emailTextField.rx.text.orEmpty, passwordText: passwordTextField.rx.text.orEmpty, loginBtn: signInBtn.rx.tap, signupBtn: signupBtn.rx.tap)
+        
+        let output = viewModel.transform(input: input)
+        
+        
+        // 에러 문구 Alert
+        output.errorMessage
+            .bind(with: self) { owner, error in
+                owner.setEmailValidAlet(text: error, completionHandler: nil)
+            }
+            .disposed(by: disposeBag)
+           
+        
+        // 로그인 확인
+        output.loginBtnTapped
+            .bind(with: self) { onwer, response in
+                print(response)
+                
+                // 1. UD에 AT, RT 저장하기
+                // 2. Home 화면으로 이동
+                
+            }
+            .disposed(by: disposeBag)
+        
+        
         // 회원 가입 View로 전환
-        signupBtn.rx.tap
+        output.signupTapped
             .bind(with: self) { owner, _ in
                 owner.navigationController?.pushViewController(SignupViewController(), animated: true)
             }
@@ -69,7 +97,4 @@ class LoginViewController : BaseViewController {
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
     }
-    
-    
-    
 }

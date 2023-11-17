@@ -30,6 +30,8 @@
 		2657F3E22B02377500E3A22E /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2657F3E12B02377500E3A22E /* APIManager.swift */; };
 		2657F3E42B023C4000E3A22E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2657F3E32B023C4000E3A22E /* Router.swift */; };
 		2657F3E72B023CA500E3A22E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2657F3E62B023CA500E3A22E /* Alamofire */; };
+		26F2A7CC2B074DE100033C93 /* NetworkErrorCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */; };
+		26F2A7CE2B07648200033C93 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F2A7CD2B07648200033C93 /* LoginViewModel.swift */; };
 		26F4937F2B036A5400AA68E7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F4937E2B036A5400AA68E7 /* LoginViewController.swift */; };
 		26F493822B0388C500AA68E7 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F493812B0388C500AA68E7 /* UserDefaultsManager.swift */; };
 /* End PBXBuildFile section */
@@ -56,6 +58,8 @@
 		2657F3DF2B02374B00E3A22E /* APIKeyAndBaseURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyAndBaseURL.swift; sourceTree = "<group>"; };
 		2657F3E12B02377500E3A22E /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2657F3E32B023C4000E3A22E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCollections.swift; sourceTree = "<group>"; };
+		26F2A7CD2B07648200033C93 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		26F4937E2B036A5400AA68E7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		26F493812B0388C500AA68E7 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,6 +168,7 @@
 			children = (
 				2657F3E12B02377500E3A22E /* APIManager.swift */,
 				2657F3E32B023C4000E3A22E /* Router.swift */,
+				26F2A7CF2B07707A00033C93 /* ErrorMessage */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -176,10 +181,19 @@
 			path = model;
 			sourceTree = "<group>";
 		};
+		26F2A7CF2B07707A00033C93 /* ErrorMessage */ = {
+			isa = PBXGroup;
+			children = (
+				26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */,
+			);
+			path = ErrorMessage;
+			sourceTree = "<group>";
+		};
 		26F4937D2B036A4400AA68E7 /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				26F4937E2B036A5400AA68E7 /* LoginViewController.swift */,
+				26F2A7CD2B07648200033C93 /* LoginViewModel.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -277,10 +291,12 @@
 				2649E1C12B04C677003CA70C /* SignupViewModel.swift in Sources */,
 				26F4937F2B036A5400AA68E7 /* LoginViewController.swift in Sources */,
 				2649E1B42B04AE43003CA70C /* SignInTextField.swift in Sources */,
+				26F2A7CC2B074DE100033C93 /* NetworkErrorCollections.swift in Sources */,
 				2649E1C42B04C69D003CA70C /* BaseInOutPut.swift in Sources */,
 				26F493822B0388C500AA68E7 /* UserDefaultsManager.swift in Sources */,
 				2657F3E42B023C4000E3A22E /* Router.swift in Sources */,
 				2649E1B12B04AD9A003CA70C /* BaseView.swift in Sources */,
+				26F2A7CE2B07648200033C93 /* LoginViewModel.swift in Sources */,
 				2657F3BC2B02324000E3A22E /* SignupViewController.swift in Sources */,
 				2649E1BB2B04B0B4003CA70C /* Ext+UIButton.swift in Sources */,
 				2649E1B72B04AEB6003CA70C /* Ext+UITextField.swift in Sources */,

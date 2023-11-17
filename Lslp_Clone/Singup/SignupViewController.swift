@@ -49,14 +49,14 @@ class SignupViewController: BaseViewController {
         let output = viewModel.transform(input: input)
         
         
-        // 에러 문구
+        /// 에러 문구 Alert
         output.errorMessage
             .bind(with: self) { owner, err in
                 owner.setEmailValidAlet(text: err, completionHandler: nil)
             }
             .disposed(by: disposeBag)
         
-        // 이메일 검증 여부
+        /// 이메일 검증 여부
         output.isEmailValid
             .bind(with: self, onNext: { owner, result in
                 owner.signupBtn.isEnabled = result
@@ -65,7 +65,7 @@ class SignupViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
 
-        // 이메일 중복 체크
+        /// 이메일 중복 체크
         output.dulicateTapped
             .bind(with: self, onNext: { owner, response in
                 owner.setEmailValidAlet(text: response.message, completionHandler: nil)
@@ -79,8 +79,9 @@ class SignupViewController: BaseViewController {
         // bebeen bebeen@12 12
         // m123 m123 12
         // n123 n123 12
+        
+        
         /// 회원 가입
-     
         output.signupBtnTapped
             .bind(with: self, onNext: { owner, response in
                 print(response)
