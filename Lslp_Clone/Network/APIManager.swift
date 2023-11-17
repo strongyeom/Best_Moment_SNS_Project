@@ -93,7 +93,7 @@ class APIManager {
                    
                 }
             return Disposables.create()
-        }
+        }.debug()
     }
     
     /// 이메일 검증

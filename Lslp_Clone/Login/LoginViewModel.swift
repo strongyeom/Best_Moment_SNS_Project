@@ -39,14 +39,16 @@ class LoginViewModel: BaseInOutPut {
             .withLatestFrom(loginInfo)
             .flatMap { email, password in
                 APIManager.shared.reqeustLogin(api: Router.login(email: String(email), password: String(password)))
+                    .catch { err -> Observable<TokenResponse> in
+                        if let err = err as? LoginError {
+                            errorMessage.onNext(err.errorDescription)
+                        }
+                        return Observable.never()
+                    }
+                    
             }
-            .catch { err in
-                if let err = err as? LoginError {
-                    errorMessage.onNext(err.errorDescription)
-                }
-                return Observable.never()
-            }
-            .debug()
+           
+           
         
         
         let signupTapped = input.signupBtn
