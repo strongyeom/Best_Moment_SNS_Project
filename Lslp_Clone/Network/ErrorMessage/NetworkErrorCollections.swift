@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum CommonError: Error {
-    case serviceOnly
-    case overNetwork
-    case inValid
-    case serverError
+enum CommonError: Int, Error {
+    case serviceOnly = 420
+    case overNetwork = 429
+    case inValid = 444
+    case serverError = 500
     
     var errorAPIDescription: String {
         switch self {
@@ -27,9 +27,9 @@ enum CommonError: Error {
     }
 }
 
-enum SignupError: Error {
-    case isNotRequired
-    case isExistUser
+enum SignupError: Int, Error {
+    case isNotRequired = 400
+    case isExistUser = 409
 
     var errorDescription: String {
         switch self {
@@ -41,9 +41,9 @@ enum SignupError: Error {
     }
 }
 
-enum LoginError: Error {
-    case isNotRequired
-    case inNotUser
+enum LoginError: Int, Error {
+    case isNotRequired = 400
+    case inNotUser = 401
 
     var errorDescription: String {
         switch self {
@@ -55,9 +55,9 @@ enum LoginError: Error {
     }
 }
 
-enum ValidateEmailError: Error {
-    case isNotRequeird
-    case isExistUser
+enum ValidateEmailError: Int, Error {
+    case isNotRequeird = 400
+    case isExistUser = 409
     
     var errorDescription: String {
         switch self {
@@ -69,10 +69,10 @@ enum ValidateEmailError: Error {
     }
 }
 
-enum ContentError: Error {
-    case isNotAuth
-    case forbidden
-    case isExpiration
+enum ContentError: Int, Error {
+    case isNotAuth = 401
+    case forbidden = 403
+    case isExpiration = 419
     
     var errorDescrtion: String {
         switch self {
@@ -86,11 +86,11 @@ enum ContentError: Error {
     }
 }
 
-enum RefreshError: Error {
-    case isNotAuth
-    case forbidden
-    case isNotExpiration
-    case isRefreshExpiration
+enum RefreshError: Int, Error {
+    case isNotAuth = 401
+    case forbidden = 403
+    case isNotExpiration = 409
+    case isRefreshExpiration = 418
     
     var errorDescription: String {
         switch self {
@@ -106,10 +106,10 @@ enum RefreshError: Error {
     }
 }
 
-enum LogOutError: Error {
-    case isNotAuth
-    case forbidden
-    case isExpiration
+enum LogOutError: Int, Error {
+    case isNotAuth = 401
+    case forbidden = 403
+    case isExpiration = 419
     
     var errorDescrtion: String {
         switch self {

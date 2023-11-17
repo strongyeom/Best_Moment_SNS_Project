@@ -31,21 +31,14 @@ class APIManager {
                         case .success(let data):
                             observer.onNext(data)
                         case .failure(_):
-                            switch status {
-                            case 420:
-                                observer.onError(CommonError.serviceOnly)
-                            case 429:
-                                observer.onError(CommonError.overNetwork)
-                            case 444:
-                                observer.onError(CommonError.inValid)
-                            case 400:
-                                observer.onError(SignupError.isNotRequired)
-                            case 409:
-                                observer.onError(SignupError.isExistUser)
-                            case 500:
-                                observer.onError(CommonError.serverError)
-                            default:
-                                break
+                            if let commonError = CommonError(rawValue: status) {
+                                print("CommonError - \(commonError)")
+                                observer.onError(commonError)
+                            } else {
+                                let signupError = SignupError(rawValue: status) ?? SignupError.isExistUser
+                                
+                                print("SignupError - \(signupError)")
+                                observer.onError(signupError)
                             }
                         }
                  
@@ -71,29 +64,22 @@ class APIManager {
                         case .success(let data):
                             observer.onNext(data)
                           
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                            switch status {
-                            case 420:
-                                observer.onError(CommonError.serviceOnly)
-                            case 429:
-                                observer.onError(CommonError.overNetwork)
-                            case 444:
-                                observer.onError(CommonError.inValid)
-                            case 400:
-                                observer.onError(LoginError.isNotRequired)
-                            case 401:
-                                observer.onError(LoginError.inNotUser)
-                            case 500:
-                                observer.onError(CommonError.serverError)
-                            default:
-                                break
+                        case .failure(_):
+                           // print(error.localizedDescription)
+                            if let commonError = CommonError(rawValue: status) {
+                                print("CommonError - \(commonError)")
+                                observer.onError(commonError)
+                            } else {
+                                let loginError = LoginError(rawValue: status) ?? LoginError.inNotUser
+                                
+                                print("LoginError - \(loginError)")
+                                observer.onError(loginError)
                             }
                         }
                    
                 }
             return Disposables.create()
-        }.debug()
+        }
     }
     
     /// 이메일 검증
@@ -110,23 +96,15 @@ class APIManager {
                         case .success(let data):
                             observer.onNext(data)
                            
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                            switch status {
-                            case 420:
-                                observer.onError(CommonError.serviceOnly)
-                            case 429:
-                                observer.onError(CommonError.overNetwork)
-                            case 444:
-                                observer.onError(CommonError.inValid)
-                            case 400:
-                                observer.onError(ValidateEmailError.isNotRequeird)
-                            case 409:
-                                observer.onError(ValidateEmailError.isExistUser)
-                            case 500:
-                                observer.onError(CommonError.serverError)
-                            default:
-                                break
+                        case .failure(_):
+                            if let commonError = CommonError(rawValue: status) {
+                                print("CommonError - \(commonError)")
+                                observer.onError(commonError)
+                            } else {
+                                let validateEmailError = ValidateEmailError(rawValue: status) ?? ValidateEmailError.isExistUser
+                                
+                                print("validateEmailError - \(validateEmailError)")
+                                observer.onError(validateEmailError)
                             }
                         }
                 
@@ -150,23 +128,15 @@ class APIManager {
                         switch response.result {
                         case .success(let data):
                             observer.onNext(data)
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                            switch status {
-                            case 420:
-                                observer.onError(CommonError.serviceOnly)
-                            case 429:
-                                observer.onError(CommonError.overNetwork)
-                            case 444:
-                                observer.onError(CommonError.inValid)
-                            case 401:
-                                observer.onError(ContentError.isNotAuth)
-                            case 403:
-                                observer.onError(ContentError.forbidden)
-                            case 419:
-                                observer.onError(ContentError.isExpiration)
-                            default:
-                                observer.onError(CommonError.serverError)
+                        case .failure(_):
+                            if let commonError = CommonError(rawValue: status) {
+                                print("CommonError - \(commonError)")
+                                observer.onError(commonError)
+                            } else {
+                                let contentError = ContentError(rawValue: status) ?? ContentError.forbidden
+                                
+                                print("contentError - \(contentError)")
+                                observer.onError(contentError)
                             }
                         }
                  
@@ -188,27 +158,15 @@ class APIManager {
                         case .success(let data):
                             observer.onNext(data)
                            
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                            switch status {
-                            case 420:
-                                observer.onError(CommonError.serviceOnly)
-                            case 429:
-                                observer.onError(CommonError.overNetwork)
-                            case 444:
-                                observer.onError(CommonError.inValid)
-                            case 401:
-                                observer.onError(RefreshError.isNotAuth)
-                            case 403:
-                                observer.onError(RefreshError.forbidden)
-                            case 409:
-                                observer.onError(RefreshError.isNotExpiration)
-                            case 418:
-                                observer.onError(RefreshError.isRefreshExpiration)
-                            case 500:
-                                observer.onError(CommonError.serverError)
-                            default:
-                                break
+                        case .failure(_):
+                            if let commonError = CommonError(rawValue: status) {
+                                print("CommonError - \(commonError)")
+                                observer.onError(commonError)
+                            } else {
+                                let refreshError = RefreshError(rawValue: status) ?? RefreshError.forbidden
+                                
+                                print("refreshError - \(refreshError)")
+                                observer.onError(refreshError)
                             }
                         }
                  
@@ -234,25 +192,15 @@ class APIManager {
                         case .success(let data):
                             observer.onNext(data)
                          
-                        case .failure(let error):
-                            print(error.localizedDescription)
-                            switch status {
-                            case 420:
-                                observer.onError(CommonError.serviceOnly)
-                            case 429:
-                                observer.onError(CommonError.overNetwork)
-                            case 444:
-                                observer.onError(CommonError.inValid)
-                            case 401:
-                                observer.onError(LogOutError.isNotAuth)
-                            case 403:
-                                observer.onError(LogOutError.forbidden)
-                            case 419:
-                                observer.onError(LogOutError.isExpiration)
-                            case 500:
-                                observer.onError(CommonError.serverError)
-                            default:
-                                break
+                        case .failure(_):
+                            if let commonError = CommonError(rawValue: status) {
+                                print("CommonError - \(commonError)")
+                                observer.onError(commonError)
+                            } else {
+                                let logOutError = LogOutError(rawValue: status) ?? LogOutError.forbidden
+                                
+                                print("logOutError - \(logOutError)")
+                                observer.onError(logOutError)
                             }
                         }
                    
