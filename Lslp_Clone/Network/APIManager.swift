@@ -34,7 +34,7 @@ enum SignupError: Error {
     var errorDescription: String {
         switch self {
         case .isNotRequired:
-            return "필수 값을 채워주세요."
+            return "필수 값을 채워주세요.\n 이메일, 닉네임, 비밀번호는 필수 값입니다."
         case .isExistUser:
             return "이미 가입된 유저입니다."
         case .severError:
@@ -146,19 +146,17 @@ class APIManager {
     /// 회원가입
     func requestSignup(api: Router) -> Observable<JoinResponse> {
         return Observable<JoinResponse>.create { observer in
-            
+        
             AF.request(api)
-                .validate(statusCode: 200...300)
+                .validate(statusCode: 200...500)
                 .responseDecodable(of: JoinResponse.self) { response in
-                    print("APIManager - StatusCode : \(response.response!.statusCode)")
-                    
                     guard let status = response.response?.statusCode else { return }
                     print("회원가입 상태 코드 ", status)
-                    print("----", response.result)
+                   // print("----", response.result)
                         switch response.result {
                         case .success(let data):
                             observer.onNext(data)
-                        case .failure(let error):
+                        case .failure(_):
                             switch status {
                             case 420:
                                 observer.onError(CommonError.serviceOnly)
@@ -175,8 +173,6 @@ class APIManager {
                             default:
                                 break
                             }
-                            print(error.localizedDescription)
-                           // observer.onError(CommonError.networkError)
                         }
                  
                 }
