@@ -34,9 +34,8 @@ class APIManager {
                             if let commonError = CommonError(rawValue: status) {
                                 print("CommonError - \(commonError)")
                                 observer.onError(commonError)
-                            } else {
-                                let signupError = SignupError(rawValue: status) ?? SignupError.isExistUser
-                                
+                            }
+                                if let signupError = SignupError(rawValue: status) {
                                 print("SignupError - \(signupError)")
                                 observer.onError(signupError)
                             }
@@ -69,9 +68,9 @@ class APIManager {
                             if let commonError = CommonError(rawValue: status) {
                                 print("CommonError - \(commonError)")
                                 observer.onError(commonError)
-                            } else {
-                                let loginError = LoginError(rawValue: status) ?? LoginError.inNotUser
-                                
+                            }
+                       
+                            if let loginError = LoginError(rawValue: status) {
                                 print("LoginError - \(loginError)")
                                 observer.onError(loginError)
                             }
@@ -100,8 +99,9 @@ class APIManager {
                             if let commonError = CommonError(rawValue: status) {
                                 print("CommonError - \(commonError)")
                                 observer.onError(commonError)
-                            } else {
-                                let validateEmailError = ValidateEmailError(rawValue: status) ?? ValidateEmailError.isExistUser
+                            }
+                            
+                            if let validateEmailError = ValidateEmailError(rawValue: status) {
                                 
                                 print("validateEmailError - \(validateEmailError)")
                                 observer.onError(validateEmailError)
@@ -132,8 +132,9 @@ class APIManager {
                             if let commonError = CommonError(rawValue: status) {
                                 print("CommonError - \(commonError)")
                                 observer.onError(commonError)
-                            } else {
-                                let contentError = ContentError(rawValue: status) ?? ContentError.forbidden
+                            }
+                            
+                            if let contentError = ContentError(rawValue: status) {
                                 
                                 print("contentError - \(contentError)")
                                 observer.onError(contentError)
@@ -162,9 +163,9 @@ class APIManager {
                             if let commonError = CommonError(rawValue: status) {
                                 print("CommonError - \(commonError)")
                                 observer.onError(commonError)
-                            } else {
-                                let refreshError = RefreshError(rawValue: status) ?? RefreshError.forbidden
-                                
+                            }
+                            
+                            if let refreshError = RefreshError(rawValue: status) {
                                 print("refreshError - \(refreshError)")
                                 observer.onError(refreshError)
                             }
@@ -196,9 +197,9 @@ class APIManager {
                             if let commonError = CommonError(rawValue: status) {
                                 print("CommonError - \(commonError)")
                                 observer.onError(commonError)
-                            } else {
-                                let logOutError = LogOutError(rawValue: status) ?? LogOutError.forbidden
-                                
+                            }
+                            
+                            if let logOutError = LogOutError(rawValue: status) {
                                 print("logOutError - \(logOutError)")
                                 observer.onError(logOutError)
                             }

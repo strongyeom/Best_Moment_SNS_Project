@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CommonError: Int, Error {
+enum CommonError: Int, Error, CaseIterable {
     case serviceOnly = 420
     case overNetwork = 429
     case inValid = 444
