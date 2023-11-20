@@ -32,15 +32,19 @@ class LoginViewModel: BaseInOutPut {
         
         let errorMessage = PublishSubject<String>()
         
-        let loginInfo = Observable.zip(input.emailText, input.passwordText)
+        let loginInfo = Observable.combineLatest(input.emailText, input.passwordText)
         
         
         let loginBtnTapped = input.loginBtn
             .withLatestFrom(loginInfo)
             .flatMap { email, password in
-                APIManager.shared.reqeustLogin(api: Router.login(email: String(email), password: String(password)))
+                print("email, password", email, password)
+                
+                return APIManager.shared.reqeustLogin(api: Router.login(email: String(email), password: String(password)))
                     .catch { err -> Observable<TokenResponse> in
                         if let err = err as? LoginError {
+//                            input.emailText.onNext("")
+//                            input.passwordText.onNext("")
                             errorMessage.onNext(err.errorDescription)
                         }
                         return Observable.never()

@@ -47,13 +47,14 @@ class SignupViewModel: BaseInOutPut {
             }
             .debug()
         
-        let pairOfThreeInfo = Observable.zip(input.emailText, input.passwordText, input.nickText)
+        let pairOfThreeInfo = Observable.combineLatest(input.emailText, input.passwordText, input.nickText)
             
         
         let signBtnTapped = input.signupBtnTapped
             .withLatestFrom(pairOfThreeInfo)
             .flatMap { email, password, nick in
-                APIManager.shared.requestSignup(api: Router.signup(email: String(email), password: String(password), nickname: String(nick)))
+                print("회원가입 email, password, nick", email, password, nick)
+                return APIManager.shared.requestSignup(api: Router.signup(email: String(email), password: String(password), nickname: String(nick)))
                     .catch { err in
                         if let err = err as? SignupError {
                             errorMessage.onNext(err.errorDescription)
