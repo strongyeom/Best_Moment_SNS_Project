@@ -18,8 +18,7 @@ class MainViewController : BaseViewController {
         print("MainViewController - configure")
         self.navigationItem.hidesBackButton = true
       
-        
-       let aa = APIManager.shared.requestAddPost(api: Router.addPost(accessToken:   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NWIyMDk1ZDQ5MGYwNTliZjZhYzE2MSIsImlhdCI6MTcwMDQ3MDk1NSwiZXhwIjoxNzAwNDc4MTU1LCJpc3MiOiJzZXNhY18zIn0.dVyQjLatBBTnFPmQ_55NUTGqaI9vU5EsQnCO8aYg_nM"))
+         APIManager.shared.requestAddPost(api: Router.addPost(accessToken: UserDefaultsManager.shared.accessToken, title: "이제 부터 시작", content: "자 이제 시작이야 내꿈을", product_id: "yeom"))
             .catch { err in
                 if let err = err as? ContentError {
                     print(err.errorDescrtion)
@@ -27,7 +26,7 @@ class MainViewController : BaseViewController {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
-                dump(response)
+                print("MainVC - response \(response)")
             }
             .disposed(by: disposeBag)
            

@@ -121,7 +121,11 @@ class APIManager {
         return Observable<ContentResponse>.create { observer in
             AF.upload(multipartFormData: { multiPartForm in
             
-                multiPartForm.append(Data("title".utf8), withName: "title", mimeType: "text/plain")
+                for (key, value) in api.query! {
+                    print(key)
+                    print(value)
+                    multiPartForm.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
+                }
             }, with: api)
                 .validate(statusCode: 200...300)
                 .responseDecodable(of: ContentResponse.self) { response in

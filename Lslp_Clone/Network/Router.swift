@@ -15,7 +15,7 @@ enum Router : URLRequestConvertible {
     case signup(email: String, password: String, nickname: String)
     case login(email: String, password: String)
     case valid(email: String)
-    case addPost(accessToken: String)
+    case addPost(accessToken: String, title: String, content: String, product_id: String)
     case refresh(access: String, refresh: String)
     case logOut(access: String)
     
@@ -49,7 +49,7 @@ enum Router : URLRequestConvertible {
             "Content-Type": "application/json",
             "SesacKey" : APIKey.secretKey
            ]
-        case .addPost(accessToken: let token):
+        case .addPost(accessToken: let token, title: _, content: _, product_id: _):
             return [
                 "Authorization" : token,
                 "Content-Type": "multipart/form-data",
@@ -95,8 +95,12 @@ enum Router : URLRequestConvertible {
             return [
                 "email" : email
             ]
-        case .addPost:
-            return ["title" : "title"]
+        case .addPost(accessToken: _, title: let title, content: let content, product_id: let product_id):
+            return [
+                "title" : title,
+                "content" : content,
+                "product_id" : product_id
+            ]
         case .refresh, .logOut:
             return nil
         }
@@ -118,10 +122,8 @@ enum Router : URLRequestConvertible {
         switch self {
         case .addPost:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
-            dump(request)
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)
-            dump(request)
         }
         
         // => ❗️The data couldn’t be read because it is missing.
