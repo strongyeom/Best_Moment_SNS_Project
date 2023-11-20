@@ -37,8 +37,35 @@ struct ValidateEmailResponse : Decodable {
 }
 
 struct ContentResponse: Decodable {
-    let message: String
+    var likes: [String]
+    var image: [String]
+    var hashTags: [String]
+    var comments: [String]
+    var _id: String
+    var creator: Creator
+    var time: String
+    
 }
+
+struct Creator: Decodable {
+    var _id: String
+    var nick: String
+}
+
+/*
+ {
+     "likes": [],
+     "image": [],
+     "hashTags": [],
+     "comments": [],
+     "_id": "655b19795b34e559bca094b5",
+     "creator": {
+         "_id": "655af52ac096a84b01079694",
+         "nick": "yeom4"
+     },
+     "time": "2023-11-20T08:31:53.603Z"
+ }
+ */
 
 struct RefreshResponse: Decodable {
     let accessToken: String

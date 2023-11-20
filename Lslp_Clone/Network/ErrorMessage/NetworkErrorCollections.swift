@@ -70,12 +70,15 @@ enum ValidateEmailError: Int, Error {
 }
 
 enum ContentError: Int, Error {
+    case isRequest = 400
     case isNotAuth = 401
     case forbidden = 403
     case isExpiration = 419
     
     var errorDescrtion: String {
         switch self {
+        case .isRequest:
+            return "잘못된 요청입니다.\n파일의 제한사항과 맞지 않습니다."
         case .isNotAuth:
             return "인증 할 수 없는 엑세스 토큰입니다."
         case .forbidden:

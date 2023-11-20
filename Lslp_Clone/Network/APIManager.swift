@@ -116,10 +116,13 @@ class APIManager {
         .debug()
     }
     
-    /// 컨텐츠
-    func requestContent(api: Router) -> Observable<ContentResponse> {
+    /// 게시글 작성하기
+    func requestAddPost(api: Router) -> Observable<ContentResponse> {
         return Observable<ContentResponse>.create { observer in
-            AF.request(api)
+            AF.upload(multipartFormData: { multiPartForm in
+            
+                multiPartForm.append(Data("title".utf8), withName: "title", mimeType: "text/plain")
+            }, with: api)
                 .validate(statusCode: 200...300)
                 .responseDecodable(of: ContentResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
@@ -128,7 +131,8 @@ class APIManager {
                         switch response.result {
                         case .success(let data):
                             observer.onNext(data)
-                        case .failure(_):
+                        case .failure(let error):
+                            print(error.localizedDescription)
                             if let commonError = CommonError(rawValue: status) {
                                 print("CommonError - \(commonError)")
                                 observer.onError(commonError)
