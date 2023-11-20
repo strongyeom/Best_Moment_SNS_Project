@@ -69,8 +69,9 @@ enum ValidateEmailError: Int, Error {
     }
 }
 
-enum ContentError: Int, Error {
+enum AddPostError: Int, Error {
     case isRequest = 400
+    case isNotPost = 410
     case isNotAuth = 401
     case forbidden = 403
     case isExpiration = 419
@@ -83,6 +84,28 @@ enum ContentError: Int, Error {
             return "인증 할 수 없는 엑세스 토큰입니다."
         case .forbidden:
             return "Forbidden"
+        case .isNotPost:
+            return "생성된 게시글이 없습니다."
+        case .isExpiration:
+            return "엑세스 토큰이 만료되었습니다."
+        }
+    }
+}
+
+enum ReadPostError: Int, Error {
+    case isNotRequest = 400
+    case isNotAuth = 401
+    case forbidden = 403
+    case isExpiration = 419
+    
+    var errorDescrtion: String {
+        switch self {
+        case .isNotRequest:
+            return "잘못된 요청입니다."
+        case .isNotAuth:
+            return "인증 할 수 없는 엑세스 토큰입니다."
+        case .forbidden:
+            return "잘못된 접근 입니다."
         case .isExpiration:
             return "엑세스 토큰이 만료되었습니다."
         }

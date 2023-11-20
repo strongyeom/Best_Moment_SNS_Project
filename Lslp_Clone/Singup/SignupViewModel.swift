@@ -62,6 +62,7 @@ class SignupViewModel: BaseInOutPut {
                         }
                         return Observable.never()
                     }
+                
             }
             .debug()
         

@@ -117,8 +117,8 @@ class APIManager {
     }
     
     /// 게시글 작성하기
-    func requestAddPost(api: Router) -> Observable<ContentResponse> {
-        return Observable<ContentResponse>.create { observer in
+    func requestAddPost(api: Router) -> Observable<AddPostResponse> {
+        return Observable<AddPostResponse>.create { observer in
             AF.upload(multipartFormData: { multiPartForm in
             
                 for (key, value) in api.query! {
@@ -128,7 +128,7 @@ class APIManager {
                 }
             }, with: api)
                 .validate(statusCode: 200...300)
-                .responseDecodable(of: ContentResponse.self) { response in
+                .responseDecodable(of: AddPostResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("컨텐츠 상태 코드 ", status)
                     
@@ -142,13 +142,40 @@ class APIManager {
                                 observer.onError(commonError)
                             }
                             
-                            if let contentError = ContentError(rawValue: status) {
+                            if let contentError = AddPostError(rawValue: status) {
                                 
                                 print("contentError - \(contentError)")
                                 observer.onError(contentError)
                             }
                         }
                  
+                }
+            return Disposables.create()
+        }
+    }
+    
+    /// 게시글 조회하기
+    func requestReadPost(api: Router) -> Observable<ReadPostResponse> {
+        return Observable.create { observer in
+            AF.request(api)
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: ReadPostResponse.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    
+                    switch response.result {
+                    case .success(let data):
+                        observer.onNext(data)
+                    case .failure(_):
+                        if let commonError = CommonError(rawValue: status) {
+                            print("CommonError - \(commonError)")
+                            observer.onError(commonError)
+                        }
+                        
+                        if let readPostError = ReadPostError(rawValue: status) {
+                            print("readPostError - \(readPostError)")
+                            observer.onError(readPostError)
+                        }
+                    }
                 }
             return Disposables.create()
         }
@@ -184,7 +211,6 @@ class APIManager {
         }
        
     }
-    
     
     /// 회원 탈퇴
     func requestLogOut(api: Router) -> Observable<LogOutResponse> {
