@@ -129,11 +129,8 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
 
         switch self {
-        case .addPost, .readPost:
+        case .addPost, .readPost, .refresh:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
-//        case .readPost:
-//            request = try URLEncodedFormParameterEncoder(destination: .queryString).encode(query, into: request)
-            
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)
         }

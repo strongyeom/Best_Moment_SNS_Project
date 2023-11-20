@@ -18,6 +18,13 @@ class MainViewController : BaseViewController {
         return button
     }()
     
+    let refreshBtn = {
+        let button = UIButton()
+         button.setTitle("리프레쉬 토큰", for: .normal)
+         button.setTitleColor(.red, for: .normal)
+         return button
+    }()
+    
     let disposeBag = DisposeBag()
     
     override func configure() {
@@ -31,15 +38,27 @@ class MainViewController : BaseViewController {
     
     override func setConstraints() {
         view.addSubview(readBtn)
+        view.addSubview(refreshBtn)
         
         readBtn.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
+        
+        refreshBtn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(50)
+        }
+        
         readBtn.addTarget(self, action: #selector(startBtnTapped), for: .touchUpInside)
+        refreshBtn.addTarget(self, action: #selector(refreshBtnTapped), for: .touchUpInside)
     }
     
     @objc func startBtnTapped() {
         readPost()
+    }
+    
+    @objc func refreshBtnTapped() {
+        refreshToken()
     }
     
     func addPost() {
@@ -62,11 +81,36 @@ class MainViewController : BaseViewController {
             .catch { err in
                 if let err = err as? ReadPostError {
                     print(err.errorDescrtion)
+                    print(err.rawValue)
+                    if err.rawValue == 419 {
+                        self.refreshToken()
+                    }
                 }
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
                 dump(response)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    func refreshToken() {
+        
+        APIManager.shared.requestRefresh(api: Router.refresh(access: UserDefaultsManager.shared.accessToken, refresh: UserDefaultsManager.shared.refreshToken))
+            .catch { err in
+                if let err = err as? RefreshError {
+                    if err.rawValue == 418 {
+                        self.navigationController?.popToRootViewController(animated: true)
+                    } else {
+                        print(err.errorDescription)
+                        self.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
+                    }
+                }
+                return Observable.never()
+            }
+            .bind(with: self) { owner, response in
+                print("---", response.token)
+                UserDefaultsManager.shared.refreshToAccessToken(token: response)
             }
             .disposed(by: disposeBag)
     }

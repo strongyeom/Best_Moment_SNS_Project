@@ -78,7 +78,7 @@ struct Creator: Decodable {
 }
 
 struct RefreshResponse: Decodable {
-    let accessToken: String
+    let token: String
 }
 
 struct LogOutResponse: Decodable {

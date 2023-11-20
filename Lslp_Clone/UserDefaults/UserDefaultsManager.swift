@@ -17,6 +17,11 @@ class UserDefaultsManager {
         print("UD에 저장 AT, RT", token.token, token.refreshToken)
     }
     
+    func refreshToAccessToken(token: RefreshResponse) {
+        UserDefaults.standard.set(token.token, forKey: "accessToken")
+    }
+
+    
     var accessToken: String {
         UserDefaults.standard.string(forKey: "accessToken") ?? "엑세스 토큰 없음"
     }
