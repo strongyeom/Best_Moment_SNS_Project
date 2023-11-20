@@ -6,22 +6,19 @@
 //
 
 import Foundation
+
 class UserDefaultsManager {
     
     static let shared = UserDefaultsManager()
-
     
-    private init() { }
-    
-    func initialScreenSave(isSelected: String) {
-        print("UserDefaults - 초기화면 저장 \(isSelected)")
-        UserDefaults.standard.set(isSelected, forKey: "isLaunched")
+    func saveToken(token: TokenResponse) {
+        UserDefaults.standard.set(token.token, forKey: "accessToken")
+        UserDefaults.standard.set(token.refreshToken, forKey: "refreshToken")
+        print("UD에 저장 AT, RT", token.token, token.refreshToken)
     }
     
-    func initalScreenLoad() -> String {
-        print("UserDefaults - 초기화면 로드")
-        return UserDefaults.standard.string(forKey: "isLaunched") ?? "SelectedVC"
-        
+    func loadToken() {
+        UserDefaults.standard.string(forKey: "accessToken")
+        UserDefaults.standard.string(forKey: "refreshToken")
     }
-    
 }

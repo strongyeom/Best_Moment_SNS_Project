@@ -26,6 +26,7 @@ class LoginViewController : BaseViewController {
     
     override func configure() {
         super.configure()
+       
         bind()
     }
     
@@ -48,11 +49,13 @@ class LoginViewController : BaseViewController {
         
         // 로그인 확인
         output.loginBtnTapped
-            .bind(with: self) { onwer, response in
+            .bind(with: self) { owner, response in
                 print(response)
                 
                 // 1. UD에 AT, RT 저장하기
+                UserDefaultsManager.shared.saveToken(token: response)
                 // 2. Home 화면으로 이동
+                owner.navigationController?.pushViewController(MainViewController(), animated: false)
                 
             }
             .disposed(by: disposeBag)
