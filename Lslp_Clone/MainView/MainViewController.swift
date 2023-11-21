@@ -25,6 +25,13 @@ class MainViewController : BaseViewController {
          return button
     }()
     
+    let addPostBtn = {
+       let button = UIButton()
+        button.setTitle("Post추가", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        return button
+    }()
+    
     let disposeBag = DisposeBag()
     
     override func configure() {
@@ -39,7 +46,7 @@ class MainViewController : BaseViewController {
     override func setConstraints() {
         view.addSubview(readBtn)
         view.addSubview(refreshBtn)
-        
+        view.addSubview(addPostBtn)
         readBtn.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
@@ -48,9 +55,15 @@ class MainViewController : BaseViewController {
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(50)
         }
+    
+        addPostBtn.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview().offset(80)
+        }
         
         readBtn.addTarget(self, action: #selector(startBtnTapped), for: .touchUpInside)
         refreshBtn.addTarget(self, action: #selector(refreshBtnTapped), for: .touchUpInside)
+        addPostBtn.addTarget(self, action: #selector(addPostBtnTapped), for: .touchUpInside)
     }
     
     @objc func startBtnTapped() {
@@ -61,9 +74,13 @@ class MainViewController : BaseViewController {
         refreshToken()
     }
     
+    @objc func addPostBtnTapped() {
+        addPost()
+    }
+    
     func addPost() {
         
-           APIManager.shared.requestAddPost(api: Router.addPost(accessToken: UserDefaultsManager.shared.accessToken, title: "이제 부터 시작22222", content: "자 이제 시작이야 내꿈을2222222222", product_id: "yeom"))
+        APIManager.shared.requestAddPost(api: Router.addPost(accessToken: UserDefaultsManager.shared.accessToken, title: "이제 부터 시작22222", content: "자 이제 시작이야 내꿈을\(Int.random(in: 10000...99999))", product_id: "yeom"))
               .catch { err in
                   if let err = err as? AddPostError {
                       print(err.errorDescrtion)
@@ -71,11 +88,11 @@ class MainViewController : BaseViewController {
                   return Observable.never()
               }
               .bind(with: self) { owner, response in
-                  print("MainVC - AddPostResponse \(response)")
+                  //print("MainVC - AddPostResponse \(response)")
               }
               .disposed(by: disposeBag)
     }
-    
+    // 655c5553e63eb559bba3a312 , 655c5553e63eb559bba3a31c
     func readPost() {
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"))
             .catch { err in
