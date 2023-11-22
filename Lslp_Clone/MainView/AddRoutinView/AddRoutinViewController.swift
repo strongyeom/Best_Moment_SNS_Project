@@ -14,12 +14,22 @@ class AddRoutinViewController : BaseViewController {
     let firstRoutinTextField = SignInTextField(placeHolder: "루틴을 추가해주세요", brandColor: .blue)
     let saveBtn = SignInButton(text: "저장하기", brandColor: .blue)
     
+    lazy var cancelBtn = {
+        let button = UIBarButtonItem(image: UIImage(systemName: "x.mark"), style: .plain, target: self, action: #selector(cancelBtnTapped))
+        return button
+    }()
+    
     let viewModel = AddRoutinViewModel()
     let disposeBag = DisposeBag()
     
     override func configure() {
         super.configure()
         bind()
+        navigationItem.leftBarButtonItem = cancelBtn
+    }
+    
+    @objc func cancelBtnTapped() {
+        dismiss(animated: true)
     }
     
     // 제목 + 루틴 입력후 버튼 누르면 addpost 되게끔 설정
