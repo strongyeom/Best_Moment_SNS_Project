@@ -98,6 +98,7 @@ final class MainTableViewCell : UITableViewCell {
         releaseDate.text = data.time
         routinDescription.text = data.content
         likeCountLabel.text = data.product_id
+        self.selectionStyle = .none
 //        likeBtn
     }
     
