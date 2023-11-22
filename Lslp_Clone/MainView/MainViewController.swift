@@ -12,7 +12,7 @@ class MainViewController : BaseViewController {
     
     let tableView = {
         let tableView = UITableView()
-        tableView.rowHeight = 180
+        tableView.rowHeight = 170
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
         tableView.separatorStyle = .none
         return tableView

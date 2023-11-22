@@ -34,6 +34,7 @@
 		26E699B02B0DE66400DA90C0 /* AddRoutinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699AF2B0DE66400DA90C0 /* AddRoutinViewModel.swift */; };
 		26E699B22B0DFA2D00DA90C0 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */; };
 		26E699B42B0E05FA00DA90C0 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */; };
+		26E699B62B0E409500DA90C0 /* Ext+StringToDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */; };
 		26F03BCF2B0B2D7400BC5E68 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */; };
 		26F2A7CC2B074DE100033C93 /* NetworkErrorCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */; };
 		26F2A7CE2B07648200033C93 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F2A7CD2B07648200033C93 /* LoginViewModel.swift */; };
@@ -67,6 +68,7 @@
 		26E699AF2B0DE66400DA90C0 /* AddRoutinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoutinViewModel.swift; sourceTree = "<group>"; };
 		26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+StringToDate.swift"; sourceTree = "<group>"; };
 		26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCollections.swift; sourceTree = "<group>"; };
 		26F2A7CD2B07648200033C93 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				2649E1B62B04AEB6003CA70C /* Ext+UITextField.swift */,
 				2649E1BA2B04B0B4003CA70C /* Ext+UIButton.swift */,
 				2649E1BC2B04B872003CA70C /* Ext+UIViewController.swift */,
+				26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				2657F3E02B02374B00E3A22E /* APIKeyAndBaseURL.swift in Sources */,
 				2657F3CD2B02328D00E3A22E /* BaseViewController.swift in Sources */,
 				2657F3B82B02324000E3A22E /* AppDelegate.swift in Sources */,
+				26E699B62B0E409500DA90C0 /* Ext+StringToDate.swift in Sources */,
 				2657F3BA2B02324000E3A22E /* SceneDelegate.swift in Sources */,
 				2657F3DA2B02366700E3A22E /* APIModel.swift in Sources */,
 				2649E1BD2B04B872003CA70C /* Ext+UIViewController.swift in Sources */,

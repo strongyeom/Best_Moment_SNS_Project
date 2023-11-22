@@ -19,6 +19,14 @@ final class MainTableViewCell : UITableViewCell {
         return view
     }()
     
+    let nickname = {
+       let view = UILabel()
+        view.font = UIFont.systemFont(ofSize: 11, weight: .medium)
+        view.textColor = .lightGray
+        view.textAlignment = .left
+        return view
+    }()
+    
     let releaseDate = {
        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 11, weight: .medium)
@@ -38,7 +46,6 @@ final class MainTableViewCell : UITableViewCell {
     let likeBtn = {
        let view = UIButton()
         view.setImage(UIImage(systemName: "heart"), for: .normal)
-        view.tintColor = .red
         return view
     }()
     
@@ -59,7 +66,7 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, releaseDate, routinDescription, likeBtn, likeCountLabel].forEach {
+        [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel].forEach {
             contentView.addSubview($0)
         }
     }
@@ -69,9 +76,15 @@ final class MainTableViewCell : UITableViewCell {
             make.top.horizontalEdges.equalToSuperview().inset(10)
         }
         
+        nickname.snp.makeConstraints { make in
+            make.top.equalTo(routinTitle.snp.bottom).offset(5)
+            make.leading.equalTo(routinTitle)
+        }
+        
         releaseDate.snp.makeConstraints { make in
             make.top.equalTo(routinTitle.snp.bottom).offset(5)
-            make.horizontalEdges.equalTo(routinTitle)
+            make.leading.equalTo(nickname.snp.trailing).offset(10)
+            
         }
         
         routinDescription.snp.makeConstraints { make in
@@ -88,17 +101,18 @@ final class MainTableViewCell : UITableViewCell {
         likeCountLabel.snp.makeConstraints { make in
             make.top.equalTo(likeBtn.snp.bottom).offset(10)
             make.leading.equalTo(routinTitle)
-            make.bottom.equalTo(self.safeAreaLayoutGuide).inset(10)
+            make.bottom.equalTo(self.safeAreaLayoutGuide).inset(10).priority(.low)
         }
     }
     
     func configureUI(data: ElementReadPostResponse) {
+        
         routinTitle.text = data.title
-        releaseDate.text = data.time
+        nickname.text = data.creator.nick
+        releaseDate.text = data.time.toDate(text: data.time).formatted(date: .omitted, time: .omitted)
         routinDescription.text = data.content
         likeCountLabel.text = data.product_id
         self.selectionStyle = .none
-//        likeBtn
     }
     
     override func prepareForReuse() {
