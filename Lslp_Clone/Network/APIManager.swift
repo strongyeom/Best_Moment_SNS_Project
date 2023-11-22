@@ -122,8 +122,6 @@ class APIManager {
             AF.upload(multipartFormData: { multiPartForm in
             
                 for (key, value) in api.query! {
-                    print(key)
-                    print(value)
                     multiPartForm.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
                 }
             }, with: api)
