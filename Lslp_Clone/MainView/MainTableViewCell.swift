@@ -109,10 +109,10 @@ final class MainTableViewCell : UITableViewCell {
         
         routinTitle.text = data.title
         nickname.text = data.creator.nick
-        releaseDate.text = data.time.toDate(text: data.time).formatted(date: .omitted, time: .omitted)
+        releaseDate.text = data.time
         routinDescription.text = data.content
         likeCountLabel.text = data.product_id
-        self.selectionStyle = .none
+//        self.selectionStyle = .none
     }
     
     override func prepareForReuse() {

@@ -25,6 +25,7 @@ class MainViewController : BaseViewController {
     
     var routinArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
+    var isBottmEnd = BehaviorSubject(value: false)
     let disposeBag = DisposeBag()
     var remainCursor = ""
     var nextCursor = ""
@@ -37,7 +38,7 @@ class MainViewController : BaseViewController {
         navigationItem.rightBarButtonItem = addPostBtn
         title = "우루사 게시글"
         bind()
-        tableView.delegate = self
+        readPost(next: "")
     }
     
     override func setConstraints() {
@@ -58,10 +59,26 @@ class MainViewController : BaseViewController {
         super.viewWillAppear(animated)
         print("MainViewController - viewWillAppear")
         // 처음 시작할때 Post 불러오기
-        readPost(next: "")
+       
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        refreshPost(next: "")
     }
  
     func bind() {
+        
+        isBottmEnd
+            .bind(with: self) { owner, result in
+                if result {
+                    if owner.nextCursor != owner.remainCursor {
+                        owner.remainCursor = owner.nextCursor
+                        owner.readPost(next: owner.nextCursor)
+                    }
+                }
+            }
+            .disposed(by: disposeBag)
         
         
         routins
@@ -77,6 +94,13 @@ class MainViewController : BaseViewController {
             print("element - \(response.1)")
         }
         .disposed(by: disposeBag)
+        
+        
+        tableView.rx.didEndDragging
+            .bind(to: isBottmEnd)
+            .disposed(by: disposeBag)
+//
+        
     }
 }
 
@@ -94,12 +118,6 @@ extension MainViewController : UITableViewDelegate {
             let targetPointOfy = targetContentOffset.pointee.y
             
             let doneScrollOffSet = contentSize - scrollViewHeight
-            print("contentSize",contentSize)
-            print("offset",offset)
-            print("scrollViewHeight",scrollViewHeight)
-            print("doneScrollOffSet",doneScrollOffSet)
-            print("targetContentOffset.y",targetPointOfy)
-        
             if targetPointOfy + 40 >= doneScrollOffSet {
               print("네트워크 통신 시작")
                 print("nextCursor - \(nextCursor)")
@@ -128,6 +146,27 @@ extension MainViewController {
                    dump(response)
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
+//                owner.routinArray = response.data
+                owner.routins.onNext(owner.routinArray)
+            }
+            .disposed(by: disposeBag)
+    }
+    
+    func refreshPost(next: String) {
+        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: "", product_id: "yeom"))
+            .catch { err in
+                if let err = err as? ReadPostError {
+                    print(err.errorDescrtion)
+                    print(err.rawValue)
+                    if err.rawValue == 419 {
+//                        self.refreshToken()
+                    }
+                }
+                return Observable.never()
+            }
+            .bind(with: self) { owner, response in
+                   dump(response)
+                owner.routinArray = response.data
                 owner.routins.onNext(owner.routinArray)
             }
             .disposed(by: disposeBag)
