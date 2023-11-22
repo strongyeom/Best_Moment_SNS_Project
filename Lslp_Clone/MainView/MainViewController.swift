@@ -30,15 +30,22 @@ class MainViewController : BaseViewController {
     var remainCursor = ""
     var nextCursor = ""
     
+    // let viewModel = MainViewModel()
+    
     override func configure() {
         super.configure()
         self.view.backgroundColor = .green
         print("MainViewController - configure")
+        readPost(next: "")
+        setNavigationBar()
+        bind()
+        
+    }
+    
+    func setNavigationBar() {
         self.navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = addPostBtn
         title = "우루사 게시글"
-        bind()
-        readPost(next: "")
     }
     
     override func setConstraints() {
@@ -54,20 +61,19 @@ class MainViewController : BaseViewController {
         addRoutinVC.modalPresentationStyle = .fullScreen
         present(addRoutinVC, animated: true)
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("MainViewController - viewWillAppear")
-        // 처음 시작할때 Post 불러오기
-       
-    }
-    
+  
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         refreshPost(next: "")
     }
  
     func bind() {
+        
+        /*
+         let input = MainViewModel.Input(isBottomEnd: isBottmEnd, routins: routins)
+         
+         let output = viewModel.transform(input: input)
+         */
         
         isBottmEnd
             .bind(with: self) { owner, result in
@@ -104,30 +110,30 @@ class MainViewController : BaseViewController {
     }
 }
 
-extension MainViewController : UITableViewDelegate {
-    // 스크롤 하는 중일때 실시간으로 반영하는 방법은 없을까?
-        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-            
-            let contentSize = scrollView.contentSize.height
-            let scrollViewHeight = scrollView.frame.height
-            
-            //contentOffSet 도 스크롤한 길이를 나타내지만 실시간으로 반영해주진 않는다.
-            let offset = scrollView.contentOffset.y
-            
-            // targetContentOffset.pointee.y: 사용자가 스크롤하면 실시간으로 값을 나타낼 수 있음 속도가 떨어지는 지점을 예측한다.
-            let targetPointOfy = targetContentOffset.pointee.y
-            
-            let doneScrollOffSet = contentSize - scrollViewHeight
-            if targetPointOfy + 40 >= doneScrollOffSet {
-              print("네트워크 통신 시작")
-                print("nextCursor - \(nextCursor)")
-                if nextCursor != remainCursor {
-                    remainCursor = nextCursor
-                    readPost(next: nextCursor)
-                }
-            }
-        }
-}
+//extension MainViewController : UITableViewDelegate {
+//    // 스크롤 하는 중일때 실시간으로 반영하는 방법은 없을까?
+//        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//
+//            let contentSize = scrollView.contentSize.height
+//            let scrollViewHeight = scrollView.frame.height
+//
+//            //contentOffSet 도 스크롤한 길이를 나타내지만 실시간으로 반영해주진 않는다.
+//            let offset = scrollView.contentOffset.y
+//
+//            // targetContentOffset.pointee.y: 사용자가 스크롤하면 실시간으로 값을 나타낼 수 있음 속도가 떨어지는 지점을 예측한다.
+//            let targetPointOfy = targetContentOffset.pointee.y
+//
+//            let doneScrollOffSet = contentSize - scrollViewHeight
+//            if targetPointOfy + 40 >= doneScrollOffSet {
+//              print("네트워크 통신 시작")
+//                print("nextCursor - \(nextCursor)")
+//                if nextCursor != remainCursor {
+//                    remainCursor = nextCursor
+//                    readPost(next: nextCursor)
+//                }
+//            }
+//        }
+//}
 
 extension MainViewController {
     func readPost(next: String) {
