@@ -38,8 +38,7 @@ final class MainTableViewCell : UITableViewCell {
     let likeBtn = {
        let view = UIButton()
         view.setImage(UIImage(systemName: "heart"), for: .normal)
-        view.setTitleColor(.red, for: .normal)
-        view.backgroundColor = .blue
+        view.tintColor = .red
         return view
     }()
     
@@ -81,7 +80,7 @@ final class MainTableViewCell : UITableViewCell {
         }
         
         likeBtn.snp.makeConstraints { make in
-            make.size.equalTo(40)
+            //make.size.equalTo(40)
             make.top.equalTo(routinDescription.snp.bottom).offset(10)
             make.leading.equalTo(routinTitle)
         }

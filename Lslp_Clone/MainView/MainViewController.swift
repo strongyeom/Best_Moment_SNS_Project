@@ -127,7 +127,6 @@ extension MainViewController {
             .bind(with: self) { owner, response in
                    dump(response)
                 owner.nextCursor = response.next_cursor
-//                owner.routinArray = response.data
                 owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)
             }
@@ -136,24 +135,7 @@ extension MainViewController {
 }
 
 /*
- func readPost() {
-     APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"))
-         .catch { err in
-             if let err = err as? ReadPostError {
-                 print(err.errorDescrtion)
-                 print(err.rawValue)
-                 if err.rawValue == 419 {
-                     self.refreshToken()
-                 }
-             }
-             return Observable.never()
-         }
-         .bind(with: self) { owner, response in
-//                dump(response)
-         }
-         .disposed(by: disposeBag)
- }
- 
+
  func refreshToken() {
      
      APIManager.shared.requestRefresh(api: Router.refresh(access: UserDefaultsManager.shared.accessToken, refresh: UserDefaultsManager.shared.refreshToken))
