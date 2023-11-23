@@ -30,7 +30,7 @@ class MainViewController : BaseViewController {
     var remainCursor = ""
     var nextCursor = ""
     
-    // let viewModel = MainViewModel()
+     let viewModel = MainViewModel()
     
     override func configure() {
         super.configure()
@@ -75,20 +75,18 @@ class MainViewController : BaseViewController {
  
     func bind() {
         
-        /*
-         let input = MainViewModel.Input(isBottomEnd: isBottmEnd, routins: routins)
-         
-         let output = viewModel.transform(input: input)
-         */
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElememt: tableView.rx.modelSelected(ElementReadPostResponse.self))
+        
+        let output = viewModel.transform(input: input)
+        
         routins
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
                 cell.configureUI(data: element)
             }
             .disposed(by: disposeBag)
         
-        let aa = Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(ElementReadPostResponse.self))
-        
-        aa.bind(with: self) { owner, response in
+        output.zip
+            .bind(with: self) { owner, response in
             print("index - \(response.0)")
             print("element - \(response.1)")
         }

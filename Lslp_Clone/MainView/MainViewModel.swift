@@ -4,76 +4,36 @@
 //
 //  Created by 염성필 on 2023/11/22.
 //
-
+import Foundation
 import RxSwift
 import RxCocoa
 
 class MainViewModel: BaseInOutPut {
     
-    var isBottmEnd = BehaviorSubject(value: false)
     var routinArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
-    
+    var isBottmEnd = BehaviorSubject(value: false)
     let disposeBag = DisposeBag()
     
-    var remainCursor = ""
-    var nextCursor = ""
-    
     struct Input {
-        let isBottomEnd: BehaviorSubject<Bool>
-        let routins: BehaviorSubject<[ElementReadPostResponse]>
+        let tableViewIndex:  ControlEvent<IndexPath>
+        let tableViewElememt:  ControlEvent<ElementReadPostResponse>
     }
     
     struct Output {
-        
-        let routins: BehaviorSubject<[ElementReadPostResponse]>
-        let isBottomEnd: BehaviorSubject<Bool>
+        let zip: Observable<(ControlEvent<IndexPath>.Element, ControlEvent<ElementReadPostResponse>.Element)>
     }
     
     func transform(input: Input) -> Output {
         
         
+        let zip = Observable.zip(input.tableViewIndex, input.tableViewElememt)
         
-        
-        
-        routins.flatMap { _ in
-            return APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: self.nextCursor, limit: "", product_id: "yeom"))
-                .catch { err in
-                    if let err = err as? ReadPostError {
-                        print(err.errorDescrtion)
-                        print(err.rawValue)
-                        if err.rawValue == 419 {
-                            //                        self.refreshToken()
-                        }
-                    }
-                    return Observable.never()
-                }
-        }
-            .bind(with: self) { owner, response in
-                owner.nextCursor = response.next_cursor
-                owner.routinArray.append(contentsOf: response.data)
-                input.routins.onNext(owner.routinArray)
-            }
-            .disposed(by: disposeBag)
-        
-        input.isBottomEnd
-            .bind(with: self) { owner, result in
-                if result {
-                    if owner.nextCursor != owner.remainCursor {
-                        owner.remainCursor = owner.nextCursor
-                       // owner.readPost(next: owner.nextCursor)
-                    }
-                }
-            }
-            .disposed(by: disposeBag)
-        
-        return Output(routins: routins, isBottomEnd: input.isBottomEnd)
+        return Output(zip: zip)
     }
     
-    
-    
-    init(next: String = "") {
-        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: "", product_id: "yeom"))
+    init() {
+        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"))
             .catch { err in
                 if let err = err as? ReadPostError {
                     print(err.errorDescrtion)
@@ -85,10 +45,10 @@ class MainViewModel: BaseInOutPut {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
-                   dump(response)
-                owner.routinArray = response.data
+                owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)
             }
             .disposed(by: disposeBag)
     }
+    
 }
