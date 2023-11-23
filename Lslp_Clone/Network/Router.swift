@@ -19,7 +19,7 @@ enum Router : URLRequestConvertible {
     case readPost(accessToken: String, next: String, limit: String, product_id: String)
     case refresh(access: String, refresh: String)
     case logOut(access: String)
-
+    case like(access: String, postID: String)
     
     var baseURL: URL {
         return URL(string: BaseAPI.baseUrl)!
@@ -41,6 +41,8 @@ enum Router : URLRequestConvertible {
             return "refresh"
         case .logOut:
             return "withdraw"
+        case .like(access: _, postID: let id):
+            return "post/like/\(id)"
         }
     }
     
@@ -63,7 +65,7 @@ enum Router : URLRequestConvertible {
                 "SesacKey" : APIKey.secretKey,
                 "Refresh": refresh
             ]
-        case .logOut(access: let token), .readPost(accessToken: let token, next: _, limit: _, product_id: _ ):
+        case .logOut(access: let token), .readPost(accessToken: let token, next: _, limit: _, product_id: _ ), .like(access: let token, postID: let _):
             return [
                 "Authorization" : token,
                 "SesacKey" : APIKey.secretKey
@@ -73,7 +75,7 @@ enum Router : URLRequestConvertible {
     
     private var method: HTTPMethod {
         switch self {
-        case .signup, .login, .valid, .logOut, .addPost:
+        case .signup, .login, .valid, .logOut, .addPost, .like:
             return .post
         case .refresh, .readPost:
             return .get
@@ -110,7 +112,7 @@ enum Router : URLRequestConvertible {
                 "limit" : limit,
                 "product_id" : product_id
             ]
-        case .refresh, .logOut:
+        case .refresh, .logOut, .like:
             return nil
         }
     }
@@ -129,14 +131,14 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
 
         switch self {
-        case .addPost, .readPost, .refresh:
+        case .addPost, .readPost, .refresh, .like:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)
         }
         
         // => ❗️The data couldn’t be read because it is missing.
-        print("Router request URL- \(request)")
+        //print("Router request URL- \(request)")
         return request
     }
     

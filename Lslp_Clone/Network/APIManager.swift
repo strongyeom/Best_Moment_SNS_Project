@@ -241,4 +241,29 @@ class APIManager {
             return Disposables.create()
         }
     }
+    
+    /// 좋아요 및 좋아요 취소
+    func requestLike(api: Router) -> Observable<LikeResponse> {
+        return Observable.create { observer in
+            AF.request(api)
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: LikeResponse.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    switch response.result {
+                    case .success(let data):
+                        observer.onNext(data)
+                    case .failure(_):
+                        if let commonError = CommonError(rawValue: status) {
+                            observer.onError(commonError)
+                        }
+                        
+                        if let likeError = LikeError(rawValue: status) {
+                            observer.onError(likeError)
+                        }
+                    }
+                }
+            return Disposables.create()
+        }
+    }
+    
 }

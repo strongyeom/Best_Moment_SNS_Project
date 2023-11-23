@@ -25,6 +25,7 @@ class MainViewController : BaseViewController {
     
     var routinArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
+    var likeID = PublishSubject<String>()
     let disposeBag = DisposeBag()
     // 기존 Cursor
     var remainCursor = ""
@@ -40,7 +41,7 @@ class MainViewController : BaseViewController {
         bind()
         
     }
-    
+     
     func setNavigationBar() {
         self.navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = addPostBtn
@@ -75,7 +76,7 @@ class MainViewController : BaseViewController {
     
     func bind() {
         
-        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self))
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID)
         
         let output = viewModel.transform(input: input)
         
@@ -83,11 +84,20 @@ class MainViewController : BaseViewController {
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
                 cell.configureUI(data: element)
                 
+
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- \(row)")
+                        owner.likeID.onNext(element._id)
                     }
                     .disposed(by: cell.disposeBag)
+            }
+            .disposed(by: disposeBag)
+        
+    
+        output.like
+            .bind(with: self) { owner, response in
+                print(response)
             }
             .disposed(by: disposeBag)
         
@@ -95,6 +105,7 @@ class MainViewController : BaseViewController {
             .bind(with: self) { owner, response in
                 print("index - \(response.0)")
                 print("element - \(response.1)")
+                
             }
             .disposed(by: disposeBag)
         
@@ -102,6 +113,8 @@ class MainViewController : BaseViewController {
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
+        
+        // 해당 post에 대한 ID가 필요한데 ID를 얻는 방법은 TableView에 접근해야함... ID를 가져오려면 Cell을 클릭하거나, 아니면 버튼을 눌렀을때 해당 TableView의 Cell의 ID를 가져와야하는데... API 통신을 하게되면 disposed + disposed가 생김... 어떻게 해결해야 할까??
         
     }
 }

@@ -86,3 +86,7 @@ struct LogOutResponse: Decodable {
     let email: String
     let nick: String
 }
+
+struct LikeResponse: Decodable {
+    let like_status: Bool
+}
