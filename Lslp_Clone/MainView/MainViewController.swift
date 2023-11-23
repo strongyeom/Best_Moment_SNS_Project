@@ -10,7 +10,7 @@ import RxSwift
 
 class MainViewController : BaseViewController {
     
-    let tableView = {
+    var tableView = {
         let tableView = UITableView()
         tableView.rowHeight = 170
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
@@ -36,7 +36,6 @@ class MainViewController : BaseViewController {
         super.configure()
         self.view.backgroundColor = .green
         print("MainViewController - configure")
-        readPost(next: "")
         setNavigationBar()
         bind()
         
@@ -64,7 +63,8 @@ class MainViewController : BaseViewController {
   
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        refreshPost(next: "")
+        readPost(next: "")
+        routinArray = []
     }
  
     func bind() {
@@ -74,19 +74,6 @@ class MainViewController : BaseViewController {
          
          let output = viewModel.transform(input: input)
          */
-        
-        isBottmEnd
-            .bind(with: self) { owner, result in
-                if result {
-                    if owner.nextCursor != owner.remainCursor {
-                        owner.remainCursor = owner.nextCursor
-                        owner.readPost(next: owner.nextCursor)
-                    }
-                }
-            }
-            .disposed(by: disposeBag)
-        
-        
         routins
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
                 cell.configureUI(data: element)
@@ -101,64 +88,41 @@ class MainViewController : BaseViewController {
         }
         .disposed(by: disposeBag)
         
-        
-        tableView.rx.didEndDragging
-            .bind(to: isBottmEnd)
+        // setDelegate : delegate와 같이 쓸 수 있음
+        tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
-//
         
+
     }
 }
 
-//extension MainViewController : UITableViewDelegate {
-//    // 스크롤 하는 중일때 실시간으로 반영하는 방법은 없을까?
-//        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//
-//            let contentSize = scrollView.contentSize.height
-//            let scrollViewHeight = scrollView.frame.height
-//
-//            //contentOffSet 도 스크롤한 길이를 나타내지만 실시간으로 반영해주진 않는다.
-//            let offset = scrollView.contentOffset.y
-//
-//            // targetContentOffset.pointee.y: 사용자가 스크롤하면 실시간으로 값을 나타낼 수 있음 속도가 떨어지는 지점을 예측한다.
-//            let targetPointOfy = targetContentOffset.pointee.y
-//
-//            let doneScrollOffSet = contentSize - scrollViewHeight
-//            if targetPointOfy + 40 >= doneScrollOffSet {
-//              print("네트워크 통신 시작")
-//                print("nextCursor - \(nextCursor)")
-//                if nextCursor != remainCursor {
-//                    remainCursor = nextCursor
-//                    readPost(next: nextCursor)
-//                }
-//            }
-//        }
-//}
+extension MainViewController : UITableViewDelegate {
+    // 스크롤 하는 중일때 실시간으로 반영하는 방법은 없을까?
+        func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+
+            let contentSize = scrollView.contentSize.height
+            let scrollViewHeight = scrollView.frame.height
+
+            //contentOffSet 도 스크롤한 길이를 나타내지만 실시간으로 반영해주진 않는다.
+            let offset = scrollView.contentOffset.y
+
+            // targetContentOffset.pointee.y: 사용자가 스크롤하면 실시간으로 값을 나타낼 수 있음 속도가 떨어지는 지점을 예측한다.
+            let targetPointOfy = targetContentOffset.pointee.y
+
+            let doneScrollOffSet = contentSize - scrollViewHeight
+            if targetPointOfy + 40 >= doneScrollOffSet {
+              print("네트워크 통신 시작")
+                print("nextCursor - \(nextCursor)")
+                if nextCursor != remainCursor {
+                    remainCursor = nextCursor
+                    readPost(next: nextCursor)
+                }
+            }
+        }
+}
 
 extension MainViewController {
     func readPost(next: String) {
-        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: nextCursor, limit: "", product_id: "yeom"))
-            .catch { err in
-                if let err = err as? ReadPostError {
-                    print(err.errorDescrtion)
-                    print(err.rawValue)
-                    if err.rawValue == 419 {
-//                        self.refreshToken()
-                    }
-                }
-                return Observable.never()
-            }
-            .bind(with: self) { owner, response in
-                   dump(response)
-                owner.nextCursor = response.next_cursor
-                owner.routinArray.append(contentsOf: response.data)
-//                owner.routinArray = response.data
-                owner.routins.onNext(owner.routinArray)
-            }
-            .disposed(by: disposeBag)
-    }
-    
-    func refreshPost(next: String) {
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: "", product_id: "yeom"))
             .catch { err in
                 if let err = err as? ReadPostError {
@@ -171,8 +135,8 @@ extension MainViewController {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
-                   dump(response)
-                owner.routinArray = response.data
+                owner.nextCursor = response.next_cursor
+                owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)
             }
             .disposed(by: disposeBag)
