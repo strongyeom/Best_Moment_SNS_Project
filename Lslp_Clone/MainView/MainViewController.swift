@@ -26,6 +26,10 @@ class MainViewController : BaseViewController {
     var routinArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
     var likeID = PublishSubject<String>()
+    
+    // 좋아요 버튼 클릭
+    var isToggleLike = BehaviorSubject(value: false)
+    
     let disposeBag = DisposeBag()
     // 기존 Cursor
     var remainCursor = ""
@@ -83,14 +87,18 @@ class MainViewController : BaseViewController {
         routins
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
                 cell.configureUI(data: element)
-                
+
 
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- \(row)")
                         owner.likeID.onNext(element._id)
+                        // 버튼을 누를때 마다 숫자 업데이트 하는 방법은?
+                        
                     }
                     .disposed(by: cell.disposeBag)
+                
+                
             }
             .disposed(by: disposeBag)
         
@@ -113,9 +121,7 @@ class MainViewController : BaseViewController {
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        
-        // 해당 post에 대한 ID가 필요한데 ID를 얻는 방법은 TableView에 접근해야함... ID를 가져오려면 Cell을 클릭하거나, 아니면 버튼을 눌렀을때 해당 TableView의 Cell의 ID를 가져와야하는데... API 통신을 하게되면 disposed + disposed가 생김... 어떻게 해결해야 할까??
-        
+        // cell 업데이트 하는 방법은?
     }
 }
 

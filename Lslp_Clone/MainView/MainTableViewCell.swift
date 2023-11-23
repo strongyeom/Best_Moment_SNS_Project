@@ -114,6 +114,8 @@ final class MainTableViewCell : UITableViewCell {
         releaseDate.text = data.time
         routinDescription.text = data.content
         likeCountLabel.text = "좋아요 : \(data.likes.count)"
+        var aa = true
+        likeBtn.setImage( aa ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
         self.selectionStyle = .none
     }
     
@@ -126,4 +128,5 @@ final class MainTableViewCell : UITableViewCell {
         routinDescription.text = nil
         likeCountLabel.text = nil
     }
+    
 }
