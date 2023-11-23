@@ -113,12 +113,17 @@ final class MainTableViewCell : UITableViewCell {
         nickname.text = data.creator.nick
         releaseDate.text = data.time
         routinDescription.text = data.content
-        likeCountLabel.text = data.product_id
+        likeCountLabel.text = "좋아요 : \(data.likes.count)"
         self.selectionStyle = .none
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()
+        routinTitle.text = nil
+        nickname.text = nil
+        releaseDate.text = nil
+        routinDescription.text = nil
+        likeCountLabel.text = nil
     }
 }

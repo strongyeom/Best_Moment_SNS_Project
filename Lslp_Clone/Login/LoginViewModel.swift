@@ -43,8 +43,8 @@ class LoginViewModel: BaseInOutPut {
                 return APIManager.shared.reqeustLogin(api: Router.login(email: String(email), password: String(password)))
                     .catch { err -> Observable<TokenResponse> in
                         if let err = err as? LoginError {
-//                            input.emailText.onNext("")
-//                            input.passwordText.onNext("")
+                            input.emailText.onNext("")
+                            input.passwordText.onNext("")
                             errorMessage.onNext(err.errorDescription)
                         }
                         return Observable.never()
