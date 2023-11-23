@@ -44,6 +44,7 @@ class MainViewController : BaseViewController {
     func setNavigationBar() {
         self.navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = addPostBtn
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "위로", style: .plain, target: self, action: #selector(uptoBtn))
         title = "우루사 게시글"
     }
     
@@ -52,6 +53,11 @@ class MainViewController : BaseViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    @objc func uptoBtn() {
+        let index = IndexPath(row: 0, section: 0)
+        self.tableView.scrollToRow(at: index, at: .top, animated: true)
     }
 
     @objc func addPostBtnTapped() {
