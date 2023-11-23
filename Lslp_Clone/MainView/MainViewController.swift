@@ -25,13 +25,11 @@ class MainViewController : BaseViewController {
     
     var routinArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
-    
     let disposeBag = DisposeBag()
     // 기존 Cursor
     var remainCursor = ""
     // 다음 Cursor
     var nextCursor = ""
-    
     let viewModel = MainViewModel()
     
     override func configure() {
@@ -77,13 +75,19 @@ class MainViewController : BaseViewController {
     
     func bind() {
         
-        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElememt: tableView.rx.modelSelected(ElementReadPostResponse.self))
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self))
         
         let output = viewModel.transform(input: input)
         
         routins
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
                 cell.configureUI(data: element)
+                
+                cell.likeBtn.rx.tap
+                    .bind(with: self) { owner, _ in
+                        print("Like Btn -- \(row)")
+                    }
+                    .disposed(by: cell.disposeBag)
             }
             .disposed(by: disposeBag)
         

@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import RxSwift
 
 final class MainTableViewCell : UITableViewCell {
     
     static let identifier = "MainTableViewCell"
+    var disposeBag = DisposeBag()
     
     let routinTitle = {
        let view = UILabel()
@@ -112,11 +114,11 @@ final class MainTableViewCell : UITableViewCell {
         releaseDate.text = data.time
         routinDescription.text = data.content
         likeCountLabel.text = data.product_id
-//        self.selectionStyle = .none
+        self.selectionStyle = .none
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        disposeBag = DisposeBag()
     }
 }
