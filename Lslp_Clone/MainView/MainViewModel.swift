@@ -10,14 +10,11 @@ import RxCocoa
 
 class MainViewModel: BaseInOutPut {
     
-    var routinArray: [ElementReadPostResponse] = []
-    lazy var routins = BehaviorSubject(value: routinArray)
-    var isBottmEnd = BehaviorSubject(value: false)
     let disposeBag = DisposeBag()
     
     struct Input {
         let tableViewIndex:  ControlEvent<IndexPath>
-        let tableViewElememt:  ControlEvent<ElementReadPostResponse>
+        let tableViewElement:  ControlEvent<ElementReadPostResponse>
     }
     
     struct Output {
@@ -27,28 +24,8 @@ class MainViewModel: BaseInOutPut {
     func transform(input: Input) -> Output {
         
         
-        let zip = Observable.zip(input.tableViewIndex, input.tableViewElememt)
+        let zip = Observable.zip(input.tableViewIndex, input.tableViewElement)
         
         return Output(zip: zip)
     }
-    
-    init() {
-        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"))
-            .catch { err in
-                if let err = err as? ReadPostError {
-                    print(err.errorDescrtion)
-                    print(err.rawValue)
-                    if err.rawValue == 419 {
-//                        self.refreshToken()
-                    }
-                }
-                return Observable.never()
-            }
-            .bind(with: self) { owner, response in
-                owner.routinArray.append(contentsOf: response.data)
-                owner.routins.onNext(owner.routinArray)
-            }
-            .disposed(by: disposeBag)
-    }
-    
 }
