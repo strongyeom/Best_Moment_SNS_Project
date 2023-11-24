@@ -98,3 +98,16 @@ struct LikeResponse: Decodable {
 struct RemovePostResponse: Decodable {
     let _id: String
 }
+
+struct CommentPostResponse: Decodable {
+    let _id: String
+    let time: String
+    let content: String
+    let creator: CommentCreator
+}
+
+struct CommentCreator: Decodable {
+    var _id: String
+    var nick: String
+    var profile: String
+}

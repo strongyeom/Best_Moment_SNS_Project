@@ -91,8 +91,6 @@ class MainViewController : BaseViewController {
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")
                         owner.likeID.onNext(element._id)
-                        // 버튼을 누를때 마다 숫자 업데이트 하는 방법은?
-                        
                     }
                     .disposed(by: cell.disposeBag)
                 
@@ -100,6 +98,15 @@ class MainViewController : BaseViewController {
                     .bind(with: self) { owner, _ in
                         print("삭제 버튼 눌림 -- Clicked Row: \(row)")
                         owner.postID.onNext(element._id)
+                    }
+                    .disposed(by: cell.disposeBag)
+                
+                cell.postCommentBtn.rx.tap
+                    .bind(with: self) { owner, _ in
+                        let commentView = CommentViewController()
+                        commentView.postID = element._id
+                        let nav = UINavigationController(rootViewController: commentView)
+                        owner.present(nav, animated: true)
                     }
                     .disposed(by: cell.disposeBag)
                 
@@ -191,8 +198,6 @@ extension MainViewController {
             .disposed(by: disposeBag)
     }
 }
-
-// yeom6 : ID - 65605ab3c2c219175f838c5f
 
 /*
  

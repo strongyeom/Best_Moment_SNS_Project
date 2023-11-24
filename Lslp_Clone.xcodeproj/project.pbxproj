@@ -30,6 +30,7 @@
 		2657F3E22B02377500E3A22E /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2657F3E12B02377500E3A22E /* APIManager.swift */; };
 		2657F3E42B023C4000E3A22E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2657F3E32B023C4000E3A22E /* Router.swift */; };
 		2657F3E72B023CA500E3A22E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2657F3E62B023CA500E3A22E /* Alamofire */; };
+		269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269CEE5E2B1113D900477D04 /* CommentViewController.swift */; };
 		26E699AE2B0DE00B00DA90C0 /* AddRoutinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699AD2B0DE00B00DA90C0 /* AddRoutinViewController.swift */; };
 		26E699B02B0DE66400DA90C0 /* AddRoutinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699AF2B0DE66400DA90C0 /* AddRoutinViewModel.swift */; };
 		26E699B22B0DFA2D00DA90C0 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */; };
@@ -64,6 +65,7 @@
 		2657F3DF2B02374B00E3A22E /* APIKeyAndBaseURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyAndBaseURL.swift; sourceTree = "<group>"; };
 		2657F3E12B02377500E3A22E /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2657F3E32B023C4000E3A22E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		269CEE5E2B1113D900477D04 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		26E699AD2B0DE00B00DA90C0 /* AddRoutinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoutinViewController.swift; sourceTree = "<group>"; };
 		26E699AF2B0DE66400DA90C0 /* AddRoutinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoutinViewModel.swift; sourceTree = "<group>"; };
 		26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
@@ -195,6 +197,14 @@
 			path = model;
 			sourceTree = "<group>";
 		};
+		269CEE5D2B1113C900477D04 /* CommentView */ = {
+			isa = PBXGroup;
+			children = (
+				269CEE5E2B1113D900477D04 /* CommentViewController.swift */,
+			);
+			path = CommentView;
+			sourceTree = "<group>";
+		};
 		26E699AC2B0DDFE500DA90C0 /* AddRoutinView */ = {
 			isa = PBXGroup;
 			children = (
@@ -210,6 +220,7 @@
 				26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */,
 				26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */,
 				26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */,
+				269CEE5D2B1113C900477D04 /* CommentView */,
 				26E699AC2B0DDFE500DA90C0 /* AddRoutinView */,
 			);
 			path = MainView;
@@ -330,6 +341,7 @@
 				26E699B42B0E05FA00DA90C0 /* MainViewModel.swift in Sources */,
 				2649E1C42B04C69D003CA70C /* BaseInOutPut.swift in Sources */,
 				26F493822B0388C500AA68E7 /* UserDefaultsManager.swift in Sources */,
+				269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */,
 				2657F3E42B023C4000E3A22E /* Router.swift in Sources */,
 				26E699B02B0DE66400DA90C0 /* AddRoutinViewModel.swift in Sources */,
 				2649E1B12B04AD9A003CA70C /* BaseView.swift in Sources */,

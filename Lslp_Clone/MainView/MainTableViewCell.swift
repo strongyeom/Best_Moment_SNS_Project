@@ -28,6 +28,7 @@ final class MainTableViewCell : UITableViewCell {
         return button
     }()
     
+    
     let nickname = {
        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 11, weight: .medium)
@@ -55,7 +56,14 @@ final class MainTableViewCell : UITableViewCell {
     let likeBtn = {
        let view = UIButton()
         view.setImage(UIImage(systemName: "heart"), for: .normal)
+        view.tintColor = .red
         return view
+    }()
+    
+    let postCommentBtn = {
+       let button = UIButton()
+        button.setImage(UIImage(systemName: "message"), for: .normal)
+        return button
     }()
     
     let likeCountLabel = {
@@ -75,7 +83,7 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel].forEach {
+        [routinTitle, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn].forEach {
             contentView.addSubview($0)
         }
     }
@@ -113,6 +121,11 @@ final class MainTableViewCell : UITableViewCell {
             //make.size.equalTo(40)
             make.top.equalTo(routinDescription.snp.bottom).offset(10)
             make.leading.equalTo(routinTitle)
+        }
+        
+        postCommentBtn.snp.makeConstraints { make in
+            make.centerY.size.equalTo(likeBtn)
+            make.leading.equalTo(likeBtn.snp.trailing).offset(10)
         }
         
         likeCountLabel.snp.makeConstraints { make in

@@ -21,6 +21,8 @@ enum Router : URLRequestConvertible {
     case logOut(access: String)
     case like(access: String, postID: String)
     case removePost(access: String, userNickname: String, postID: String)
+    case commentPost(access: String, postID: String, comment: String)
+    
     
     var baseURL: URL {
         return URL(string: BaseAPI.baseUrl)!
@@ -46,6 +48,8 @@ enum Router : URLRequestConvertible {
             return "post/like/\(id)"
         case .removePost(access: _, userNickname: _, postID: let id):
             return "post/\(id)"
+        case .commentPost(access: _, postID: let id, comment: let comment):
+            return "post/\(id)/\(comment)"
         }
     }
     
@@ -73,12 +77,18 @@ enum Router : URLRequestConvertible {
                 "Authorization" : token,
                 "SesacKey" : APIKey.secretKey
             ]
+        case .commentPost(access: let token, postID: _, comment: _):
+            return [
+                "Authorization" : token,
+                "Content-Type": "application/json",
+                "SesacKey" : APIKey.secretKey
+            ]
         }
     }
     
     private var method: HTTPMethod {
         switch self {
-        case .signup, .login, .valid, .logOut, .addPost, .like:
+        case .signup, .login, .valid, .logOut, .addPost, .like, .commentPost:
             return .post
         case .refresh, .readPost:
             return .get
@@ -119,6 +129,10 @@ enum Router : URLRequestConvertible {
             ]
         case .refresh, .logOut, .like, .removePost:
             return nil
+        case .commentPost(access: _, postID: _, comment: let content):
+            return [
+                "content" : content
+            ]
         }
     }
     

@@ -30,7 +30,7 @@ enum CommonError: Int, Error, CaseIterable {
 enum SignupError: Int, Error {
     case isNotRequired = 400
     case isExistUser = 409
-
+    
     var errorDescription: String {
         switch self {
         case .isNotRequired:
@@ -44,7 +44,7 @@ enum SignupError: Int, Error {
 enum LoginError: Int, Error {
     case isNotRequired = 400
     case inNotUser = 401
-
+    
     var errorDescription: String {
         switch self {
         case .isNotRequired:
@@ -188,6 +188,29 @@ enum RemovePostError: Int, Error {
             return "엑세스 토큰이 만료되었습니다."
         case .isNotRemove:
             return "게시글 삭제 권한이 없습니다."
+        }
+    }
+}
+
+enum CommentPostError: Int, Error {
+    case isRequired = 400
+    case isNotAuth = 401
+    case forbidden = 403
+    case isNotPost = 410
+    case isExpiration = 419
+    
+    var errorDescription: String {
+        switch self {
+        case .isRequired:
+            return "필수값이 누락되었습니다."
+        case .isNotAuth:
+            return "인증 할 수 없는 엑세스 토큰입니다."
+        case .forbidden:
+            return "Forbidden"
+        case .isNotPost:
+            return "댓글을 추가할 게시글을 찾을 수 없습니다."
+        case .isExpiration:
+            return "엑세스 토큰이 만료되었습니다."
         }
     }
 }
