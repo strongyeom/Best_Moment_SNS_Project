@@ -119,6 +119,9 @@ class APIManager {
         .debug()
     }
     
+    
+    // ->>> 게시글 관련해서만 테스트로 onCompleted 작성함
+    
     /// 게시글 작성하기
     func requestAddPost(api: Router) -> Observable<AddPostResponse> {
         return Observable<AddPostResponse>.create { observer in
@@ -136,6 +139,7 @@ class APIManager {
                         switch response.result {
                         case .success(let data):
                             observer.onNext(data)
+                            observer.onCompleted()
                         case .failure(let error):
                             print(error.localizedDescription)
                             if let commonError = CommonError(rawValue: status) {
@@ -166,6 +170,7 @@ class APIManager {
                     switch response.result {
                     case .success(let data):
                         observer.onNext(data)
+                        observer.onCompleted()
                     case .failure(_):
                         if let commonError = CommonError(rawValue: status) {
                             print("CommonError - \(commonError)")
@@ -178,6 +183,34 @@ class APIManager {
                         }
                     }
                 }
+            return Disposables.create()
+        }
+    }
+    
+    /// 게시글 삭제하기
+    func requestRemovePost(api: Router) -> Observable<RemovePostResponse> {
+        return Observable.create { observer in
+            
+            AF.request(api)
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: RemovePostResponse.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    switch response.result {
+                    case .success(let data):
+                        observer.onNext(data)
+                        observer.onCompleted()
+                    case .failure(_):
+                        if let commonError = CommonError(rawValue: status) {
+                            observer.onError(commonError)
+                        }
+                        
+                        if let removePostError = RemovePostError(rawValue: status) {
+                            observer.onError(removePostError)
+                        }
+                    }
+                }
+            
+            
             return Disposables.create()
         }
     }

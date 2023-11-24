@@ -20,6 +20,7 @@ enum Router : URLRequestConvertible {
     case refresh(access: String, refresh: String)
     case logOut(access: String)
     case like(access: String, postID: String)
+    case removePost(access: String, userNickname: String, postID: String)
     
     var baseURL: URL {
         return URL(string: BaseAPI.baseUrl)!
@@ -43,6 +44,8 @@ enum Router : URLRequestConvertible {
             return "withdraw"
         case .like(access: _, postID: let id):
             return "post/like/\(id)"
+        case .removePost(access: _, userNickname: _, postID: let id):
+            return "post/\(id)"
         }
     }
     
@@ -65,7 +68,7 @@ enum Router : URLRequestConvertible {
                 "SesacKey" : APIKey.secretKey,
                 "Refresh": refresh
             ]
-        case .logOut(access: let token), .readPost(accessToken: let token, next: _, limit: _, product_id: _ ), .like(access: let token, postID: let _):
+        case .logOut(access: let token), .readPost(accessToken: let token, next: _, limit: _, product_id: _ ), .like(access: let token, postID: _), .removePost(access: let token, userNickname: _, postID: _):
             return [
                 "Authorization" : token,
                 "SesacKey" : APIKey.secretKey
@@ -79,6 +82,8 @@ enum Router : URLRequestConvertible {
             return .post
         case .refresh, .readPost:
             return .get
+        case .removePost:
+            return .delete
         }
     }
     
@@ -112,7 +117,7 @@ enum Router : URLRequestConvertible {
                 "limit" : limit,
                 "product_id" : product_id
             ]
-        case .refresh, .logOut, .like:
+        case .refresh, .logOut, .like, .removePost:
             return nil
         }
     }
@@ -131,7 +136,7 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
 
         switch self {
-        case .addPost, .readPost, .refresh, .like:
+        case .addPost, .readPost, .refresh, .like, .removePost:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)

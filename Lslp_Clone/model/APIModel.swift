@@ -90,3 +90,7 @@ struct LogOutResponse: Decodable {
 struct LikeResponse: Decodable {
     let like_status: Bool
 }
+
+struct RemovePostResponse: Decodable {
+    let _id: String
+}

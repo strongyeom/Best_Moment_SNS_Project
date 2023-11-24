@@ -21,14 +21,24 @@ class UserDefaultsManager {
         UserDefaults.standard.set(id, forKey: "UserID")
     }
     
-    
-    
     func loadUserID() -> String {
         
         guard let userid = UserDefaults.standard.string(forKey: "UserID") else { return "" }
         
         return userid
     }
+    
+    func saveNickname(_ nick: String) {
+        UserDefaults.standard.set(nick, forKey: "nickname")
+    }
+    
+    func loadNickname() -> String {
+        guard let nickname = UserDefaults.standard.string(forKey: "nickname") else {
+            return ""
+        }
+        return nickname
+    }
+    
     
     func refreshToAccessToken(token: RefreshResponse) {
         UserDefaults.standard.set(token.token, forKey: "accessToken")

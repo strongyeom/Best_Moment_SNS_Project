@@ -6,15 +6,3 @@
 //
 
 import Foundation
-
-extension String {
-    func toDate(text: String) -> Date {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = text
-        guard let date = dateFormatter.date(from: self) else {
-            return Date()
-        }
-        
-        return date
-    }
-}

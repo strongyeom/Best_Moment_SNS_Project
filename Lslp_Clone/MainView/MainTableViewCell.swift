@@ -16,9 +16,16 @@ final class MainTableViewCell : UITableViewCell {
     let routinTitle = {
        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 17, weight: .bold)
-        view.numberOfLines = 0
+        view.numberOfLines = 2
         view.textAlignment = .left
         return view
+    }()
+    
+    let cancelBtn = {
+       let button = UIButton()
+        button.setTitle("삭제", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        return button
     }()
     
     let nickname = {
@@ -68,14 +75,22 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel].forEach {
+        [routinTitle, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel].forEach {
             contentView.addSubview($0)
         }
     }
     
     private func setConstraints() {
+        routinTitle.setContentHuggingPriority(.defaultLow, for: .horizontal)
         routinTitle.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalToSuperview().inset(10)
+            make.top.leading.equalToSuperview().inset(10)
+        }
+       
+        cancelBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        cancelBtn.snp.makeConstraints { make in
+            make.leading.equalTo(routinTitle.snp.trailing).offset(10)
+            make.centerY.equalTo(routinTitle)
+            make.trailing.equalToSuperview().inset(10)
         }
         
         nickname.snp.makeConstraints { make in

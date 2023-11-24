@@ -168,3 +168,26 @@ enum LikeError: Int, Error {
         }
     }
 }
+
+enum RemovePostError: Int, Error {
+    case isNotAuth = 401
+    case forbidden = 403
+    case isNotPost = 410
+    case isExpiration = 419
+    case isNotRemove = 445
+    
+    var errorDescription: String {
+        switch self {
+        case .isNotAuth:
+            return "인증 할 수 없는 엑세스 토큰입니다."
+        case .forbidden:
+            return "Forbidden"
+        case .isNotPost:
+            return "게시글을 찾을 수 없습니다."
+        case .isExpiration:
+            return "엑세스 토큰이 만료되었습니다."
+        case .isNotRemove:
+            return "게시글 삭제 권한이 없습니다."
+        }
+    }
+}

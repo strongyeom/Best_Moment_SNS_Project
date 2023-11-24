@@ -26,6 +26,8 @@ class MainViewController : BaseViewController {
     var routinArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
     var likeID = PublishSubject<String>()
+    let postID = PublishSubject<String>()
+    
     let disposeBag = DisposeBag()
     // 기존 Cursor
     var remainCursor = ""
@@ -75,7 +77,7 @@ class MainViewController : BaseViewController {
     
     func bind() {
         
-        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID)
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID)
         
         let output = viewModel.transform(input: input)
      
@@ -86,10 +88,17 @@ class MainViewController : BaseViewController {
 
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
-                        print("Like Btn -- Clikec Row : \(row)")
+                        print("Like Btn -- Clicked Row : \(row)")
                         owner.likeID.onNext(element._id)
                         // 버튼을 누를때 마다 숫자 업데이트 하는 방법은?
                         
+                    }
+                    .disposed(by: cell.disposeBag)
+                
+                cell.cancelBtn.rx.tap
+                    .bind(with: self) { owner, _ in
+                        print("삭제 버튼 눌림 -- Clicked Row: \(row)")
+                        owner.postID.onNext(element._id)
                     }
                     .disposed(by: cell.disposeBag)
                 
@@ -103,6 +112,23 @@ class MainViewController : BaseViewController {
                 owner.readPost(next: "")
             }
             .disposed(by: disposeBag)
+        
+        
+        output.removePost
+            .bind(with: self) { owner, response in
+                print("삭제한 postID : \(response._id)")
+                owner.routinArray = []
+                owner.readPost(next: "")
+            }
+            .disposed(by: disposeBag)
+        
+        /// 에러 문구 Alert
+        output.errorMessage
+            .bind(with: self) { owner, err in
+                owner.setEmailValidAlet(text: err, completionHandler: nil)
+            }
+            .disposed(by: disposeBag)
+        
         
         output.zip
             .bind(with: self) { owner, response in
@@ -153,6 +179,8 @@ extension MainViewController {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
+                print("ff - response.next_cursor - \(response.next_cursor)")
+                print("ff - remain cursor - \(owner.remainCursor)")
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
 //                print(owner.routinArray)
