@@ -26,10 +26,6 @@ class MainViewController : BaseViewController {
     var routinArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
     var likeID = PublishSubject<String>()
-    
-    // 좋아요 버튼 클릭
-    var isToggleLike = BehaviorSubject(value: false)
-    
     let disposeBag = DisposeBag()
     // 기존 Cursor
     var remainCursor = ""
@@ -66,7 +62,6 @@ class MainViewController : BaseViewController {
     }
     
     @objc func addPostBtnTapped() {
-        // addPost()
         let addRoutinVC = AddRoutinViewController()
         addRoutinVC.modalPresentationStyle = .fullScreen
         present(addRoutinVC, animated: true)
@@ -91,22 +86,21 @@ class MainViewController : BaseViewController {
 
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
-                        print("Like Btn -- \(row)")
+                        print("Like Btn -- Clikec Row : \(row)")
                         owner.likeID.onNext(element._id)
                         // 버튼을 누를때 마다 숫자 업데이트 하는 방법은?
-                        owner.routinArray = []
-                        owner.readPost(next: "")
-
+                        
                     }
                     .disposed(by: cell.disposeBag)
                 
             }
             .disposed(by: disposeBag)
-    
+        
         output.like
             .bind(with: self) { owner, response in
-                print(response)
-                owner.isToggleLike.onNext(response.like_status)
+                print("isToggleLike -- \(response)")
+                owner.routinArray = []
+                owner.readPost(next: "")
             }
             .disposed(by: disposeBag)
         
@@ -121,8 +115,6 @@ class MainViewController : BaseViewController {
         // setDelegate : delegate와 같이 쓸 수 있음
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
-        
-        // cell 업데이트 하는 방법은?
     }
 }
 
@@ -163,12 +155,15 @@ extension MainViewController {
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
-                print(owner.routinArray)
+//                print(owner.routinArray)
                 owner.routins.onNext(owner.routinArray)
+                print("------- routinArray : \(owner.routinArray)")
             }
             .disposed(by: disposeBag)
     }
 }
+
+// yeom6 : ID - 65605ab3c2c219175f838c5f
 
 /*
  
