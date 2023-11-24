@@ -15,7 +15,7 @@ class AddRoutinViewController : BaseViewController {
     let saveBtn = SignInButton(text: "저장하기", brandColor: .blue)
     
     lazy var cancelBtn = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "x.mark"), style: .plain, target: self, action: #selector(cancelBtnTapped))
+        let button = UIBarButtonItem(title: "닫기", style: .plain, target: self, action: #selector(cancelBtnTapped))
         return button
     }()
     

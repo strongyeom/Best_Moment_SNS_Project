@@ -54,7 +54,11 @@ struct ReadPostResponse: Decodable {
     var next_cursor: String
 }
 
-struct ElementReadPostResponse: Decodable {
+struct ElementReadPostResponse: Decodable, Equatable {
+    static func == (lhs: ElementReadPostResponse, rhs: ElementReadPostResponse) -> Bool {
+        return lhs.likes == rhs.likes && lhs.image == rhs.image && lhs.hashTags == rhs.hashTags && lhs.comments == rhs.comments && lhs._id == rhs._id && lhs.time == rhs.time && lhs.title == rhs.title && lhs.content == rhs.content && lhs.product_id == rhs.product_id
+    }
+    
     var likes: [String]
     var image: [String]
     var hashTags: [String]

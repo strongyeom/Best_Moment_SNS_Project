@@ -65,12 +65,13 @@ class MainViewController : BaseViewController {
     
     @objc func addPostBtnTapped() {
         let addRoutinVC = AddRoutinViewController()
-        addRoutinVC.modalPresentationStyle = .fullScreen
-        present(addRoutinVC, animated: true)
+        let nav = UINavigationController(rootViewController: addRoutinVC)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         readPost(next: "")
         routinArray = []
     }
@@ -82,7 +83,7 @@ class MainViewController : BaseViewController {
         let output = viewModel.transform(input: input)
      
         routins
-//            .debug("routins")
+            .distinctUntilChanged()
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
                 cell.configureUI(data: element)
 
