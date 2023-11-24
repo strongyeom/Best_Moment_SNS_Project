@@ -85,6 +85,7 @@ class SignupViewController: BaseViewController {
         output.signupBtnTapped
             .bind(with: self, onNext: { owner, response in
                 print(response)
+                UserDefaultsManager.shared.saveUserID(response._id)
                 owner.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)

@@ -83,29 +83,30 @@ class MainViewController : BaseViewController {
         let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID)
         
         let output = viewModel.transform(input: input)
-        
+     
         routins
+//            .debug("routins")
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
                 cell.configureUI(data: element)
-
 
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- \(row)")
                         owner.likeID.onNext(element._id)
                         // 버튼을 누를때 마다 숫자 업데이트 하는 방법은?
-                        
+                        owner.routinArray = []
+                        owner.readPost(next: "")
+
                     }
                     .disposed(by: cell.disposeBag)
                 
-                
             }
             .disposed(by: disposeBag)
-        
     
         output.like
             .bind(with: self) { owner, response in
                 print(response)
+                owner.isToggleLike.onNext(response.like_status)
             }
             .disposed(by: disposeBag)
         
@@ -162,6 +163,7 @@ extension MainViewController {
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
+                print(owner.routinArray)
                 owner.routins.onNext(owner.routinArray)
             }
             .disposed(by: disposeBag)

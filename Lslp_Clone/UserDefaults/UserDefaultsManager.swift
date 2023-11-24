@@ -17,6 +17,19 @@ class UserDefaultsManager {
 //        print("UD에 저장 AT, RT", token.token, token.refreshToken)
     }
     
+    func saveUserID(_ id: String) {
+        UserDefaults.standard.set(id, forKey: "UserID")
+    }
+    
+    
+    
+    func loadUserID() -> String {
+        
+        guard let userid = UserDefaults.standard.string(forKey: "UserID") else { return "" }
+        
+        return userid
+    }
+    
     func refreshToAccessToken(token: RefreshResponse) {
         UserDefaults.standard.set(token.token, forKey: "accessToken")
     }

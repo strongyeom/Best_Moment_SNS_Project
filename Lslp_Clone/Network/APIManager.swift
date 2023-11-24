@@ -30,6 +30,9 @@ class APIManager {
                         switch response.result {
                         case .success(let data):
                             observer.onNext(data)
+                            //observer.onCompleted() <- 스트림이 쌓이지 않게 하기 위해 completed를 사용 안써도 굳이 상관은 없지만 조금이라도 메모리 사용을 줄 일 수 있음
+                            // => observer 두개 쓰기 귀찮음 => return 값의 Observable -> Single, .create앞에 Observable -> Single
+                            // => Single에는 Next 이벤트 없고 내부적으로 구현해놓음 => 적용 ⭐️ observer(.success(data)), observer(.failure(error))
                         case .failure(_):
                             if let commonError = CommonError(rawValue: status) {
                                 print("CommonError - \(commonError)")

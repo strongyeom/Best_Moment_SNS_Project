@@ -30,7 +30,7 @@ class MainViewModel: BaseInOutPut {
         let zip = Observable.zip(input.tableViewIndex, input.tableViewElement)
         
         let like = input.likeID
-            .withLatestFrom(input.likeID)
+//            .withLatestFrom(input.likeID)
             .flatMap { postID in
                 return APIManager.shared.requestLike(api: Router.like(access: UserDefaultsManager.shared.accessToken, postID: postID))
                     .catch { err in
@@ -40,6 +40,7 @@ class MainViewModel: BaseInOutPut {
                         return Observable.never()
                     }
             }
+            .debug("likeID")
             
         
         return Output(zip: zip, like: like)

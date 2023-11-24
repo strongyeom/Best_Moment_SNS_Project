@@ -113,9 +113,11 @@ final class MainTableViewCell : UITableViewCell {
         nickname.text = data.creator.nick
         releaseDate.text = data.time
         routinDescription.text = data.content
+        
+        let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        
+        likeBtn.setImage(image, for: .normal)
         likeCountLabel.text = "좋아요 : \(data.likes.count)"
-        var aa = true
-        likeBtn.setImage( aa ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart"), for: .normal)
         self.selectionStyle = .none
     }
     
