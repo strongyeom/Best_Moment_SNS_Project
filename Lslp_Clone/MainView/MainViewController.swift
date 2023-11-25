@@ -115,7 +115,7 @@ class MainViewController : BaseViewController {
         
         output.like
             .bind(with: self) { owner, response in
-                print("isToggleLike -- \(response)")
+//                print("isToggleLike -- \(response)")
                 owner.routinArray = []
                 owner.readPost(next: "")
             }
