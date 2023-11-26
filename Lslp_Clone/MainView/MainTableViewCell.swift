@@ -72,6 +72,12 @@ final class MainTableViewCell : UITableViewCell {
         return view
     }()
     
+    let commentCountLabel = {
+       let view = UILabel()
+        view.font = UIFont.systemFont(ofSize: 14)
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -83,7 +89,7 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn].forEach {
+        [routinTitle, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel].forEach {
             contentView.addSubview($0)
         }
     }
@@ -133,6 +139,11 @@ final class MainTableViewCell : UITableViewCell {
             make.leading.equalTo(routinTitle)
             make.bottom.equalTo(self.safeAreaLayoutGuide).inset(10).priority(.low)
         }
+        
+        commentCountLabel.snp.makeConstraints { make in
+            make.verticalEdges.equalTo(likeCountLabel)
+            make.leading.equalTo(likeCountLabel.snp.trailing).offset(20)
+        }
     }
     
     func configureUI(data: ElementReadPostResponse) {
@@ -146,6 +157,7 @@ final class MainTableViewCell : UITableViewCell {
         
         likeBtn.setImage(image, for: .normal)
         likeCountLabel.text = "좋아요 : \(data.likes.count)"
+        commentCountLabel.text = "댓글 갯수 : \(data.comments.count)"
         self.selectionStyle = .none
     }
     
@@ -157,6 +169,7 @@ final class MainTableViewCell : UITableViewCell {
         releaseDate.text = nil
         routinDescription.text = nil
         likeCountLabel.text = nil
+        commentCountLabel.text = nil
     }
     
 }
