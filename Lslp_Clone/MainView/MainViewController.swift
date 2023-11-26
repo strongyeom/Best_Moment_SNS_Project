@@ -103,10 +103,10 @@ class MainViewController : BaseViewController {
                 
                 cell.postCommentBtn.rx.tap
                     .bind(with: self) { owner, _ in
-                        let commentView = CommentViewController()
-                        commentView.postID = element._id
-                        let nav = UINavigationController(rootViewController: commentView)
-                        owner.present(nav, animated: true)
+//                        let commentView = CommentViewController()
+//                        commentView.postID = element._id
+//                        let nav = UINavigationController(rootViewController: commentView)
+//                        owner.present(nav, animated: true)
                     }
                     .disposed(by: cell.disposeBag)
                 
