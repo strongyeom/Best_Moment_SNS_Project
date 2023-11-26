@@ -304,28 +304,28 @@ class APIManager {
     }
     
     /// 댓글 작성하기
-//    func requestCommentPost(api: Router) -> Observable<CommentPostResponse> {
-//        return Observable.create { observer in
-//            AF.request(api)
-//                .validate(statusCode: 200...300)
-//                .responseDecodable(of: CommentPostResponse.self) { response in
-//                    guard let status = response.response?.statusCode else { return }
-//                    print("status - \(status)")
-//                    switch response.result {
-//                    case .success(let data):
-//                        observer.onNext(data)
-//                    case .failure(_):
-//                        if let commonError = CommonError(rawValue: status) {
-//                            observer.onError(commonError)
-//                        }
-//
-//                        if let commentError = CommentPostError(rawValue: status) {
-//                            observer.onError(commentError)
-//                        }
-//                    }
-//                }
-//            return Disposables.create()
-//        }
-//    }
-//
+    func requestCommentPost(api: Router) -> Observable<CommentPostResponse> {
+        return Observable.create { observer in
+            AF.request(api)
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: CommentPostResponse.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    print("status - \(status)")
+                    switch response.result {
+                    case .success(let data):
+                        observer.onNext(data)
+                    case .failure(_):
+                        if let commonError = CommonError(rawValue: status) {
+                            observer.onError(commonError)
+                        }
+
+                        if let commentError = CommentPostError(rawValue: status) {
+                            observer.onError(commentError)
+                        }
+                    }
+                }
+            return Disposables.create()
+        }
+    }
+
 }

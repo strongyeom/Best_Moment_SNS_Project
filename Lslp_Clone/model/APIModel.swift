@@ -56,13 +56,13 @@ struct ReadPostResponse: Decodable {
 
 struct ElementReadPostResponse: Decodable, Equatable {
     static func == (lhs: ElementReadPostResponse, rhs: ElementReadPostResponse) -> Bool {
-        return lhs.likes == rhs.likes && lhs.image == rhs.image && lhs.hashTags == rhs.hashTags && lhs.comments == rhs.comments && lhs._id == rhs._id && lhs.time == rhs.time && lhs.title == rhs.title && lhs.content == rhs.content && lhs.product_id == rhs.product_id
+        return lhs.likes == rhs.likes && lhs.image == rhs.image && lhs.hashTags == rhs.hashTags && lhs._id == rhs._id && lhs.time == rhs.time && lhs.title == rhs.title && lhs.content == rhs.content && lhs.product_id == rhs.product_id
     }
     
     var likes: [String]
-    var image: [String]
+    var image: [Data]?
     var hashTags: [String]
-    var comments: [String]
+    var comments: [CommentPostResponse]
     var _id: String
     var creator: Creator
     var time: String
@@ -101,13 +101,13 @@ struct RemovePostResponse: Decodable {
 
 struct CommentPostResponse: Decodable {
     let _id: String
-    let time: String
     let content: String
-    let creator: CommentCreator
+    let time: String
+    let creator: Creator
 }
 
-struct CommentCreator: Decodable {
-    var _id: String
-    var nick: String
-    var profile: String
-}
+//struct CommentCreator: Decodable {
+//    var _id: String
+//    var nick: String
+//    var profile: String
+//}
