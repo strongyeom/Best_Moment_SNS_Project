@@ -41,6 +41,7 @@
 		26F2A7CE2B07648200033C93 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F2A7CD2B07648200033C93 /* LoginViewModel.swift */; };
 		26F4937F2B036A5400AA68E7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F4937E2B036A5400AA68E7 /* LoginViewController.swift */; };
 		26F493822B0388C500AA68E7 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F493812B0388C500AA68E7 /* UserDefaultsManager.swift */; };
+		26F565F22B147764006A58CA /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F565F12B147764006A58CA /* CommentTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,6 +77,7 @@
 		26F2A7CD2B07648200033C93 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		26F4937E2B036A5400AA68E7 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		26F493812B0388C500AA68E7 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		26F565F12B147764006A58CA /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				269CEE5E2B1113D900477D04 /* CommentViewController.swift */,
+				26F565F12B147764006A58CA /* CommentTableViewCell.swift */,
 			);
 			path = CommentView;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */,
 				2657F3E42B023C4000E3A22E /* Router.swift in Sources */,
 				26E699B02B0DE66400DA90C0 /* AddRoutinViewModel.swift in Sources */,
+				26F565F22B147764006A58CA /* CommentTableViewCell.swift in Sources */,
 				2649E1B12B04AD9A003CA70C /* BaseView.swift in Sources */,
 				26E699B22B0DFA2D00DA90C0 /* MainTableViewCell.swift in Sources */,
 				26F2A7CE2B07648200033C93 /* LoginViewModel.swift in Sources */,

@@ -187,7 +187,6 @@ class APIManager {
             return Disposables.create()
         }
     }
-    
     /// 게시글 삭제하기
     func requestRemovePost(api: Router) -> Observable<RemovePostResponse> {
         return Observable.create { observer in

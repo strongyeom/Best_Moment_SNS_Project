@@ -10,8 +10,15 @@ import RxSwift
 
 class CommentViewController : BaseViewController {
     
-    var postID: String?
-    let disposeBag = DisposeBag()
+    var tableView = {
+        let tableView = UITableView()
+        tableView.rowHeight = 100
+        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
+        tableView.separatorStyle = .none
+        return tableView
+    }()
+    
     lazy var addCommnetBtn = {
        let button = UIButton()
         button.setTitle("댓글 추가", for: .normal)
@@ -20,10 +27,14 @@ class CommentViewController : BaseViewController {
         return button
     }()
     
-    //댓글 추가하면
+    var postID: String?
     
-    var commnetArray: [CommentPostResponse] = []
-    lazy var comments = BehaviorSubject(value: commnetArray)
+    var refreshGetPost: (() -> Void)?
+
+    var comments: [CommentPostResponse]?
+    lazy var commentArray = BehaviorSubject(value: comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
+    
+    let disposeBag = DisposeBag()
     
     override func configure() {
         super.configure()
@@ -32,12 +43,23 @@ class CommentViewController : BaseViewController {
         sheetPresent()
         bind()
         
-        view.addSubview(addCommnetBtn)
+        tableView.addSubview(addCommnetBtn)
+        view.addSubview(tableView)
         addCommnetBtn.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
+        
+        tableView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        print("CommentViewController - viewWillDisappear")
+        refreshGetPost?()
+    }
+  
     @objc func commentAddBtn() {
         guard let postID else { return }
         print("postID - \(postID)")
@@ -49,30 +71,26 @@ class CommentViewController : BaseViewController {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
-                //dump(response)
-                owner.commnetArray.append(response)
-                owner.comments.onNext(owner.commnetArray)
+                owner.comments?.append(response)
+                owner.commentArray.onNext(owner.comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
             }
             .disposed(by: disposeBag)
-        
     }
     
     func bind() {
-
-        
-        // 댓글 추가시 댓글 Array에 모아서 데이터 뿌려주기
-        comments
-            .bind(with: self) { owner, comments in
-                dump(comments)
+        commentArray
+            .bind(to: tableView.rx.items(cellIdentifier: CommentTableViewCell.identifier, cellType: CommentTableViewCell.self)) {
+                row, element, cell in
+                cell.configureUI(data: element)
             }
             .disposed(by: disposeBag)
-        
-        // TODO: - => 문제 발생! readPost에 있는 comments를 가져와야 되는데 종료시 초기화 됨... 수정 하기
-        
     }
 
     
 }
+
+
+
 extension CommentViewController {
     fileprivate func sheetPresent() {
         if let sheetPresentationController {

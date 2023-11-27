@@ -35,6 +35,8 @@ class MainViewController : BaseViewController {
     var nextCursor = ""
     let viewModel = MainViewModel()
     
+    
+    
     override func configure() {
         super.configure()
         self.view.backgroundColor = .green
@@ -43,7 +45,7 @@ class MainViewController : BaseViewController {
         bind()
         
     }
-     
+    
     func setNavigationBar() {
         self.navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = addPostBtn
@@ -72,6 +74,7 @@ class MainViewController : BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("MainViewController - viewWillAppear")
         readPost(next: "")
         routinArray = []
     }
@@ -81,12 +84,11 @@ class MainViewController : BaseViewController {
         let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID)
         
         let output = viewModel.transform(input: input)
-     
+        
         routins
-            .distinctUntilChanged()
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
                 cell.configureUI(data: element)
-
+                
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")
@@ -105,6 +107,13 @@ class MainViewController : BaseViewController {
                     .bind(with: self) { owner, _ in
                         let commentView = CommentViewController()
                         commentView.postID = element._id
+                        commentView.comments = element.comments
+                        commentView.refreshGetPost = {
+                            print("넘어온 데이터")
+                            owner.routinArray = []
+                            owner.readPost(next: "")
+                            
+                        }
                         let nav = UINavigationController(rootViewController: commentView)
                         owner.present(nav, animated: true)
                     }
@@ -115,7 +124,7 @@ class MainViewController : BaseViewController {
         
         output.like
             .bind(with: self) { owner, response in
-//                print("isToggleLike -- \(response)")
+                //                print("isToggleLike -- \(response)")
                 owner.routinArray = []
                 owner.readPost(next: "")
             }
@@ -187,13 +196,11 @@ extension MainViewController {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
-                print("ff - response.next_cursor - \(response.next_cursor)")
-                print("ff - remain cursor - \(owner.remainCursor)")
                 owner.nextCursor = response.next_cursor
+                owner.routinArray = []
                 owner.routinArray.append(contentsOf: response.data)
-//                print(owner.routinArray)
                 owner.routins.onNext(owner.routinArray)
-                dump(owner.routinArray)
+                
             }
             .disposed(by: disposeBag)
     }
