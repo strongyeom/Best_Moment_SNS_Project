@@ -23,7 +23,6 @@ class CommentViewController : BaseViewController {
        let button = UIButton()
         button.setTitle("댓글 추가", for: .normal)
         button.setTitleColor(.blue, for: .normal)
-        button.addTarget(self, action: #selector(commentAddBtn), for: .touchUpInside)
         return button
     }()
     
@@ -32,7 +31,8 @@ class CommentViewController : BaseViewController {
     var refreshGetPost: (() -> Void)?
 
     var comments: [CommentPostResponse]?
-    lazy var commentArray = BehaviorSubject(value: comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
+
+    let viewModel = CommentViewModel()
     
     let disposeBag = DisposeBag()
     
@@ -43,6 +43,10 @@ class CommentViewController : BaseViewController {
         sheetPresent()
         bind()
         
+       
+    }
+    
+    override func setConstraints() {
         tableView.addSubview(addCommnetBtn)
         view.addSubview(tableView)
         addCommnetBtn.snp.makeConstraints { make in
@@ -59,50 +63,36 @@ class CommentViewController : BaseViewController {
         print("CommentViewController - viewWillDisappear")
         refreshGetPost?()
     }
-  
-    @objc func commentAddBtn() {
-        guard let postID else { return }
-        print("postID - \(postID)")
-        APIManager.shared.requestCommentPost(api: Router.commentPost(access: UserDefaultsManager.shared.accessToken, postID: postID, comment: "newStart-------------------"))
-            .catch { err in
-                if let err = err as? CommentPostError {
-                    print(err.errorDescription)
-                }
-                return Observable.never()
-            }
-            .bind(with: self) { owner, response in
-                owner.comments?.append(response)
-                owner.commentArray.onNext(owner.comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
-            }
-            .disposed(by: disposeBag)
-    }
+
     
     func bind() {
-        commentArray
+        
+        let input = CommentViewModel.Input(postID: postID, comments: comments, commentTap: addCommnetBtn.rx.tap, tableViewDeleted: tableView.rx.itemDeleted)
+        
+        let output = viewModel.transform(input: input)
+        
+        output.commentArray
             .bind(to: tableView.rx.items(cellIdentifier: CommentTableViewCell.identifier, cellType: CommentTableViewCell.self)) {
                 row, element, cell in
                 cell.configureUI(data: element)
             }
             .disposed(by: disposeBag)
-
-        tableView.rx.itemDeleted
-            .bind(with: self) { owner, index in
-                guard let comments = owner.comments, let postID = owner.postID else { return }
-                APIManager.shared.requestCommentRemove(api: Router.commentRemove(access: UserDefaultsManager.shared.accessToken, postID: postID, commentID: comments[index.row]._id))
-                    .catch { err in
-                        if let err = err as? CommentRemoveError {
-                            print(err.errorDescription)
-                        }
-                        return Observable.never()
-                    }
-                    .bind(with: self) { owner, response in
-                        print(response)
-                       // 삭제까지는 했는데 어떻게 다시 commnetArray를 Reload 시키지?
-                    }
-                    .disposed(by: owner.disposeBag)
-                
+        
+        output.addCommentTapped
+            .bind(with: self) { owner, response in
+                owner.comments?.append(response)
+                output.commentArray.onNext(owner.comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
             }
             .disposed(by: disposeBag)
+  
+        
+        output.tableViewDeleted
+            .bind(with: self) { owner, response in
+                print(response)
+            }
+            .disposed(by: disposeBag)
+        
+        
     }
 
     
