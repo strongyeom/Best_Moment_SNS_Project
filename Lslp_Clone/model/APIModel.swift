@@ -117,3 +117,8 @@ struct CommentPostResponse: Decodable {
     let time: String
     let creator: Creator
 }
+
+struct CommentRemoveResponse: Decodable {
+    let postID: String
+    let commentID: String
+}

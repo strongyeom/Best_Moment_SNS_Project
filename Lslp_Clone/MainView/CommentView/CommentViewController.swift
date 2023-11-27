@@ -84,6 +84,25 @@ class CommentViewController : BaseViewController {
                 cell.configureUI(data: element)
             }
             .disposed(by: disposeBag)
+
+        tableView.rx.itemDeleted
+            .bind(with: self) { owner, index in
+                guard let comments = owner.comments, let postID = owner.postID else { return }
+                APIManager.shared.requestCommentRemove(api: Router.commentRemove(access: UserDefaultsManager.shared.accessToken, postID: postID, commentID: comments[index.row]._id))
+                    .catch { err in
+                        if let err = err as? CommentRemoveError {
+                            print(err.errorDescription)
+                        }
+                        return Observable.never()
+                    }
+                    .bind(with: self) { owner, response in
+                        print(response)
+                       // 삭제까지는 했는데 어떻게 다시 commnetArray를 Reload 시키지?
+                    }
+                    .disposed(by: owner.disposeBag)
+                
+            }
+            .disposed(by: disposeBag)
     }
 
     

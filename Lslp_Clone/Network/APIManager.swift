@@ -167,7 +167,6 @@ class APIManager {
                 .responseDecodable(of: ReadPostResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("Status - \(status)")
-                    print(response.data)
                     switch response.result {
                     case .success(let data):
                         observer.onNext(data)
@@ -244,8 +243,39 @@ class APIManager {
                 }
             return Disposables.create()
         }
-       
     }
+    
+//    func requestAPIFuction<T: Decodable, U: Error>(type: T, api: Router, someU: U) -> Observable<T> {
+//        return Observable.create { observer in
+//            AF.request(api)
+//                .validate(statusCode: 200...300)
+//                .responseDecodable(of: T.self) { response in
+//                    guard let status = response.response?.statusCode else { return }
+//                    print("리프레쉬 상태 코드 ", status)
+//
+//                        switch response.result {
+//                        case .success(let data):
+//                            observer.onNext(data)
+//
+//                        case .failure(let error):
+//                            if let commonError = CommonError(rawValue: status) {
+//                                print("CommonError - \(commonError)")
+//                                observer.onError(commonError)
+//                            }
+//
+//                            if let refreshError = RefreshError(rawValue: status) {
+//                                print("refreshError - \(refreshError)")
+//                                observer.onError(refreshError)
+//                            }
+//                        }
+//
+//                }
+//            return Disposables.create()
+//        }
+//    }
+//
+    
+    
     
     /// 회원 탈퇴
     func requestLogOut(api: Router) -> Observable<LogOutResponse> {
@@ -321,6 +351,31 @@ class APIManager {
 
                         if let commentError = CommentPostError(rawValue: status) {
                             observer.onError(commentError)
+                        }
+                    }
+                }
+            return Disposables.create()
+        }
+    }
+    
+    /// 댓글 삭제하기
+    func requestCommentRemove(api: Router) -> Observable<CommentRemoveResponse> {
+        return Observable.create { observer in
+            AF.request(api)
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: CommentRemoveResponse.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    print("status - \(status)")
+                    switch response.result {
+                    case .success(let data):
+                        observer.onNext(data)
+                    case .failure(_):
+                        if let commonError = CommonError(rawValue: status) {
+                            observer.onError(commonError)
+                        }
+
+                        if let commentRemoveError = CommentRemoveError(rawValue: status) {
+                            observer.onError(commentRemoveError)
                         }
                     }
                 }

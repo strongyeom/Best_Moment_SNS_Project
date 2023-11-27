@@ -214,3 +214,27 @@ enum CommentPostError: Int, Error {
         }
     }
 }
+
+
+enum CommentRemoveError: Int, Error {
+    case isNotAuth = 401
+    case forbidden = 403
+    case isNotPost = 410
+    case isExpiration = 419
+    case isNotRemoveRequired = 415
+    
+    var errorDescription: String {
+        switch self {
+        case .isNotAuth:
+            return "인증 할 수 없는 엑세스 토큰입니다."
+        case .forbidden:
+            return "Forbidden"
+        case .isNotPost:
+            return "삭제할 댓글을 찾을 수 없습니다."
+        case .isExpiration:
+            return "엑세스 토큰이 만료되었습니다."
+        case .isNotRemoveRequired:
+            return "댓글 삭제 권한이 없습니다."
+        }
+    }
+}

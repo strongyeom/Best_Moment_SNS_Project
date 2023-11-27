@@ -22,7 +22,7 @@ enum Router : URLRequestConvertible {
     case like(access: String, postID: String)
     case removePost(access: String, userNickname: String, postID: String)
     case commentPost(access: String, postID: String, comment: String)
-    
+    case commentRemove(access: String, postID: String, commentID: String)
     
     var baseURL: URL {
         return URL(string: BaseAPI.baseUrl)!
@@ -50,6 +50,8 @@ enum Router : URLRequestConvertible {
             return "post/\(id)"
         case .commentPost(access: _, postID: let id, comment: _):
             return "post/\(id)/comment"
+        case .commentRemove(access: _, postID: let id, commentID: let commentID):
+            return "post/\(id)/comment/\(commentID)"
         }
     }
     
@@ -72,7 +74,11 @@ enum Router : URLRequestConvertible {
                 "SesacKey" : APIKey.secretKey,
                 "Refresh": refresh
             ]
-        case .logOut(access: let token), .readPost(accessToken: let token, next: _, limit: _, product_id: _ ), .like(access: let token, postID: _), .removePost(access: let token, userNickname: _, postID: _):
+        case .logOut(access: let token),
+                .readPost(accessToken: let token, next: _, limit: _, product_id: _ ),
+                .like(access: let token, postID: _),
+                .removePost(access: let token, userNickname: _, postID: _),
+                .commentRemove(access: let token, postID: _, commentID: _):
             return [
                 "Authorization" : token,
                 "SesacKey" : APIKey.secretKey
@@ -92,7 +98,7 @@ enum Router : URLRequestConvertible {
             return .post
         case .refresh, .readPost:
             return .get
-        case .removePost:
+        case .removePost, .commentRemove:
             return .delete
         }
     }
@@ -127,7 +133,7 @@ enum Router : URLRequestConvertible {
                 "limit" : limit,
                 "product_id" : product_id
             ]
-        case .refresh, .logOut, .like, .removePost:
+        case .refresh, .logOut, .like, .removePost, .commentRemove:
             return nil
         case .commentPost(access: _, postID: _, comment: let content):
             return [
@@ -150,7 +156,7 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
 
         switch self {
-        case .addPost, .refresh, .like, .removePost, .readPost:
+        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)
