@@ -52,11 +52,27 @@ struct AddPostResponse: Decodable {
 struct ReadPostResponse: Decodable {
     var data: [ElementReadPostResponse]
     var next_cursor: String
+    
+    enum CodingKeys: CodingKey {
+        case data
+        case next_cursor
+    }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.data = try container.decode([ElementReadPostResponse].self, forKey: .data)
+        
+        do {
+            self.next_cursor = try container.decode(String.self, forKey: .next_cursor)
+        } catch {
+            self.next_cursor = "0"
+        }
+    }
 }
 
 struct ElementReadPostResponse: Decodable {
     var likes: [String]
-    var image: [Data]?
+    var image: [String]
     var hashTags: [String]
     var comments: [CommentPostResponse]
     var _id: String
@@ -64,11 +80,11 @@ struct ElementReadPostResponse: Decodable {
     var time: String
     var title: String
     var content: String
-//    var content1: String
-//    var content2: String
-//    var content3: String
-//    var content4: String
-//    var content5: String
+    //    var content1: String
+    //    var content2: String
+    //    var content3: String
+    //    var content4: String
+    //    var content5: String
     var product_id: String
 }
 
@@ -101,9 +117,3 @@ struct CommentPostResponse: Decodable {
     let time: String
     let creator: Creator
 }
-
-//struct CommentCreator: Decodable {
-//    var _id: String
-//    var nick: String
-//    var profile: String
-//}

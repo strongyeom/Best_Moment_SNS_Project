@@ -166,11 +166,12 @@ class APIManager {
                 .validate(statusCode: 200...300)
                 .responseDecodable(of: ReadPostResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
-                    
+                    print("Status - \(status)")
+                    print(response.data)
                     switch response.result {
                     case .success(let data):
                         observer.onNext(data)
-//                        observer.onCompleted()
+                        observer.onCompleted()
                     case .failure(let error):
                         print(error.localizedDescription)
                         if let commonError = CommonError(rawValue: status) {

@@ -109,7 +109,7 @@ class MainViewController : BaseViewController {
                         commentView.postID = element._id
                         commentView.comments = element.comments
                         commentView.refreshGetPost = {
-                            print("넘어온 데이터")
+//                            print("넘어온 데이터")
                             owner.routinArray = []
                             owner.readPost(next: "")
                             
@@ -171,10 +171,12 @@ extension MainViewController : UITableViewDelegate {
         let targetPointOfy = targetContentOffset.pointee.y
         
         let doneScrollOffSet = contentSize - scrollViewHeight
-        if targetPointOfy + 40 >= doneScrollOffSet {
+        if targetPointOfy + 70 >= doneScrollOffSet {
             print("네트워크 통신 시작")
             print("nextCursor - \(nextCursor)")
             if nextCursor != remainCursor {
+                print("ff-- \(nextCursor)")
+                print("ff-- \(remainCursor)")
                 remainCursor = nextCursor
                 readPost(next: nextCursor)
             }
@@ -197,7 +199,6 @@ extension MainViewController {
             }
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
-                owner.routinArray = []
                 owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)
                 
