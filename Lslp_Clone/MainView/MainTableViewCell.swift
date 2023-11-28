@@ -78,10 +78,19 @@ final class MainTableViewCell : UITableViewCell {
         return view
     }()
     
+    let postImage = {
+       let view = UIImageView()
+        view.backgroundColor = .yellow
+        return view
+    }()
+    
+    
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
         setConstraints()
+        self.selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -89,7 +98,7 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel].forEach {
+        [routinTitle, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage].forEach {
             contentView.addSubview($0)
         }
     }
@@ -134,6 +143,11 @@ final class MainTableViewCell : UITableViewCell {
             make.leading.equalTo(likeBtn.snp.trailing).offset(10)
         }
         
+        postImage.snp.makeConstraints { make in
+            make.centerY.size.equalTo(likeBtn)
+            make.leading.equalTo(postCommentBtn.snp.trailing).offset(10)
+        }
+        
         likeCountLabel.snp.makeConstraints { make in
             make.top.equalTo(likeBtn.snp.bottom).offset(10)
             make.leading.equalTo(routinTitle)
@@ -158,7 +172,22 @@ final class MainTableViewCell : UITableViewCell {
         likeBtn.setImage(image, for: .normal)
         likeCountLabel.text = "좋아요 : \(data.likes.count)"
         commentCountLabel.text = "댓글 갯수 : \(data.comments.count)"
-        self.selectionStyle = .none
+       
+        
+        
+        if let imageURL = URL(string: data.image.first ?? "") {
+            if let imageData = try? Data(contentsOf: imageURL) {
+                DispatchQueue.main.async {
+                    let image = UIImage(data: imageData)
+                    self.postImage.image = image
+                }
+            } else {
+                self.postImage.image = UIImage(systemName: "flame")
+                print("Failed to load image data from URL")
+            }
+        } else {
+            print("Invalid URL")
+        }
     }
     
     override func prepareForReuse() {

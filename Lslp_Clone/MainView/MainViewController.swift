@@ -200,6 +200,7 @@ extension MainViewController {
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
+                dump(owner.routinArray)
                 owner.routins.onNext(owner.routinArray)
                 
             }

@@ -123,13 +123,19 @@ class APIManager {
     // ->>> 게시글 관련해서만 테스트로 onCompleted 작성함
     
     /// 게시글 작성하기
-    func requestAddPost(api: Router) -> Observable<AddPostResponse> {
+    func requestAddPost(api: Router, imageData: Data?) -> Observable<AddPostResponse> {
         return Observable<AddPostResponse>.create { observer in
             AF.upload(multipartFormData: { multiPartForm in
             
                 for (key, value) in api.query! {
                     multiPartForm.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
                 }
+              
+                if let imageData {
+                    multiPartForm.append(imageData, withName: "file", fileName: "\(api.path).jpg", mimeType: "image/jpg")
+                }
+               
+                
             }, with: api)
                 .validate(statusCode: 200...300)
                 .responseDecodable(of: AddPostResponse.self) { response in
