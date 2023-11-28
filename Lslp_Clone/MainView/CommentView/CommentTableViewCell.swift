@@ -27,6 +27,8 @@ class CommentTableViewCell: UITableViewCell {
         return label
     }()
     
+    let exampleDate = UILabel()
+    
     // menu 버튼 만들기
     
     static let identifier = "CommentTableViewCell"
@@ -42,7 +44,7 @@ class CommentTableViewCell: UITableViewCell {
     }
     
     private func configure() {
-        [nickname, comment].forEach {
+        [nickname, comment, exampleDate].forEach {
             contentView.addSubview($0)
         }
     }
@@ -56,6 +58,12 @@ class CommentTableViewCell: UITableViewCell {
         comment.snp.makeConstraints { make in
             make.top.equalTo(nickname.snp.bottom).offset(5)
             make.horizontalEdges.equalTo(nickname)
+//            make.bottom.equalToSuperview().inset(10)
+        }
+        
+        exampleDate.snp.makeConstraints { make in
+            make.top.equalTo(comment.snp.bottom).offset(5)
+            make.leading.equalTo(comment)
             make.bottom.equalToSuperview().inset(10)
         }
     }
@@ -64,5 +72,6 @@ class CommentTableViewCell: UITableViewCell {
         nickname.text = data.creator.nick
         comment.text = data.content
         self.selectionStyle = .none
+        exampleDate.text = data.time
     }
 }

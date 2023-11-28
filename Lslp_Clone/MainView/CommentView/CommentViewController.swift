@@ -80,8 +80,15 @@ class CommentViewController : BaseViewController {
         
         output.addCommentTapped
             .bind(with: self) { owner, response in
-                owner.comments?.append(response)
-                output.commentArray.onNext(owner.comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
+               
+                
+                do {
+                    var aa = try output.commentArray.value()
+                    aa.append(response)
+                    output.commentArray.onNext(aa)
+                } catch {
+                    print(error)
+                }
             }
             .disposed(by: disposeBag)
   
@@ -89,6 +96,13 @@ class CommentViewController : BaseViewController {
         output.tableViewDeleted
             .bind(with: self) { owner, response in
                 print(response)
+                do {
+                    var aa = try output.commentArray.value()
+                    var bb = aa.filter { !$0._id.contains(response.commentID)}
+                    output.commentArray.onNext(bb)
+                } catch {
+                    print(error)
+                }
             }
             .disposed(by: disposeBag)
         

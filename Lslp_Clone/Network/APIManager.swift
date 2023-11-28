@@ -245,35 +245,41 @@ class APIManager {
         }
     }
     
-//    func requestAPIFuction<T: Decodable, U: Error>(type: T, api: Router, someU: U) -> Observable<T> {
-//        return Observable.create { observer in
-//            AF.request(api)
-//                .validate(statusCode: 200...300)
-//                .responseDecodable(of: T.self) { response in
-//                    guard let status = response.response?.statusCode else { return }
-//                    print("리프레쉬 상태 코드 ", status)
-//
-//                        switch response.result {
-//                        case .success(let data):
-//                            observer.onNext(data)
-//
-//                        case .failure(let error):
-//                            if let commonError = CommonError(rawValue: status) {
-//                                print("CommonError - \(commonError)")
-//                                observer.onError(commonError)
-//                            }
-//
+    func requestAPIFuction<T: Decodable, U: Error>(type: T.Type, api: Router, someU: U.Type) -> Observable<T> {
+        return Observable.create { observer in
+            AF.request(api)
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: T.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    print("리프레쉬 상태 코드 ", status)
+
+                        switch response.result {
+                        case .success(let data):
+                            observer.onNext(data)
+
+                        case .failure(let error):
+                            if let commonError = CommonError(rawValue: status) {
+                                print("CommonError - \(commonError)")
+                                observer.onError(commonError)
+                            }
+                            
+                            print(response.response?.statusCode ?? 500)
+//                            let e = error as! U
+//                            observer.onError(e)
+                            if let fetchError = error as? U {
+                                observer.onError(fetchError)
+                            }
 //                            if let refreshError = RefreshError(rawValue: status) {
 //                                print("refreshError - \(refreshError)")
 //                                observer.onError(refreshError)
 //                            }
-//                        }
-//
-//                }
-//            return Disposables.create()
-//        }
-//    }
-//
+                        }
+
+                }
+            return Disposables.create()
+        }
+    }
+
     
     
     

@@ -40,6 +40,9 @@ class AddRoutinViewModel: BaseInOutPut {
                     }
             }
         
+        let aa = input.saveBtn
+            .withLatestFrom(addText)
+        
         
         return Output(saveBtnTapped: saveBtnTapped)
     }

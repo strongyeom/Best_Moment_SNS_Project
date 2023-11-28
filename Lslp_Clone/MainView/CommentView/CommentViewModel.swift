@@ -15,7 +15,7 @@ class CommentViewModel: BaseInOutPut {
     
     struct Input {
         let postID: String?
-        let comments: [CommentPostResponse]?
+        var comments: [CommentPostResponse]?
         let commentTap: ControlEvent<Void>
         let tableViewDeleted: ControlEvent<IndexPath>
     }
@@ -31,6 +31,7 @@ class CommentViewModel: BaseInOutPut {
  
         
         let commentArray = BehaviorSubject(value: input.comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
+            
         
         
         let addCommentTapped = input.commentTap
@@ -46,7 +47,7 @@ class CommentViewModel: BaseInOutPut {
         
         let tableViewDeleted = input.tableViewDeleted
             .flatMap { index in
-                return APIManager.shared.requestCommentRemove(api: Router.commentRemove(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", commentID: input.comments?[index.row]._id ?? ""))
+                return APIManager.shared.requestCommentRemove(api: Router.commentRemove(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", commentID: try! commentArray.value()[index.row]._id))
                     .catch { err in
                         if let err = err as? CommentRemoveError {
                             print(err.errorDescription)
@@ -54,7 +55,19 @@ class CommentViewModel: BaseInOutPut {
                         return Observable.never()
                     }
             }
-            
+        
+        
+//        let aa = input.tableViewDeleted
+//            .flatMap { index in
+//                return APIManager.shared.requestAPIFuction(type: CommentRemoveResponse.self, api: Router.commentRemove(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", commentID: input.comments?[index.row]._id ?? ""), someU: RefreshError.self)
+//                    .catch { err in
+//                        if let err = err as? CommentRemoveError {
+//                            print(err.errorDescription)
+//                        }
+//                        return Observable.never()
+//                    }
+//            }
+//
         
         return Output(commentArray: commentArray, addCommentTapped: addCommentTapped, tableViewDeleted: tableViewDeleted)
     }
