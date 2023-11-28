@@ -34,6 +34,9 @@ class CommentViewController : BaseViewController {
 
     let viewModel = CommentViewModel()
     
+    // CommentVC에서 활용되는 실질적인 배열
+    var commentsTemporaryArrays: [CommentPostResponse] = []
+    
     let disposeBag = DisposeBag()
     
     override func configure() {
@@ -43,7 +46,10 @@ class CommentViewController : BaseViewController {
         sheetPresent()
         bind()
         
-       
+        guard let comments = self.comments else { return }
+        
+        // 초기값 MainVC에서 넘어온 데이터 담아주기
+        self.commentsTemporaryArrays = comments
     }
     
     override func setConstraints() {
@@ -78,17 +84,12 @@ class CommentViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        
         output.addCommentTapped
             .bind(with: self) { owner, response in
                
-                
-                do {
-                    var aa = try output.commentArray.value()
-                    aa.append(response)
-                    output.commentArray.onNext(aa)
-                } catch {
-                    print(error)
-                }
+                owner.commentsTemporaryArrays.append(response)
+                output.commentArray.onNext(owner.commentsTemporaryArrays)
             }
             .disposed(by: disposeBag)
   
@@ -96,13 +97,9 @@ class CommentViewController : BaseViewController {
         output.tableViewDeleted
             .bind(with: self) { owner, response in
                 print(response)
-                do {
-                    var aa = try output.commentArray.value()
-                    var bb = aa.filter { !$0._id.contains(response.commentID)}
-                    output.commentArray.onNext(bb)
-                } catch {
-                    print(error)
-                }
+                
+                let removeArray = owner.commentsTemporaryArrays.filter { !$0._id.contains(response.commentID)}
+                output.commentArray.onNext(removeArray)
             }
             .disposed(by: disposeBag)
         

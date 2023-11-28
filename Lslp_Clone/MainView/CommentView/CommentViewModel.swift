@@ -33,10 +33,9 @@ class CommentViewModel: BaseInOutPut {
         let commentArray = BehaviorSubject(value: input.comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
             
         
-        
         let addCommentTapped = input.commentTap
             .flatMap {
-                APIManager.shared.requestCommentPost(api: Router.commentPost(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", comment: "newStart-------------------"))
+                APIManager.shared.requestCommentPost(api: Router.commentPost(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", comment: "rrnw------newnew-------------".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)) // 한글 인코딩 작업 
                     .catch { err in
                         if let err = err as? CommentPostError {
                             print(err.errorDescription)

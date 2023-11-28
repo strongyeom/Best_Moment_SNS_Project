@@ -70,7 +70,8 @@ class CommentTableViewCell: UITableViewCell {
     
     func configureUI(data: CommentPostResponse) {
         nickname.text = data.creator.nick
-        comment.text = data.content
+        // 서버에 한글로 요청했을때 받아올때 한글 디코딩해서 갖고오기
+        comment.text = data.content.removingPercentEncoding
         self.selectionStyle = .none
         exampleDate.text = data.time
     }
