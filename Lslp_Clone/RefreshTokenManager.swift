@@ -9,14 +9,13 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class RefreshTokenManager {
+class RefreshTokenViewModel {
     
-    static let shared = RefreshTokenManager()
-    private init() { }
+    var newAccessToken = BehaviorSubject(value: UserDefaultsManager.shared.accessToken)
     
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
-    func refreshToken(completionHandler: @escaping (RefreshResponse) -> Void) {
+    func refreshToken() {
         
         APIManager.shared.requestRefresh(api: Router.refresh(access: UserDefaultsManager.shared.accessToken, refresh: UserDefaultsManager.shared.refreshToken))
             .catch { err in
@@ -26,8 +25,9 @@ class RefreshTokenManager {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
-                print(response)
-                completionHandler(response)
+                print("RefreshTokenManager - 엑세스 토큰 갱신 \(response)")
+                UserDefaultsManager.shared.saveAccessToken(accessToken: response.token)
+                owner.newAccessToken.onNext(UserDefaultsManager.shared.loadNickname())
             }
             .disposed(by: disposeBag)
             

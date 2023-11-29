@@ -35,7 +35,7 @@ class MainViewController : BaseViewController {
     // 다음 Cursor
     var nextCursor = ""
     let viewModel = MainViewModel()
-    
+    let refreshViewModel = RefreshTokenViewModel()
     
     
     override func configure() {
