@@ -7,6 +7,7 @@
 
 import UIKit
 import RxSwift
+import Kingfisher
 
 final class MainTableViewCell : UITableViewCell {
     
@@ -144,8 +145,9 @@ final class MainTableViewCell : UITableViewCell {
         }
         
         postImage.snp.makeConstraints { make in
-            make.centerY.size.equalTo(likeBtn)
-            make.leading.equalTo(postCommentBtn.snp.trailing).offset(10)
+            make.center.equalToSuperview()
+            make.size.equalTo(100)
+//            make.leading.equalTo(postCommentBtn.snp.trailing).offset(10)
         }
         
         likeCountLabel.snp.makeConstraints { make in
@@ -172,21 +174,22 @@ final class MainTableViewCell : UITableViewCell {
         likeBtn.setImage(image, for: .normal)
         likeCountLabel.text = "좋아요 : \(data.likes.count)"
         commentCountLabel.text = "댓글 갯수 : \(data.comments.count)"
-       
         
+        let imageDownloadRequest = AnyModifier { request in
+            var requestBody = request
+            requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
+            requestBody.setValue(UserDefaultsManager.shared.accessToken, forHTTPHeaderField: "Authorization")
+            return requestBody
+        }
         
-        if let imageURL = URL(string: data.image.first ?? "") {
-            if let imageData = try? Data(contentsOf: imageURL) {
-                DispatchQueue.main.async {
-                    let image = UIImage(data: imageData)
-                    self.postImage.image = image
-                }
-            } else {
-                self.postImage.image = UIImage(systemName: "flame")
-                print("Failed to load image data from URL")
+        let url = URL(string: BaseAPI.baseUrl + "\(data.image.first ?? "")")
+        self.postImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage]) { response in
+            switch response {
+            case .success(let data):
+                print(data)
+            case .failure(let error):
+                print(error.localizedDescription)
             }
-        } else {
-            print("Invalid URL")
         }
     }
     
@@ -199,6 +202,7 @@ final class MainTableViewCell : UITableViewCell {
         routinDescription.text = nil
         likeCountLabel.text = nil
         commentCountLabel.text = nil
+        postImage.image = nil
     }
     
 }

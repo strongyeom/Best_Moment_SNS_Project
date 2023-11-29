@@ -133,6 +133,7 @@ class APIManager {
               
                 if let imageData {
                     multiPartForm.append(imageData, withName: "file", fileName: "\(api.path).jpg", mimeType: "image/jpg")
+                    print("imageData 크기 - \(imageData)")
                 }
                
                 

@@ -29,7 +29,9 @@ class AddRoutinViewController : BaseViewController {
     
     let viewModel = AddRoutinViewModel()
     let disposeBag = DisposeBag()
-    var selectedImageData: Data?
+    var selectedImageData = PublishSubject<Data>()
+    
+    
     
     override func configure() {
         super.configure()
@@ -125,12 +127,12 @@ extension AddRoutinViewController: PHPickerViewControllerDelegate {
                     
                     self.imageBtn.image = image
                     
-                    let jpegData = image?.jpegData(compressionQuality: 1.0)
+                    let jpegData = image?.jpegData(compressionQuality: 0.6)
                     
                     if let data = jpegData {
                         // UImage  -> Data로 변환
                         print("data - \(data)")
-                        self.selectedImageData = data
+                        self.selectedImageData.onNext(data)
                     }
                     
                 }
