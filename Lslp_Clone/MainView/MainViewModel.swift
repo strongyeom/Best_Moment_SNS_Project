@@ -40,6 +40,11 @@ class MainViewModel: BaseInOutPut {
                         if let err = err as? LikeError {
                             print("🙏🏻- 좋아요 에러 : \(err.errorDescripion)")
                             errorMessage.onNext(err.errorDescripion)
+                           
+                            if err.rawValue == 419 {
+                                
+                            }
+                            
                         }
                         return Observable.never()
                     }

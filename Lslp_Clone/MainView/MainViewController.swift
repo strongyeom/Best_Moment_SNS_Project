@@ -12,7 +12,8 @@ class MainViewController : BaseViewController {
     
     var tableView = {
         let tableView = UITableView()
-        tableView.rowHeight = 170
+        tableView.rowHeight = UIScreen.main.bounds.height * 0.65
+        tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
         tableView.separatorStyle = .none
         return tableView
@@ -109,7 +110,7 @@ class MainViewController : BaseViewController {
                         commentView.postID = element._id
                         commentView.comments = element.comments
                         commentView.refreshGetPost = {
-//                            print("넘어온 데이터")
+                            //                            print("넘어온 데이터")
                             owner.routinArray = []
                             owner.readPost(next: "")
                             
@@ -124,7 +125,6 @@ class MainViewController : BaseViewController {
         
         output.like
             .bind(with: self) { owner, response in
-                //                print("isToggleLike -- \(response)")
                 owner.routinArray = []
                 owner.readPost(next: "")
             }
@@ -175,8 +175,6 @@ extension MainViewController : UITableViewDelegate {
             print("네트워크 통신 시작")
             print("nextCursor - \(nextCursor)")
             if nextCursor != remainCursor {
-                print("ff-- \(nextCursor)")
-                print("ff-- \(remainCursor)")
                 remainCursor = nextCursor
                 readPost(next: nextCursor)
             }
@@ -192,7 +190,7 @@ extension MainViewController {
                     print(err.errorDescrtion)
                     print(err.rawValue)
                     if err.rawValue == 419 {
-                        //                        self.refreshToken()
+                        self.refreshToken()
                     }
                 }
                 return Observable.never()
@@ -200,35 +198,30 @@ extension MainViewController {
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
-//                dump(owner.routinArray)
                 owner.routins.onNext(owner.routinArray)
                 
             }
             .disposed(by: disposeBag)
     }
+    
+    func refreshToken() {
+        
+        APIManager.shared.requestRefresh(api: Router.refresh(access: UserDefaultsManager.shared.accessToken, refresh: UserDefaultsManager.shared.refreshToken))
+            .catch { err in
+                if let err = err as? RefreshError {
+                    if err.rawValue == 418 {
+                        self.navigationController?.popToRootViewController(animated: true)
+                    } else {
+                        print(err.errorDescription)
+                        self.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
+                    }
+                }
+                return Observable.never()
+            }
+            .bind(with: self) { owner, response in
+                print("엑세스 토큰 갱신 --- \(response.token)")
+                UserDefaultsManager.shared.saveAccessToken(accessToken: response.token)
+            }
+            .disposed(by: disposeBag)
+    }
 }
-
-/*
- 
- func refreshToken() {
- 
- APIManager.shared.requestRefresh(api: Router.refresh(access: UserDefaultsManager.shared.accessToken, refresh: UserDefaultsManager.shared.refreshToken))
- .catch { err in
- if let err = err as? RefreshError {
- if err.rawValue == 418 {
- self.navigationController?.popToRootViewController(animated: true)
- } else {
- print(err.errorDescription)
- self.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
- }
- }
- return Observable.never()
- }
- .bind(with: self) { owner, response in
- print("---", response.token)
- UserDefaultsManager.shared.refreshToAccessToken(token: response)
- }
- .disposed(by: disposeBag)
- }
- 
- */

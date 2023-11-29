@@ -36,7 +36,7 @@ class AddRoutinViewModel: BaseInOutPut {
             .flatMap { title, first, imageData in
                 print("제목 : \(title)")
                 print("루틴 1 : \(first)")
-                print("imageData : \(imageData)")
+//                print("imageData : \(imageData)")
                 return APIManager.shared.requestAddPost(api: Router.addPost(accessToken: UserDefaultsManager.shared.accessToken, title: String(title), content: String(first), product_id: "yeom"), imageData: imageData)
                     .catch { err in
                         if let err = err as? AddPostError {

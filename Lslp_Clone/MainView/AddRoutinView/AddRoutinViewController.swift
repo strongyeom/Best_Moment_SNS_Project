@@ -127,7 +127,7 @@ extension AddRoutinViewController: PHPickerViewControllerDelegate {
                     
                     self.imageBtn.image = image
                     
-                    let jpegData = image?.jpegData(compressionQuality: 0.6)
+                    let jpegData = image?.jpegData(compressionQuality: 0.3)
                     
                     if let data = jpegData {
                         // UImage  -> Data로 변환

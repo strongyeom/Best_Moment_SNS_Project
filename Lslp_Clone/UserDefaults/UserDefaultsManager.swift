@@ -11,10 +11,18 @@ class UserDefaultsManager {
     
     static let shared = UserDefaultsManager()
     
-    func saveToken(token: TokenResponse) {
-        UserDefaults.standard.set(token.token, forKey: "accessToken")
-        UserDefaults.standard.set(token.refreshToken, forKey: "refreshToken")
-//        print("UD에 저장 AT, RT", token.token, token.refreshToken)
+//    func saveToken(token: TokenResponse) {
+//        UserDefaults.standard.set(token.token, forKey: "accessToken")
+//        UserDefaults.standard.set(token.refreshToken, forKey: "refreshToken")
+////        print("UD에 저장 AT, RT", token.token, token.refreshToken)
+//    }
+//
+    func saveAccessToken(accessToken: String) {
+        UserDefaults.standard.set(accessToken, forKey: "accessToken")
+    }
+    
+    func saveRefreshToken(refreshToken: String) {
+        UserDefaults.standard.set(refreshToken, forKey: "refreshToken")
     }
     
     func saveUserID(_ id: String) {

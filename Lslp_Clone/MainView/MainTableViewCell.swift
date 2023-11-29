@@ -49,7 +49,7 @@ final class MainTableViewCell : UITableViewCell {
     let routinDescription = {
        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 13)
-        view.numberOfLines = 2
+        view.numberOfLines = 0
         view.textAlignment = .left
         return view
     }()
@@ -81,7 +81,9 @@ final class MainTableViewCell : UITableViewCell {
     
     let postImage = {
        let view = UIImageView()
-        view.backgroundColor = .yellow
+        view.layer.cornerRadius = 16
+        view.layer.cornerCurve = .continuous
+        view.clipsToBounds = true
         return view
     }()
     
@@ -128,8 +130,14 @@ final class MainTableViewCell : UITableViewCell {
             
         }
         
+        postImage.snp.makeConstraints { make in
+            make.top.equalTo(nickname.snp.bottom).offset(7)
+            make.horizontalEdges.equalToSuperview().inset(10)
+            make.height.equalTo(self.postImage.snp.width)
+        }
+        
         routinDescription.snp.makeConstraints { make in
-            make.top.equalTo(releaseDate.snp.bottom).offset(10)
+            make.top.equalTo(postImage.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(routinTitle)
         }
         
@@ -142,12 +150,6 @@ final class MainTableViewCell : UITableViewCell {
         postCommentBtn.snp.makeConstraints { make in
             make.centerY.size.equalTo(likeBtn)
             make.leading.equalTo(likeBtn.snp.trailing).offset(10)
-        }
-        
-        postImage.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.size.equalTo(100)
-//            make.leading.equalTo(postCommentBtn.snp.trailing).offset(10)
         }
         
         likeCountLabel.snp.makeConstraints { make in
@@ -183,14 +185,7 @@ final class MainTableViewCell : UITableViewCell {
         }
         
         let url = URL(string: BaseAPI.baseUrl + "\(data.image.first ?? "")")
-        self.postImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage]) { response in
-            switch response {
-            case .success(let data):
-                print(data)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        self.postImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
     }
     
     override func prepareForReuse() {
