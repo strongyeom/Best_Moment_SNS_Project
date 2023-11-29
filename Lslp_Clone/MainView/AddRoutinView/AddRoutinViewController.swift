@@ -52,7 +52,6 @@ class AddRoutinViewController : BaseViewController {
         
         output.saveBtnTapped
             .bind(with: self) { owner, response in
-                dump(response)
                 owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)

@@ -35,8 +35,6 @@ class MainViewController : BaseViewController {
     // 다음 Cursor
     var nextCursor = ""
     let viewModel = MainViewModel()
-    let refreshViewModel = RefreshTokenViewModel()
-    
     
     override func configure() {
         super.configure()
@@ -187,10 +185,10 @@ extension MainViewController {
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: "", product_id: "yeom"))
             .catch { err in
                 if let err = err as? ReadPostError {
-                    print(err.errorDescrtion)
-                    print(err.rawValue)
+                    print("MainViewController - readPost \(err.errorDescrtion) , \(err.rawValue)")
                     if err.rawValue == 419 {
                         self.refreshToken()
+                        // 토큰 만료가 뜨면 토큰을 다시 받고 네트워크 통신 다시하기
                     }
                 }
                 return Observable.never()
@@ -211,6 +209,7 @@ extension MainViewController {
                 if let err = err as? RefreshError {
                     if err.rawValue == 418 {
                         self.navigationController?.popToRootViewController(animated: true)
+                        UserDefaultsManager.shared.saveAccessToken(accessToken: "")
                     } else {
                         print(err.errorDescription)
                         self.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
