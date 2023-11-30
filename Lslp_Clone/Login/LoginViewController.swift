@@ -52,6 +52,7 @@ class LoginViewController : BaseViewController {
             .bind(with: self) { owner, response in
                 //print(response)
                 // 1. UD에 AT, RT 저장하기
+                UserDefaultsManager.shared.saveUserID(response._id)
                 UserDefaultsManager.shared.saveAccessToken(accessToken: response.token)
                 UserDefaultsManager.shared.saveRefreshToken(refreshToken: response.refreshToken)
                 // 2. Home 화면으로 이동

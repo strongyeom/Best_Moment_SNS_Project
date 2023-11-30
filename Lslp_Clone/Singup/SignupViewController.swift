@@ -85,7 +85,6 @@ class SignupViewController: BaseViewController {
         output.signupBtnTapped
             .bind(with: self, onNext: { owner, response in
                 print(response)
-                UserDefaultsManager.shared.saveUserID(response._id)
                 UserDefaultsManager.shared.saveNickname(response.nick)
                 owner.navigationController?.popViewController(animated: true)
             })
