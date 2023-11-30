@@ -196,6 +196,7 @@ extension MainViewController {
             .catch { err in
                 if let err = err as? ReadPostError {
                     print("MainViewController - readPost \(err.errorDescrtion) , \(err.rawValue)")
+                    
                 }
                 return Observable.never()
             }

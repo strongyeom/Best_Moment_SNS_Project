@@ -186,7 +186,7 @@ class APIManager {
                         }
                         
                         if let readPostError = ReadPostError(rawValue: status) {
-                            print("readPostError - \(readPostError)")
+                            print("APIManager - Error:  \(readPostError)")
                             observer.onError(readPostError)
                             
                         }

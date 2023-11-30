@@ -38,19 +38,23 @@ class AuthManager: RequestInterceptor {
         )
         .validate(statusCode: 200..<300)
         .responseDecodable(of: RefreshResponse.self) { result in
-            
+            print("**isRoot 상태 : \(UserDefaultsManager.shared.backToCall())")
+            print("** response.Status : \(response.statusCode)")
             guard let status = result.response?.statusCode else { return }
+            print("** status: \(status)")
             switch result.result {
             case .success(let data):
                 UserDefaultsManager.shared.saveAccessToken(accessToken: data.token)
 //                UserDefaultsManager.shared.backToRoot(isRoot: true)
-                print("**isRoot 상태 : \(UserDefaultsManager.shared.backToCall())")
                 completion(.retry)
             case .failure(let err):
-                if status == 418 {
-//                    let topView = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-//                    topView?.window?.rootViewController = LoginViewController()
-                }
+                /*
+                 if let refreshError = RefreshError(rawValue: status) {
+                     print(refreshError.errorDescription)
+                     UserDefaultsManager.shared.backToRoot(isRoot: true)
+                     UIApplication.shared.windows.first?.rootViewController = LoginViewController()
+                 }
+                 */
                 completion(.doNotRetryWithError(err))
                
             }
