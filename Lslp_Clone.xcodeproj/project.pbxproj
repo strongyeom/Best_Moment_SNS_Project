@@ -30,6 +30,7 @@
 		2657F3E22B02377500E3A22E /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2657F3E12B02377500E3A22E /* APIManager.swift */; };
 		2657F3E42B023C4000E3A22E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2657F3E32B023C4000E3A22E /* Router.swift */; };
 		2657F3E72B023CA500E3A22E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2657F3E62B023CA500E3A22E /* Alamofire */; };
+		268E47592B186ED9008BECD3 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E47582B186ED9008BECD3 /* AuthManager.swift */; };
 		269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269CEE5E2B1113D900477D04 /* CommentViewController.swift */; };
 		26E699AE2B0DE00B00DA90C0 /* AddRoutinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699AD2B0DE00B00DA90C0 /* AddRoutinViewController.swift */; };
 		26E699B02B0DE66400DA90C0 /* AddRoutinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699AF2B0DE66400DA90C0 /* AddRoutinViewModel.swift */; };
@@ -69,6 +70,7 @@
 		2657F3DF2B02374B00E3A22E /* APIKeyAndBaseURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyAndBaseURL.swift; sourceTree = "<group>"; };
 		2657F3E12B02377500E3A22E /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2657F3E32B023C4000E3A22E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		268E47582B186ED9008BECD3 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		269CEE5E2B1113D900477D04 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		26E699AD2B0DE00B00DA90C0 /* AddRoutinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoutinViewController.swift; sourceTree = "<group>"; };
 		26E699AF2B0DE66400DA90C0 /* AddRoutinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoutinViewModel.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 			children = (
 				2657F3E12B02377500E3A22E /* APIManager.swift */,
 				2657F3E32B023C4000E3A22E /* Router.swift */,
+				268E47582B186ED9008BECD3 /* AuthManager.swift */,
 				26F2A7CF2B07707A00033C93 /* ErrorMessage */,
 			);
 			path = Network;
@@ -357,6 +360,7 @@
 				26F493822B0388C500AA68E7 /* UserDefaultsManager.swift in Sources */,
 				269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */,
 				2657F3E42B023C4000E3A22E /* Router.swift in Sources */,
+				268E47592B186ED9008BECD3 /* AuthManager.swift in Sources */,
 				26E699B02B0DE66400DA90C0 /* AddRoutinViewModel.swift in Sources */,
 				26F565F22B147764006A58CA /* CommentTableViewCell.swift in Sources */,
 				2649E1B12B04AD9A003CA70C /* BaseView.swift in Sources */,

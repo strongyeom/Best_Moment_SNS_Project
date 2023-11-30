@@ -45,9 +45,9 @@ class AddRoutinViewModel: BaseInOutPut {
                             print("AddRoutinViewModel - transform \(err.errorDescrtion) , \(err.rawValue)")
                             if err.rawValue == 419 {
 //                                self.exampleRefresh()
-                                RefreshTokenViewModel.shared.refreshToken {
-                                    print("리프레쉬 토큰 만료")
-                                }
+//                                RefreshTokenViewModel.shared.refreshToken {
+//                                    print("리프레쉬 토큰 만료")
+//                                }
                             }
                             
                         }
@@ -60,20 +60,20 @@ class AddRoutinViewModel: BaseInOutPut {
     }
     
     
-    func exampleRefresh() {
-        APIManager.shared.requestRefresh(api: Router.refresh(access: UserDefaultsManager.shared.accessToken, refresh: UserDefaultsManager.shared.refreshToken))
-            .catch { err in
-                if let err = err as? RefreshError {
-                    if err.rawValue == 418 {
-                
-                    }
-                }
-                return Observable.never()
-            }
-            .bind(with: self) { owner, response in
-                print("엑세스 토큰 갱신 --- \(response.token)")
-                UserDefaultsManager.shared.saveAccessToken(accessToken: response.token)
-            }
-            .disposed(by: disposeBag)
-    }
+//    func exampleRefresh() {
+//        APIManager.shared.requestRefresh(api: Router.refresh(access: UserDefaultsManager.shared.accessToken, refresh: UserDefaultsManager.shared.refreshToken))
+//            .catch { err in
+//                if let err = err as? RefreshError {
+//                    if err.rawValue == 418 {
+//                
+//                    }
+//                }
+//                return Observable.never()
+//            }
+//            .bind(with: self) { owner, response in
+//                print("엑세스 토큰 갱신 --- \(response.token)")
+//                UserDefaultsManager.shared.saveAccessToken(accessToken: response.token)
+//            }
+//            .disposed(by: disposeBag)
+//    }
 }

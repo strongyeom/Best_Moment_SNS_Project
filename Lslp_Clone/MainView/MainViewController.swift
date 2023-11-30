@@ -28,6 +28,7 @@ class MainViewController : BaseViewController {
     lazy var routins = BehaviorSubject(value: routinArray)
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
+    var exampleAccess = PublishSubject<String>()
     
     let disposeBag = DisposeBag()
     // 기존 Cursor
@@ -42,6 +43,7 @@ class MainViewController : BaseViewController {
         print("MainViewController - configure")
         setNavigationBar()
         bind()
+        UserDefaultsManager.shared.backToRoot(isRoot: true)
         
     }
     
@@ -76,6 +78,8 @@ class MainViewController : BaseViewController {
         print("MainViewController - viewWillAppear")
         readPost(next: "")
         routinArray = []
+        
+        
     }
     
     func bind() {
@@ -156,6 +160,12 @@ class MainViewController : BaseViewController {
         // setDelegate : delegate와 같이 쓸 수 있음
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
+        
+        exampleAccess
+            .bind(with: self) { owner, response in
+                self.readPost(next: response)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
@@ -186,10 +196,6 @@ extension MainViewController {
             .catch { err in
                 if let err = err as? ReadPostError {
                     print("MainViewController - readPost \(err.errorDescrtion) , \(err.rawValue)")
-                    if err.rawValue == 419 {
-                        self.refreshToken()
-                        // 토큰 만료가 뜨면 토큰을 다시 받고 네트워크 통신 다시하기
-                    }
                 }
                 return Observable.never()
             }
@@ -198,28 +204,6 @@ extension MainViewController {
                 owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)
                 
-            }
-            .disposed(by: disposeBag)
-    }
-    
-    func refreshToken() {
-        
-        APIManager.shared.requestRefresh(api: Router.refresh(access: UserDefaultsManager.shared.accessToken, refresh: UserDefaultsManager.shared.refreshToken))
-            .catch { err in
-                if let err = err as? RefreshError {
-                    if err.rawValue == 418 {
-                        self.navigationController?.popToRootViewController(animated: true)
-                        UserDefaultsManager.shared.saveAccessToken(accessToken: "")
-                    } else {
-                        print(err.errorDescription)
-                        self.setEmailValidAlet(text: err.errorDescription, completionHandler: nil)
-                    }
-                }
-                return Observable.never()
-            }
-            .bind(with: self) { owner, response in
-                print("엑세스 토큰 갱신 --- \(response.token)")
-                UserDefaultsManager.shared.saveAccessToken(accessToken: response.token)
             }
             .disposed(by: disposeBag)
     }

@@ -50,7 +50,7 @@ class APIManager {
     }
 
     ///로그인
-    func reqeustLogin(api: Router) -> Observable<TokenResponse> {
+    func requestLogin(api: Router) -> Observable<TokenResponse> {
         return Observable<TokenResponse>.create { observer in
             AF.request(api)
                 .validate(statusCode: 200...300)
@@ -169,7 +169,7 @@ class APIManager {
     /// 게시글 조회하기
     func requestReadPost(api: Router) -> Observable<ReadPostResponse> {
         return Observable.create { observer in
-            AF.request(api)
+            AF.request(api, interceptor: AuthManager())
                 .validate(statusCode: 200...300)
                 .responseDecodable(of: ReadPostResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
@@ -188,6 +188,7 @@ class APIManager {
                         if let readPostError = ReadPostError(rawValue: status) {
                             print("readPostError - \(readPostError)")
                             observer.onError(readPostError)
+                            
                         }
                     }
                 }
@@ -221,7 +222,7 @@ class APIManager {
             return Disposables.create()
         }
     }
-    
+
     /// 리프레쉬 토큰
     func requestRefresh(api: Router) -> Observable<RefreshResponse> {
         return Observable<RefreshResponse>.create { observer in
@@ -233,8 +234,7 @@ class APIManager {
                     
                         switch response.result {
                         case .success(let data):
-                            observer.onNext(data)
-                           
+                            UserDefaultsManager.shared.saveAccessToken(accessToken: data.token)
                         case .failure(_):
                             if let commonError = CommonError(rawValue: status) {
                                 print("CommonError - \(commonError)")
@@ -244,6 +244,9 @@ class APIManager {
                             if let refreshError = RefreshError(rawValue: status) {
                                 print("refreshError - \(refreshError)")
                                 observer.onError(refreshError)
+                                if refreshError.rawValue == 418 {
+                                    // 로그인 View로 화면 전환
+                                }
                             }
                         }
                  

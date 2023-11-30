@@ -47,6 +47,14 @@ class UserDefaultsManager {
         return nickname
     }
     
+    func backToRoot(isRoot: Bool = false) {
+        UserDefaults.standard.set(isRoot, forKey: "isVaild")
+    }
+    
+    func backToCall() -> Bool {
+        return UserDefaults.standard.bool(forKey: "isVaild")
+    }
+    
     
     func refreshToAccessToken(token: RefreshResponse) {
         UserDefaults.standard.set(token.token, forKey: "accessToken")

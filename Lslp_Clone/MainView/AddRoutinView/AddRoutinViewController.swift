@@ -37,6 +37,7 @@ class AddRoutinViewController : BaseViewController {
         super.configure()
         bind()
         navigationItem.leftBarButtonItem = cancelBtn
+        
     }
     
     @objc func cancelBtnTapped() {

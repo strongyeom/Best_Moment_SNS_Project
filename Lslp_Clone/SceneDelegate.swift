@@ -17,7 +17,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print("SceneDelegate - willConnectTo")
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let vc = LoginViewController()
+        UserDefaultsManager.shared.backToRoot(isRoot: false)
+        let vc: UIViewController?
+        
+        let result = UserDefaultsManager.shared.backToCall()
+        
+        if result {
+            vc = MainViewController()
+        } else {
+            vc = LoginViewController()
+        }
+        
+        guard let vc else { return }
         window?.rootViewController = UINavigationController(rootViewController: vc)
         window?.makeKeyAndVisible()
         
