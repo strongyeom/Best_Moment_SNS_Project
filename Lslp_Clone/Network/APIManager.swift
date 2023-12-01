@@ -137,7 +137,7 @@ class APIManager {
                 }
                
                 
-            }, with: api)
+            }, with: api, interceptor: AuthManager())
                 .validate(statusCode: 200...300)
                 .responseDecodable(of: AddPostResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
@@ -179,7 +179,7 @@ class APIManager {
                         observer.onNext(data)
                         observer.onCompleted()
                     case .failure(let error):
-                        print(error.localizedDescription)
+                        print("** APIManager : ", error.localizedDescription)
                         if let commonError = CommonError(rawValue: status) {
                             print("CommonError - \(commonError)")
                             observer.onError(commonError)
@@ -223,38 +223,6 @@ class APIManager {
         }
     }
 
-    /// 리프레쉬 토큰
-    func requestRefresh(api: Router) -> Observable<RefreshResponse> {
-        return Observable<RefreshResponse>.create { observer in
-            AF.request(api)
-                .validate(statusCode: 200...300)
-                .responseDecodable(of: RefreshResponse.self) { response in
-                    guard let status = response.response?.statusCode else { return }
-                    print("리프레쉬 상태 코드 ", status)
-                    
-                        switch response.result {
-                        case .success(let data):
-                            UserDefaultsManager.shared.saveAccessToken(accessToken: data.token)
-                        case .failure(_):
-                            if let commonError = CommonError(rawValue: status) {
-                                print("CommonError - \(commonError)")
-                                observer.onError(commonError)
-                            }
-                            
-                            if let refreshError = RefreshError(rawValue: status) {
-                                print("refreshError - \(refreshError)")
-                                observer.onError(refreshError)
-                                if refreshError.rawValue == 418 {
-                                    // 로그인 View로 화면 전환
-                                }
-                            }
-                        }
-                 
-                }
-            return Disposables.create()
-        }
-    }
-    
     func requestAPIFuction<T: Decodable, U: Error>(type: T.Type, api: Router, someU: U.Type) -> Observable<T> {
         return Observable.create { observer in
             AF.request(api)

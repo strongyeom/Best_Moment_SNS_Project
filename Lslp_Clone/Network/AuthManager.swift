@@ -47,13 +47,17 @@ class AuthManager: RequestInterceptor {
                 UserDefaultsManager.shared.saveAccessToken(accessToken: data.token)
 //                UserDefaultsManager.shared.backToRoot(isRoot: true)
                 completion(.retry)
-            case .failure(let err):
+            case .failure(_):
                  if let refreshError = RefreshError(rawValue: status) {
-                     print(refreshError.errorDescription)
-                     UserDefaultsManager.shared.backToRoot(isRoot: true)
+                     print("** AuthManager : ", refreshError.errorDescription)
+                     if refreshError.rawValue == 418 {
+                         UserDefaultsManager.shared.backToRoot(isRoot: false)
+                         let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                          windowScene?.windows.first?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+                     } else {
+                         completion(.doNotRetryWithError(refreshError))
+                     }
                  }
-                completion(.doNotRetryWithError(err))
-               
             }
         }
     }

@@ -196,10 +196,6 @@ extension MainViewController {
             .catch { err in
                 if let err = err as? ReadPostError {
                     print("MainViewController - readPost \(err.errorDescrtion) , \(err.rawValue)")
-                    self.setEmailValidAlet(text: "돌아가 처음부터 다시 시작하자") {
-                        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                         windowScene?.windows.first?.rootViewController = UINavigationController(rootViewController: LoginViewController())
-                    }
                 }
                 return Observable.never()
             }
