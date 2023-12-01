@@ -48,13 +48,10 @@ class AuthManager: RequestInterceptor {
 //                UserDefaultsManager.shared.backToRoot(isRoot: true)
                 completion(.retry)
             case .failure(let err):
-                /*
                  if let refreshError = RefreshError(rawValue: status) {
                      print(refreshError.errorDescription)
                      UserDefaultsManager.shared.backToRoot(isRoot: true)
-                     UIApplication.shared.windows.first?.rootViewController = LoginViewController()
                  }
-                 */
                 completion(.doNotRetryWithError(err))
                
             }
