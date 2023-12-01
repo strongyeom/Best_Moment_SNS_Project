@@ -37,8 +37,6 @@
 		26E699B22B0DFA2D00DA90C0 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */; };
 		26E699B42B0E05FA00DA90C0 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */; };
 		26E699B62B0E409500DA90C0 /* Ext+StringToDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */; };
-		26EB41012B19BB100080E5D8 /* PostImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41002B19BB100080E5D8 /* PostImageViewController.swift */; };
-		26EB41032B19BB3C0080E5D8 /* PostImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41022B19BB3C0080E5D8 /* PostImageCell.swift */; };
 		26EC02BA2B16FF8C00EB1D06 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 26EC02B92B16FF8C00EB1D06 /* Kingfisher */; };
 		26EC02BC2B17482900EB1D06 /* RefreshTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EC02BB2B17482900EB1D06 /* RefreshTokenManager.swift */; };
 		26F03BCF2B0B2D7400BC5E68 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */; };
@@ -79,8 +77,6 @@
 		26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+StringToDate.swift"; sourceTree = "<group>"; };
-		26EB41002B19BB100080E5D8 /* PostImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageViewController.swift; sourceTree = "<group>"; };
-		26EB41022B19BB3C0080E5D8 /* PostImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageCell.swift; sourceTree = "<group>"; };
 		26EC02BB2B17482900EB1D06 /* RefreshTokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenManager.swift; sourceTree = "<group>"; };
 		26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCollections.swift; sourceTree = "<group>"; };
@@ -232,22 +228,12 @@
 			path = AddRoutinView;
 			sourceTree = "<group>";
 		};
-		26EB40FF2B19BAEB0080E5D8 /* PostImagePaging */ = {
-			isa = PBXGroup;
-			children = (
-				26EB41002B19BB100080E5D8 /* PostImageViewController.swift */,
-				26EB41022B19BB3C0080E5D8 /* PostImageCell.swift */,
-			);
-			path = PostImagePaging;
-			sourceTree = "<group>";
-		};
 		26F03BCD2B0B2D5B00BC5E68 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
 				26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */,
 				26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */,
 				26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */,
-				26EB40FF2B19BAEB0080E5D8 /* PostImagePaging */,
 				269CEE5D2B1113C900477D04 /* CommentView */,
 				26E699AC2B0DDFE500DA90C0 /* AddRoutinView */,
 			);
@@ -363,7 +349,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				26EB41012B19BB100080E5D8 /* PostImageViewController.swift in Sources */,
 				26F03BCF2B0B2D7400BC5E68 /* MainViewController.swift in Sources */,
 				2649E1C12B04C677003CA70C /* SignupViewModel.swift in Sources */,
 				26F4937F2B036A5400AA68E7 /* LoginViewController.swift in Sources */,
@@ -382,7 +367,6 @@
 				26E699B22B0DFA2D00DA90C0 /* MainTableViewCell.swift in Sources */,
 				26F2A7CE2B07648200033C93 /* LoginViewModel.swift in Sources */,
 				2657F3BC2B02324000E3A22E /* SignupViewController.swift in Sources */,
-				26EB41032B19BB3C0080E5D8 /* PostImageCell.swift in Sources */,
 				26E699AE2B0DE00B00DA90C0 /* AddRoutinViewController.swift in Sources */,
 				2649E1BB2B04B0B4003CA70C /* Ext+UIButton.swift in Sources */,
 				2649E1B72B04AEB6003CA70C /* Ext+UITextField.swift in Sources */,

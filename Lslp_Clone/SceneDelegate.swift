@@ -19,15 +19,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
 //        UserDefaultsManager.shared.backToRoot(isRoot: false)
         let vc: UIViewController?
-        
+
         let result = UserDefaultsManager.shared.backToCall()
-        
+
         if result {
             vc = MainViewController()
         } else {
             vc = LoginViewController()
         }
-        
+
         guard let vc else { return }
         window?.rootViewController = UINavigationController(rootViewController: vc)
         window?.makeKeyAndVisible()

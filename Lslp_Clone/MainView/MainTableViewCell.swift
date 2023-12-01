@@ -26,6 +26,7 @@ final class MainTableViewCell : UITableViewCell {
        let button = UIButton()
         button.setTitle("삭제", for: .normal)
         button.setTitleColor(.red, for: .normal)
+        button.isUserInteractionEnabled = true
         return button
     }()
     
