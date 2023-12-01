@@ -37,6 +37,7 @@
 		26E699B22B0DFA2D00DA90C0 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */; };
 		26E699B42B0E05FA00DA90C0 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */; };
 		26E699B62B0E409500DA90C0 /* Ext+StringToDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */; };
+		26EB41052B19E2240080E5D8 /* PostEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41042B19E2230080E5D8 /* PostEditViewController.swift */; };
 		26EC02BA2B16FF8C00EB1D06 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 26EC02B92B16FF8C00EB1D06 /* Kingfisher */; };
 		26EC02BC2B17482900EB1D06 /* RefreshTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EC02BB2B17482900EB1D06 /* RefreshTokenManager.swift */; };
 		26F03BCF2B0B2D7400BC5E68 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */; };
@@ -77,6 +78,7 @@
 		26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+StringToDate.swift"; sourceTree = "<group>"; };
+		26EB41042B19E2230080E5D8 /* PostEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditViewController.swift; sourceTree = "<group>"; };
 		26EC02BB2B17482900EB1D06 /* RefreshTokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenManager.swift; sourceTree = "<group>"; };
 		26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCollections.swift; sourceTree = "<group>"; };
@@ -234,6 +236,7 @@
 				26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */,
 				26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */,
 				26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */,
+				26EB41042B19E2230080E5D8 /* PostEditViewController.swift */,
 				269CEE5D2B1113C900477D04 /* CommentView */,
 				26E699AC2B0DDFE500DA90C0 /* AddRoutinView */,
 			);
@@ -351,6 +354,7 @@
 			files = (
 				26F03BCF2B0B2D7400BC5E68 /* MainViewController.swift in Sources */,
 				2649E1C12B04C677003CA70C /* SignupViewModel.swift in Sources */,
+				26EB41052B19E2240080E5D8 /* PostEditViewController.swift in Sources */,
 				26F4937F2B036A5400AA68E7 /* LoginViewController.swift in Sources */,
 				2649E1B42B04AE43003CA70C /* SignInTextField.swift in Sources */,
 				26F2A7CC2B074DE100033C93 /* NetworkErrorCollections.swift in Sources */,

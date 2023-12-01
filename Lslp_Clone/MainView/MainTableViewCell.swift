@@ -15,15 +15,23 @@ final class MainTableViewCell : UITableViewCell {
     var disposeBag = DisposeBag()
     
     let routinTitle = {
-       let view = UILabel()
+        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         view.numberOfLines = 2
         view.textAlignment = .left
         return view
     }()
     
+    let editBtn = {
+        let button = UIButton()
+        button.setTitle("편집", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.isUserInteractionEnabled = true
+        return button
+    }()
+    
     let cancelBtn = {
-       let button = UIButton()
+        let button = UIButton()
         button.setTitle("삭제", for: .normal)
         button.setTitleColor(.red, for: .normal)
         button.isUserInteractionEnabled = true
@@ -32,7 +40,7 @@ final class MainTableViewCell : UITableViewCell {
     
     
     let nickname = {
-       let view = UILabel()
+        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 11, weight: .medium)
         view.textColor = .lightGray
         view.textAlignment = .left
@@ -40,7 +48,7 @@ final class MainTableViewCell : UITableViewCell {
     }()
     
     let releaseDate = {
-       let view = UILabel()
+        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 11, weight: .medium)
         view.textColor = .lightGray
         view.textAlignment = .left
@@ -48,40 +56,40 @@ final class MainTableViewCell : UITableViewCell {
     }()
     
     let routinDescription = {
-       let view = UILabel()
+        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 13)
-        view.numberOfLines = 0
+        view.numberOfLines = 2
         view.textAlignment = .left
         return view
     }()
     
     let likeBtn = {
-       let view = UIButton()
+        let view = UIButton()
         view.setImage(UIImage(systemName: "heart"), for: .normal)
         view.tintColor = .red
         return view
     }()
     
     let postCommentBtn = {
-       let button = UIButton()
+        let button = UIButton()
         button.setImage(UIImage(systemName: "message"), for: .normal)
         return button
     }()
     
     let likeCountLabel = {
-       let view = UILabel()
+        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 14)
         return view
     }()
     
     let commentCountLabel = {
-       let view = UILabel()
+        let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 14)
         return view
     }()
     
     let postImage = {
-       let view = UIImageView()
+        let view = UIImageView()
         view.layer.cornerRadius = 16
         view.layer.cornerCurve = .continuous
         view.clipsToBounds = true
@@ -102,7 +110,7 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage].forEach {
+        [routinTitle, editBtn, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage].forEach {
             contentView.addSubview($0)
         }
     }
@@ -112,10 +120,15 @@ final class MainTableViewCell : UITableViewCell {
         routinTitle.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(10)
         }
-       
+        
+        editBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        editBtn.snp.makeConstraints { make in
+            make.leading.equalTo(routinTitle.snp.trailing).offset(10)
+            make.centerY.equalTo(routinTitle)
+        }
         cancelBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         cancelBtn.snp.makeConstraints { make in
-            make.leading.equalTo(routinTitle.snp.trailing).offset(10)
+            make.leading.equalTo(editBtn.snp.trailing).offset(10)
             make.centerY.equalTo(routinTitle)
             make.trailing.equalToSuperview().inset(10)
         }
