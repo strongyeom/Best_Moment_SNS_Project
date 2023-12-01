@@ -56,7 +56,7 @@ class LoginViewController : BaseViewController {
                 UserDefaultsManager.shared.saveAccessToken(accessToken: response.token)
                 UserDefaultsManager.shared.saveRefreshToken(refreshToken: response.refreshToken)
                 // 2. Home 화면으로 이동
-                owner.navigationController?.pushViewController(MainViewController(), animated: false)
+                owner.navigationController?.pushViewController(TabViewController(), animated: false)
                 
             }
             .disposed(by: disposeBag)

@@ -17,13 +17,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print("SceneDelegate - willConnectTo")
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-//        UserDefaultsManager.shared.backToRoot(isRoot: false)
+        UserDefaultsManager.shared.backToRoot(isRoot: false)
         let vc: UIViewController?
 
         let result = UserDefaultsManager.shared.backToCall()
 
         if result {
-            vc = MainViewController()
+            vc = TabViewController()
         } else {
             vc = LoginViewController()
         }
