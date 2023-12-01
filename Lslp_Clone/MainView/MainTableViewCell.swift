@@ -191,6 +191,10 @@ final class MainTableViewCell : UITableViewCell {
         likeCountLabel.text = "좋아요 : \(data.likes.count)"
         commentCountLabel.text = "댓글 갯수 : \(data.comments.count)"
         
+        cofigurePostImage(data: data.image.first ?? "")
+    }
+    
+    func cofigurePostImage(data: String) {
         let imageDownloadRequest = AnyModifier { request in
             var requestBody = request
             requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
@@ -198,7 +202,7 @@ final class MainTableViewCell : UITableViewCell {
             return requestBody
         }
         
-        let url = URL(string: BaseAPI.baseUrl + "\(data.image.first ?? "")")
+        let url = URL(string: BaseAPI.baseUrl + data)
         self.postImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
     }
     

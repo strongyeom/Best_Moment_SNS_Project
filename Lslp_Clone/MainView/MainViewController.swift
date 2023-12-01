@@ -104,7 +104,10 @@ class MainViewController : BaseViewController {
                         // 바뀐 데이터를 서버에 put 하기
                         let editView = PostEditViewController()
                         editView.editPost = element
-                        owner.present(editView, animated: true)
+                        
+                        let nav = UINavigationController(rootViewController: editView)
+                        owner.present(nav, animated: true)
+                        
 //                        cell.routinDescription.text = "편집 버튼 눌림"
                         print("편집 버튼 눌림 - Clicked Row: \(row)")
                     }

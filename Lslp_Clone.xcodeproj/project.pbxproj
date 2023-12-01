@@ -38,6 +38,7 @@
 		26E699B42B0E05FA00DA90C0 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */; };
 		26E699B62B0E409500DA90C0 /* Ext+StringToDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */; };
 		26EB41052B19E2240080E5D8 /* PostEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41042B19E2230080E5D8 /* PostEditViewController.swift */; };
+		26EB41092B19F9450080E5D8 /* PostImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41082B19F9450080E5D8 /* PostImage.swift */; };
 		26EC02BA2B16FF8C00EB1D06 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 26EC02B92B16FF8C00EB1D06 /* Kingfisher */; };
 		26EC02BC2B17482900EB1D06 /* RefreshTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EC02BB2B17482900EB1D06 /* RefreshTokenManager.swift */; };
 		26F03BCF2B0B2D7400BC5E68 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */; };
@@ -79,6 +80,7 @@
 		26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+StringToDate.swift"; sourceTree = "<group>"; };
 		26EB41042B19E2230080E5D8 /* PostEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditViewController.swift; sourceTree = "<group>"; };
+		26EB41082B19F9450080E5D8 /* PostImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImage.swift; sourceTree = "<group>"; };
 		26EC02BB2B17482900EB1D06 /* RefreshTokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenManager.swift; sourceTree = "<group>"; };
 		26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCollections.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			children = (
 				2649E1B32B04AE43003CA70C /* SignInTextField.swift */,
 				2649E1B82B04B073003CA70C /* SignInButton.swift */,
+				26EB41082B19F9450080E5D8 /* PostImage.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				2649E1C42B04C69D003CA70C /* BaseInOutPut.swift in Sources */,
 				26F493822B0388C500AA68E7 /* UserDefaultsManager.swift in Sources */,
 				269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */,
+				26EB41092B19F9450080E5D8 /* PostImage.swift in Sources */,
 				2657F3E42B023C4000E3A22E /* Router.swift in Sources */,
 				268E47592B186ED9008BECD3 /* AuthManager.swift in Sources */,
 				26E699B02B0DE66400DA90C0 /* AddRoutinViewModel.swift in Sources */,
