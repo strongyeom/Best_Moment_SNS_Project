@@ -28,11 +28,8 @@ class MainViewController : BaseViewController {
     lazy var routins = BehaviorSubject(value: routinArray)
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
-    var exampleAccess = PublishSubject<String>()
     
     let disposeBag = DisposeBag()
-    // 기존 Cursor
-    var remainCursor = ""
     // 다음 Cursor
     var nextCursor = ""
     let viewModel = MainViewModel()
@@ -43,15 +40,19 @@ class MainViewController : BaseViewController {
         print("MainViewController - configure")
         setNavigationBar()
         bind()
+        self.title = "홈"
         UserDefaultsManager.shared.backToRoot(isRoot: true)
         
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     func setNavigationBar() {
         self.navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = addPostBtn
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "위로", style: .plain, target: self, action: #selector(uptoBtn))
-        title = "우루사 게시글"
+//        navigationController?.title = "미생"
     }
     
     override func setConstraints() {
@@ -96,6 +97,7 @@ class MainViewController : BaseViewController {
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")
                         owner.likeID.onNext(element._id)
+                        
                     }
                     .disposed(by: cell.disposeBag)
                 
@@ -141,8 +143,8 @@ class MainViewController : BaseViewController {
         
         output.like
             .bind(with: self) { owner, response in
-                owner.routinArray = []
-                owner.readPost(next: "")
+                
+                print("MainVC - like: \(response.like_status)")
             }
             .disposed(by: disposeBag)
         
@@ -174,12 +176,7 @@ class MainViewController : BaseViewController {
         // setDelegate : delegate와 같이 쓸 수 있음
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
-        
-        exampleAccess
-            .bind(with: self) { owner, response in
-                self.readPost(next: response)
-            }
-            .disposed(by: disposeBag)
+ 
     }
 }
 
@@ -194,10 +191,9 @@ extension MainViewController : UITableViewDelegate {
         
         let doneScrollOffSet = contentSize - scrollViewHeight
         if targetPointOfy + 70 >= doneScrollOffSet {
-            print("네트워크 통신 시작")
-            print("nextCursor - \(nextCursor)")
-            if nextCursor != remainCursor {
-                remainCursor = nextCursor
+            
+            if nextCursor != "0" {
+                print("MainVC - 바닥 찍었음 append 네트워크 통신 시작")
                 readPost(next: nextCursor)
             }
         }
@@ -215,6 +211,7 @@ extension MainViewController {
             }
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
+                print("MainVC GET- next_cursor: \(response.next_cursor)")
                 owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)
                 
@@ -222,3 +219,5 @@ extension MainViewController {
             .disposed(by: disposeBag)
     }
 }
+// MainVC GET- next_cursor: 656a8124d3b44c277c35468b
+// MainVC GET- remain_cursor: 656a8ebc0f5cb42779b6013e

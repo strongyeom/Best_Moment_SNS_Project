@@ -11,14 +11,16 @@ class TabViewController : UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
-        let home = HomeViewController()
+        
+        let home = MainViewController()
         home.tabBarItem.title = "홈"
         home.tabBarItem.image = UIImage(systemName: "house")
         let homeVC = UINavigationController(rootViewController: home)
         
-        let add = PostAddViewController()
-        add.tabBarItem.image = UIImage(systemName: "plus")
-        let addVC = UINavigationController(rootViewController: add)
+        let like = LikeCollectionViewController()
+        like.tabBarItem.title = "좋아요"
+        like.tabBarItem.image = UIImage(systemName: "heart")
+        let likeVC = UINavigationController(rootViewController: like)
         
         
         
@@ -34,6 +36,6 @@ class TabViewController : UITabBarController {
         self.tabBar.standardAppearance = apperance
         self.tabBar.scrollEdgeAppearance = apperance
         
-        setViewControllers([homeVC, addVC, profileVC], animated: false)
+        setViewControllers([homeVC, likeVC, profileVC], animated: false)
     }
 }

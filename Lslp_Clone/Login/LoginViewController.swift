@@ -58,6 +58,10 @@ class LoginViewController : BaseViewController {
                 // 2. Home 화면으로 이동
                 owner.navigationController?.pushViewController(TabViewController(), animated: false)
                 
+                let mainView = TabViewController()
+                mainView.modalPresentationStyle = .fullScreen
+                owner.present(mainView, animated: false)
+                
             }
             .disposed(by: disposeBag)
         

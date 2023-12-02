@@ -37,11 +37,11 @@
 		26E699B22B0DFA2D00DA90C0 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */; };
 		26E699B42B0E05FA00DA90C0 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */; };
 		26E699B62B0E409500DA90C0 /* Ext+StringToDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */; };
+		26EB339F2B1AC165008C7406 /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB339E2B1AC165008C7406 /* LikeViewModel.swift */; };
 		26EB41052B19E2240080E5D8 /* PostEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41042B19E2230080E5D8 /* PostEditViewController.swift */; };
 		26EB41092B19F9450080E5D8 /* PostImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41082B19F9450080E5D8 /* PostImage.swift */; };
 		26EB410C2B1A30A70080E5D8 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB410B2B1A30A70080E5D8 /* TabViewController.swift */; };
-		26EB41112B1A315A0080E5D8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41102B1A315A0080E5D8 /* HomeViewController.swift */; };
-		26EB41132B1A31800080E5D8 /* PostAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41122B1A31800080E5D8 /* PostAddViewController.swift */; };
+		26EB41132B1A31800080E5D8 /* LikeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41122B1A31800080E5D8 /* LikeCollectionViewController.swift */; };
 		26EB41152B1A31A80080E5D8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41142B1A31A80080E5D8 /* ProfileViewController.swift */; };
 		26EC02BA2B16FF8C00EB1D06 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 26EC02B92B16FF8C00EB1D06 /* Kingfisher */; };
 		26EC02BC2B17482900EB1D06 /* RefreshTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EC02BB2B17482900EB1D06 /* RefreshTokenManager.swift */; };
@@ -83,11 +83,11 @@
 		26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+StringToDate.swift"; sourceTree = "<group>"; };
+		26EB339E2B1AC165008C7406 /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
 		26EB41042B19E2230080E5D8 /* PostEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostEditViewController.swift; sourceTree = "<group>"; };
 		26EB41082B19F9450080E5D8 /* PostImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImage.swift; sourceTree = "<group>"; };
 		26EB410B2B1A30A70080E5D8 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
-		26EB41102B1A315A0080E5D8 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		26EB41122B1A31800080E5D8 /* PostAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddViewController.swift; sourceTree = "<group>"; };
+		26EB41122B1A31800080E5D8 /* LikeCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCollectionViewController.swift; sourceTree = "<group>"; };
 		26EB41142B1A31A80080E5D8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		26EC02BB2B17482900EB1D06 /* RefreshTokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshTokenManager.swift; sourceTree = "<group>"; };
 		26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +241,16 @@
 			path = AddRoutinView;
 			sourceTree = "<group>";
 		};
+		26EB339D2B1AB2BE008C7406 /* FeedView */ = {
+			isa = PBXGroup;
+			children = (
+				26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */,
+				26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */,
+				26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */,
+			);
+			path = FeedView;
+			sourceTree = "<group>";
+		};
 		26EB410A2B1A308E0080E5D8 /* TabView */ = {
 			isa = PBXGroup;
 			children = (
@@ -249,20 +259,13 @@
 			path = TabView;
 			sourceTree = "<group>";
 		};
-		26EB410D2B1A31330080E5D8 /* HomeView */ = {
+		26EB410E2B1A313F0080E5D8 /* LikeCollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				26EB41102B1A315A0080E5D8 /* HomeViewController.swift */,
+				26EB41122B1A31800080E5D8 /* LikeCollectionViewController.swift */,
+				26EB339E2B1AC165008C7406 /* LikeViewModel.swift */,
 			);
-			path = HomeView;
-			sourceTree = "<group>";
-		};
-		26EB410E2B1A313F0080E5D8 /* PostAddView */ = {
-			isa = PBXGroup;
-			children = (
-				26EB41122B1A31800080E5D8 /* PostAddViewController.swift */,
-			);
-			path = PostAddView;
+			path = LikeCollectionView;
 			sourceTree = "<group>";
 		};
 		26EB410F2B1A31480080E5D8 /* ProfileView */ = {
@@ -277,13 +280,10 @@
 			isa = PBXGroup;
 			children = (
 				26EB410A2B1A308E0080E5D8 /* TabView */,
-				26EB410D2B1A31330080E5D8 /* HomeView */,
-				26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */,
-				26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */,
-				26EB410E2B1A313F0080E5D8 /* PostAddView */,
-				26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */,
-				26EB410F2B1A31480080E5D8 /* ProfileView */,
+				26EB339D2B1AB2BE008C7406 /* FeedView */,
 				26EB41042B19E2230080E5D8 /* PostEditViewController.swift */,
+				26EB410E2B1A313F0080E5D8 /* LikeCollectionView */,
+				26EB410F2B1A31480080E5D8 /* ProfileView */,
 				269CEE5D2B1113C900477D04 /* CommentView */,
 				26E699AC2B0DDFE500DA90C0 /* AddRoutinView */,
 			);
@@ -404,7 +404,6 @@
 				26EB41052B19E2240080E5D8 /* PostEditViewController.swift in Sources */,
 				26F4937F2B036A5400AA68E7 /* LoginViewController.swift in Sources */,
 				2649E1B42B04AE43003CA70C /* SignInTextField.swift in Sources */,
-				26EB41112B1A315A0080E5D8 /* HomeViewController.swift in Sources */,
 				26F2A7CC2B074DE100033C93 /* NetworkErrorCollections.swift in Sources */,
 				26E699B42B0E05FA00DA90C0 /* MainViewModel.swift in Sources */,
 				26F565F62B14FB4B006A58CA /* CommentViewModel.swift in Sources */,
@@ -419,7 +418,7 @@
 				26F565F22B147764006A58CA /* CommentTableViewCell.swift in Sources */,
 				2649E1B12B04AD9A003CA70C /* BaseView.swift in Sources */,
 				26E699B22B0DFA2D00DA90C0 /* MainTableViewCell.swift in Sources */,
-				26EB41132B1A31800080E5D8 /* PostAddViewController.swift in Sources */,
+				26EB41132B1A31800080E5D8 /* LikeCollectionViewController.swift in Sources */,
 				26F2A7CE2B07648200033C93 /* LoginViewModel.swift in Sources */,
 				2657F3BC2B02324000E3A22E /* SignupViewController.swift in Sources */,
 				26E699AE2B0DE00B00DA90C0 /* AddRoutinViewController.swift in Sources */,
@@ -429,6 +428,7 @@
 				2657F3E02B02374B00E3A22E /* APIKeyAndBaseURL.swift in Sources */,
 				2657F3CD2B02328D00E3A22E /* BaseViewController.swift in Sources */,
 				26EC02BC2B17482900EB1D06 /* RefreshTokenManager.swift in Sources */,
+				26EB339F2B1AC165008C7406 /* LikeViewModel.swift in Sources */,
 				2657F3B82B02324000E3A22E /* AppDelegate.swift in Sources */,
 				26E699B62B0E409500DA90C0 /* Ext+StringToDate.swift in Sources */,
 				2657F3BA2B02324000E3A22E /* SceneDelegate.swift in Sources */,

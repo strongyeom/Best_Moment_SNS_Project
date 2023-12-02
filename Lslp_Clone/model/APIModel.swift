@@ -58,11 +58,11 @@ struct ReadPostResponse: Decodable {
         case data
         case next_cursor
     }
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.data = try container.decode([ElementReadPostResponse].self, forKey: .data)
-        
+
         do {
             self.next_cursor = try container.decode(String.self, forKey: .next_cursor)
         } catch {

@@ -223,6 +223,7 @@ class APIManager {
         }
     }
 
+    // 제네릭으로 구현중
     func requestAPIFuction<T: Decodable, U: Error>(type: T.Type, api: Router, someU: U.Type) -> Observable<T> {
         return Observable.create { observer in
             AF.request(api)
@@ -257,10 +258,6 @@ class APIManager {
             return Disposables.create()
         }
     }
-
-    
-    
-    
     /// 회원 탈퇴
     func requestLogOut(api: Router) -> Observable<LogOutResponse> {
         
@@ -366,5 +363,7 @@ class APIManager {
             return Disposables.create()
         }
     }
+    
+
 
 }
