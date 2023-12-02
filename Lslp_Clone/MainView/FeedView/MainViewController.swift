@@ -143,7 +143,8 @@ class MainViewController : BaseViewController {
         
         output.like
             .bind(with: self) { owner, response in
-                
+                owner.routinArray = []
+                owner.readPost(next: "")
                 print("MainVC - like: \(response.like_status)")
             }
             .disposed(by: disposeBag)
@@ -211,6 +212,8 @@ extension MainViewController {
             }
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
+                // 네트워크 통신 시작하면 5개 넘어가게 있으면 next_cursor 확인
+                // next_cursor 값이 "0"나면 더이상 없는것임
                 print("MainVC GET- next_cursor: \(response.next_cursor)")
                 owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)
