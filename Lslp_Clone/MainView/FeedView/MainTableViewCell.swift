@@ -97,7 +97,7 @@ final class MainTableViewCell : UITableViewCell {
         return view
     }()
     
-    
+    var cnt = 0
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -184,16 +184,20 @@ final class MainTableViewCell : UITableViewCell {
         routinTitle.text = data.title
         nickname.text = data.creator.nick
         releaseDate.text = data.time
-        routinDescription.text = data.content
         
-//        let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
-//        self.likesArray = data.likes
-//        print("likesArray - \(likesArray)")
-//        likeBtn.setImage(image, for: .normal)
+        let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        likeBtn.setImage(image, for: .normal)
+        
+        routinDescription.text = data.content
         likeCountLabel.text = "좋아요 : \(data.likes.count)"
+        cnt = data.likes.count
         commentCountLabel.text = "댓글 갯수 : \(data.comments.count)"
         
         cofigurePostImage(data: data.image.first ?? "")
+    }
+    
+    func updateCnt() {
+        likeCountLabel.text = "\(cnt)"
     }
     
     // Data 형식의 이미지 변환하여 UIImage에 뿌려주기
@@ -219,6 +223,7 @@ final class MainTableViewCell : UITableViewCell {
         likeCountLabel.text = nil
         commentCountLabel.text = nil
         postImage.image = nil
+        likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
     }
     
 }

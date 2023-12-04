@@ -29,7 +29,9 @@ class MainViewController : BaseViewController {
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
     
-    var likeSelectedPostIDArray: [String] = []
+//    var likeSelectedPostIDArray: [String] = []
+//
+//    var likesCount: Int = 0
     
     let disposeBag = DisposeBag()
     // 다음 Cursor
@@ -44,6 +46,8 @@ class MainViewController : BaseViewController {
         bind()
         self.title = "홈"
         UserDefaultsManager.shared.backToRoot(isRoot: true)
+//        let aa = UserDefaultsManager.shared.loadSelectedPostID()
+//        print("** MainVC 시작했을때 저장되어 있는 UD postID 배열 : \(aa)")
         
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -81,8 +85,7 @@ class MainViewController : BaseViewController {
         print("MainViewController - viewWillAppear")
         readPost(next: "")
         routinArray = []
-       
-        print("likeSelectedPostIDArray - \(likeSelectedPostIDArray)")
+//        print("likeSelectedPostIDArray - \(likeSelectedPostIDArray)")
     }
     
     func bind() {
@@ -93,35 +96,46 @@ class MainViewController : BaseViewController {
         
         routins
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
-                self.likeSelectedPostIDArray = UserDefaultsManager.shared.loadSelectedPostID()
-                
-                for id in UserDefaultsManager.shared.loadSelectedPostID() {
-                    print("저장된 id ")
-                    if element._id == id {
-                        cell.likeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                    } else {
-                        cell.likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-                    }
-                }
+//                self.likeSelectedPostIDArray = UserDefaultsManager.shared.loadSelectedPostID()
+
                 cell.configureUI(data: element)
-               
+                
+//                print("** likeSelectedPostIDArray UD에 포함되어 있는 PostID - \(self.likeSelectedPostIDArray)")
+//                print("** element.likes.count - \(row) : \(element.likes.count)")
+//                for id in UserDefaultsManager.shared.loadSelectedPostID() {
+//                    print("저장된 id \(id) , element._id: \(element._id)")
+//                    if element._id == id {
+//                        cell.likeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+////                        cell.likeCountLabel.text = "좋아요 : \(element.likes.count)"
+//                        cell.cnt += 1
+//                        cell.updateCnt()
+//                        continue
+//                    }
+//                }
+                
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")
-                        // 해당 Post likeAPI로 보내서 likes 배열에 추가됨
                         owner.likeID.onNext(element._id)
                         
-                        if !UserDefaultsManager.shared.loadSelectedPostID().contains(element._id) {
-                            owner.likeSelectedPostIDArray.append(element._id)
-                            UserDefaultsManager.shared.saveSelectedPostID(array: owner.likeSelectedPostIDArray)
-                            cell.likeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-                        } else {
-                            if let index = owner.likeSelectedPostIDArray.firstIndex(of: element._id) {
-                                owner.likeSelectedPostIDArray.remove(at: index)
-                                UserDefaultsManager.shared.saveSelectedPostID(array: owner.likeSelectedPostIDArray)
-                                cell.likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-                            }
-                        }
+//                        if !UserDefaultsManager.shared.loadSelectedPostID().contains(element._id) {
+//                            owner.likeSelectedPostIDArray.append(element._id)
+//                            UserDefaultsManager.shared.saveSelectedPostID(array: owner.likeSelectedPostIDArray)
+//                            cell.likeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+////                            cell.likeCountLabel.text = "좋아요 : \(cell.cnt + 1)"
+//                            cell.cnt += 1
+//                            cell.updateCnt()
+//                        } else {
+//                            if let index = owner.likeSelectedPostIDArray.firstIndex(of: element._id) {
+//                                owner.likeSelectedPostIDArray.remove(at: index)
+//                                UserDefaultsManager.shared.saveSelectedPostID(array: owner.likeSelectedPostIDArray)
+//                                cell.likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+//                                UserDefaultsManager.shared.saveLikesCount(likesCountSum: element.likes.count)
+//                                cell.cnt -= 1
+//                                cell.updateCnt()
+//
+//                            }
+//                        }
                         
                     }
                     .disposed(by: cell.disposeBag)
@@ -169,9 +183,9 @@ class MainViewController : BaseViewController {
         // LikeResponse로 나온 true, false 결과값
         output.like
             .bind(with: self) { owner, response in
-//                owner.routinArray = []
-//                owner.readPost(next: "")
-                print("MainVC - like: \(response.like_status)")
+                owner.routinArray = []
+                owner.readPost(next: "")
+                print("** MainVC - 서버 Likes 배열에 추가 : \(response.like_status)")
             }
             .disposed(by: disposeBag)
         
@@ -243,7 +257,6 @@ extension MainViewController {
                 print("MainVC GET- next_cursor: \(response.next_cursor)")
                 owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)
-                
             }
             .disposed(by: disposeBag)
     }

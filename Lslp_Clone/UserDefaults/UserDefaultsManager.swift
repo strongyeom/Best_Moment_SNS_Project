@@ -47,18 +47,28 @@ class UserDefaultsManager {
         return nickname
     }
     
+//    func saveLikesCount(likesCountSum: Int) {
+//        UserDefaults.standard.set(likesCountSum, forKey: "likesCount")
+//    }
+//
+//    func loadLikesCount() -> Int {
+//       return UserDefaults.standard.integer(forKey: "likesCount")
+//    }
     
-    func saveSelectedPostID(array: [String]) {
-        UserDefaults.standard.set(array, forKey: "postIDCollection")
-    }
     
-    func loadSelectedPostID() -> [String] {
-        
-        guard let array = UserDefaults.standard.array(forKey: "postIDCollection") else {
-            return []
-        }
-        return array as! [String]
-    }
+    
+    
+//    func saveSelectedPostID(array: [String]) {
+//        UserDefaults.standard.set(array, forKey: "postIDCollection")
+//    }
+//
+//    func loadSelectedPostID() -> [String] {
+//
+//        guard let array = UserDefaults.standard.array(forKey: "postIDCollection") else {
+//            return []
+//        }
+//        return array as! [String]
+//    }
     
     
     
