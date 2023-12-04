@@ -29,6 +29,8 @@ class MainViewController : BaseViewController {
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
     
+    var likeSelectedPostIDArray: [String] = []
+    
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
@@ -79,8 +81,8 @@ class MainViewController : BaseViewController {
         print("MainViewController - viewWillAppear")
         readPost(next: "")
         routinArray = []
-        
-        
+       
+        print("likeSelectedPostIDArray - \(likeSelectedPostIDArray)")
     }
     
     func bind() {
@@ -91,12 +93,35 @@ class MainViewController : BaseViewController {
         
         routins
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
-                cell.configureUI(data: element)
+                self.likeSelectedPostIDArray = UserDefaultsManager.shared.loadSelectedPostID()
                 
+                for id in UserDefaultsManager.shared.loadSelectedPostID() {
+                    print("저장된 id ")
+                    if element._id == id {
+                        cell.likeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                    } else {
+                        cell.likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                    }
+                }
+                cell.configureUI(data: element)
+               
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")
+                        // 해당 Post likeAPI로 보내서 likes 배열에 추가됨
                         owner.likeID.onNext(element._id)
+                        
+                        if !UserDefaultsManager.shared.loadSelectedPostID().contains(element._id) {
+                            owner.likeSelectedPostIDArray.append(element._id)
+                            UserDefaultsManager.shared.saveSelectedPostID(array: owner.likeSelectedPostIDArray)
+                            cell.likeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+                        } else {
+                            if let index = owner.likeSelectedPostIDArray.firstIndex(of: element._id) {
+                                owner.likeSelectedPostIDArray.remove(at: index)
+                                UserDefaultsManager.shared.saveSelectedPostID(array: owner.likeSelectedPostIDArray)
+                                cell.likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+                            }
+                        }
                         
                     }
                     .disposed(by: cell.disposeBag)
@@ -141,10 +166,11 @@ class MainViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        // LikeResponse로 나온 true, false 결과값
         output.like
             .bind(with: self) { owner, response in
-                owner.routinArray = []
-                owner.readPost(next: "")
+//                owner.routinArray = []
+//                owner.readPost(next: "")
                 print("MainVC - like: \(response.like_status)")
             }
             .disposed(by: disposeBag)

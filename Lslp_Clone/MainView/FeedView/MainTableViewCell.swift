@@ -13,6 +13,7 @@ final class MainTableViewCell : UITableViewCell {
     
     static let identifier = "MainTableViewCell"
     var disposeBag = DisposeBag()
+    var likesArray: [String] = []
     
     let routinTitle = {
         let view = UILabel()
@@ -185,15 +186,17 @@ final class MainTableViewCell : UITableViewCell {
         releaseDate.text = data.time
         routinDescription.text = data.content
         
-        let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
-        
-        likeBtn.setImage(image, for: .normal)
+//        let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+//        self.likesArray = data.likes
+//        print("likesArray - \(likesArray)")
+//        likeBtn.setImage(image, for: .normal)
         likeCountLabel.text = "좋아요 : \(data.likes.count)"
         commentCountLabel.text = "댓글 갯수 : \(data.comments.count)"
         
         cofigurePostImage(data: data.image.first ?? "")
     }
     
+    // Data 형식의 이미지 변환하여 UIImage에 뿌려주기
     func cofigurePostImage(data: String) {
         let imageDownloadRequest = AnyModifier { request in
             var requestBody = request

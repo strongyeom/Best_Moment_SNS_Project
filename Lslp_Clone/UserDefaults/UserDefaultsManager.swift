@@ -47,6 +47,22 @@ class UserDefaultsManager {
         return nickname
     }
     
+    
+    func saveSelectedPostID(array: [String]) {
+        UserDefaults.standard.set(array, forKey: "postIDCollection")
+    }
+    
+    func loadSelectedPostID() -> [String] {
+        
+        guard let array = UserDefaults.standard.array(forKey: "postIDCollection") else {
+            return []
+        }
+        return array as! [String]
+    }
+    
+    
+    
+    
     func backToRoot(isRoot: Bool = false) {
         UserDefaults.standard.set(isRoot, forKey: "isVaild")
     }
