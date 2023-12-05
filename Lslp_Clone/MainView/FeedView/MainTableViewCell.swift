@@ -85,6 +85,7 @@ final class MainTableViewCell : UITableViewCell {
     
     let commentCountLabel = {
         let view = UILabel()
+        view.textColor = .systemGray
         view.font = UIFont.systemFont(ofSize: 14)
         return view
     }()
@@ -153,7 +154,7 @@ final class MainTableViewCell : UITableViewCell {
         
         routinDescription.snp.makeConstraints { make in
             make.top.equalTo(postImage.snp.bottom).offset(10)
-            make.horizontalEdges.equalTo(routinTitle)
+            make.horizontalEdges.equalToSuperview().inset(10)
         }
         
         likeBtn.snp.makeConstraints { make in
@@ -174,8 +175,9 @@ final class MainTableViewCell : UITableViewCell {
         }
         
         commentCountLabel.snp.makeConstraints { make in
-            make.verticalEdges.equalTo(likeCountLabel)
-            make.leading.equalTo(likeCountLabel.snp.trailing).offset(20)
+            make.top.equalTo(likeCountLabel.snp.bottom).offset(5)
+            make.leading.equalTo(likeCountLabel)
+            make.bottom.equalToSuperview()
         }
     }
     
@@ -189,9 +191,9 @@ final class MainTableViewCell : UITableViewCell {
         likeBtn.setImage(image, for: .normal)
         
         routinDescription.text = data.content
-        likeCountLabel.text = "좋아요 : \(data.likes.count)"
+        likeCountLabel.text = "좋아요 \(data.likes.count)개"
         cnt = data.likes.count
-        commentCountLabel.text = "댓글 갯수 : \(data.comments.count)"
+        commentCountLabel.text = "댓글 \(data.comments.count) 모두 보기"
         
         cofigurePostImage(data: data.image.first ?? "")
     }

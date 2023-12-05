@@ -213,7 +213,7 @@ extension LikeCollectionViewController {
                 print("LikeVC - nextCursor: \(owner.nextCursor)")
                 owner.routinArray.append(contentsOf: response.data)
                 
-                print("LikeVC - routinArray :\(owner.routinArray)")
+//                print("LikeVC - routinArray :\(owner.routinArray)")
                 owner.routins.onNext(owner.routinArray)
                 
             }
