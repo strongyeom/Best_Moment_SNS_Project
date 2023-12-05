@@ -14,7 +14,7 @@ class PostImage: UIImageView {
         self.layer.cornerRadius = 12
         self.clipsToBounds = true
         self.isUserInteractionEnabled = true
-        self.image = UIImage(systemName: "photo")
+        self.image = UIImage(named: "EmptyImage")
         self.tintColor = .white
     }
     

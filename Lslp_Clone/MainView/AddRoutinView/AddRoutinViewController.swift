@@ -10,31 +10,31 @@ import RxSwift
 import PhotosUI
 
 class AddRoutinViewController : BaseViewController {
-
+    
     let titleTextField = SignInTextField(placeHolder: "제목을 입력해주세요.", brandColor: .blue, alignment: .center)
     let firstRoutinTextField = SignInTextField(placeHolder: "우리의 일상을 기록해요.", brandColor: .blue, alignment: .center)
     let dailyTextView = BasicTextView()
     
     let saveBtn = SignInButton(text: "저장하기", brandColor: .blue)
     let postImage = PostImage()
-    let postImageBg = {
-       let view = UIView()
-        view.isUserInteractionEnabled = true
-        view.layer.cornerRadius = 16
-        view.clipsToBounds = true
-        view.backgroundColor = .systemGray5
-        return view
-    }()
+    //    let postImageBg = {
+    //       let view = UIView()
+    //        view.isUserInteractionEnabled = true
+    //        view.layer.cornerRadius = 16
+    //        view.clipsToBounds = true
+    //        view.backgroundColor = .systemGray5
+    //        return view
+    //    }()
     
     lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageBtnTaaped))
     
-    let postImageLabel = {
-       let view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        view.textColor = .white
-        view.text = "오늘의 일상 사진을 넣어주세요."
-        return view
-    }()
+    //    let postImageLabel = {
+    //       let view = UILabel()
+    //        view.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+    //        view.textColor = .white
+    //        view.text = "오늘의 일상 사진을 넣어주세요."
+    //        return view
+    //    }()
     
     let viewModel = AddRoutinViewModel()
     let disposeBag = DisposeBag()
@@ -59,7 +59,12 @@ class AddRoutinViewController : BaseViewController {
         output.saveBtnTapped
             .bind(with: self) { owner, response in
                 owner.dismiss(animated: true)
+                // 버튼 눌렀을때 첫번째 탭으로 이동
                 owner.tabBarController?.selectedIndex = 0
+                self.postImage.image = UIImage(named: "EmptyImage")
+                self.selectedImageData.onNext(Data())
+                owner.titleTextField.rx.text.onNext("")
+                owner.dailyTextView.rx.text.onNext("")
             }
             .disposed(by: disposeBag)
         
@@ -88,35 +93,36 @@ class AddRoutinViewController : BaseViewController {
     }
     
     override func setConstraints() {
-        [titleTextField, dailyTextView, saveBtn, postImageBg].forEach {
+        [titleTextField, dailyTextView, saveBtn, postImage].forEach {
             view.addSubview($0)
         }
         
-        postImageBg.addSubview(postImage)
-        postImageBg.addSubview(postImageLabel)
+        //        postImageBg.addSubview(postImage)
+        //        postImageBg.addSubview(postImageLabel)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageBtnTaaped))
-        postImageBg.addGestureRecognizer(tapGesture)
+        postImage.addGestureRecognizer(tapGesture)
         
-
         
-        postImageBg.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
-            make.height.equalTo(self.postImageBg.snp.width).multipliedBy(0.8)
-        }
+        
+        //        postImageBg.snp.makeConstraints { make in
+        //            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+        //            make.height.equalTo(self.postImageBg.snp.width).multipliedBy(0.8)
+        //        }
+        //
         
         postImage.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.size.equalTo(100)
+            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.height.equalTo(self.postImage.snp.width).multipliedBy(0.8)
         }
         
-        postImageLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(postImage.snp.bottom).offset(10)
-        }
+//        postImageLabel.snp.makeConstraints { make in
+//            make.centerX.equalToSuperview()
+//            make.top.equalTo(postImage.snp.bottom).offset(10)
+//        }
         
         titleTextField.snp.makeConstraints { make in
-            make.top.equalTo(postImageBg.snp.bottom).offset(20)
+            make.top.equalTo(postImage.snp.bottom).offset(20)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
             make.height.equalTo(50)
         }
