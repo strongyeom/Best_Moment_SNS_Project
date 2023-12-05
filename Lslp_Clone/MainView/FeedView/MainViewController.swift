@@ -12,7 +12,7 @@ class MainViewController : BaseViewController {
     
     var tableView = {
         let tableView = UITableView()
-        tableView.rowHeight = UIScreen.main.bounds.height * 0.65
+        tableView.rowHeight = UIScreen.main.bounds.height * 0.8
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
         tableView.separatorStyle = .none

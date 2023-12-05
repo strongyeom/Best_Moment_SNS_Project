@@ -92,6 +92,7 @@ struct ElementReadPostResponse: Decodable {
 struct Creator: Decodable {
     var _id: String
     var nick: String
+    var profile: String?
 }
 
 struct RefreshResponse: Decodable {

@@ -39,6 +39,11 @@ final class MainTableViewCell : UITableViewCell {
         return button
     }()
     
+    let profileImage = {
+        let image = UIImageView()
+        image.backgroundColor = .yellow
+        return image
+    }()
     
     let nickname = {
         let view = UILabel()
@@ -59,7 +64,7 @@ final class MainTableViewCell : UITableViewCell {
     let routinDescription = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 13)
-        view.numberOfLines = 2
+        view.numberOfLines = 0
         view.textAlignment = .left
         return view
     }()
@@ -97,9 +102,7 @@ final class MainTableViewCell : UITableViewCell {
         view.clipsToBounds = true
         return view
     }()
-    
-    var cnt = 0
-    
+   
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -112,13 +115,15 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, editBtn, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage].forEach {
+        [routinTitle, editBtn, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage].forEach {
             contentView.addSubview($0)
         }
     }
     
     private func setConstraints() {
         routinTitle.setContentHuggingPriority(.defaultLow, for: .horizontal)
+//        routinTitle.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        routinTitle.setContentHuggingPriority(.defaultHigh, for: .vertical)
         routinTitle.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(10)
         }
@@ -128,6 +133,7 @@ final class MainTableViewCell : UITableViewCell {
             make.leading.equalTo(routinTitle.snp.trailing).offset(10)
             make.centerY.equalTo(routinTitle)
         }
+        
         cancelBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         cancelBtn.snp.makeConstraints { make in
             make.leading.equalTo(editBtn.snp.trailing).offset(10)
@@ -135,26 +141,35 @@ final class MainTableViewCell : UITableViewCell {
             make.trailing.equalToSuperview().inset(10)
         }
         
-        nickname.snp.makeConstraints { make in
+        profileImage.snp.makeConstraints { make in
             make.top.equalTo(routinTitle.snp.bottom).offset(5)
             make.leading.equalTo(routinTitle)
+            make.size.equalTo(50)
         }
         
-        releaseDate.snp.makeConstraints { make in
-            make.top.equalTo(routinTitle.snp.bottom).offset(5)
-            make.leading.equalTo(nickname.snp.trailing).offset(10)
-            
+        nickname.snp.makeConstraints { make in
+            make.centerY.equalTo(profileImage)
+            make.leading.equalTo(profileImage.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(10)
         }
         
+//        releaseDate.snp.makeConstraints { make in
+//            make.top.equalTo(routinTitle.snp.bottom).offset(5)
+//            make.leading.equalTo(nickname.snp.trailing).offset(10)
+//
+//        }
+//
         postImage.snp.makeConstraints { make in
-            make.top.equalTo(nickname.snp.bottom).offset(7)
+            make.top.equalTo(profileImage.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(10)
             make.height.equalTo(self.postImage.snp.width)
         }
         
+        routinDescription.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         routinDescription.snp.makeConstraints { make in
             make.top.equalTo(postImage.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(10)
+            make.bottom.equalTo(likeBtn.snp.top).offset(10).priority(.low)
         }
         
         likeBtn.snp.makeConstraints { make in
@@ -174,10 +189,12 @@ final class MainTableViewCell : UITableViewCell {
             make.bottom.equalTo(self.safeAreaLayoutGuide).inset(10).priority(.low)
         }
         
+        commentCountLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        commentCountLabel.setContentHuggingPriority(.defaultLow, for: .vertical)
         commentCountLabel.snp.makeConstraints { make in
             make.top.equalTo(likeCountLabel.snp.bottom).offset(5)
             make.leading.equalTo(likeCountLabel)
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().inset(10)
         }
     }
     
@@ -192,16 +209,11 @@ final class MainTableViewCell : UITableViewCell {
         
         routinDescription.text = data.content
         likeCountLabel.text = "좋아요 \(data.likes.count)개"
-        cnt = data.likes.count
-        commentCountLabel.text = "댓글 \(data.comments.count) 모두 보기"
+        commentCountLabel.text = "댓글 \(data.comments.count)개 모두 보기"
         
         cofigurePostImage(data: data.image.first ?? "")
     }
-    
-    func updateCnt() {
-        likeCountLabel.text = "\(cnt)"
-    }
-    
+   
     // Data 형식의 이미지 변환하여 UIImage에 뿌려주기
     func cofigurePostImage(data: String) {
         let imageDownloadRequest = AnyModifier { request in
@@ -226,6 +238,14 @@ final class MainTableViewCell : UITableViewCell {
         commentCountLabel.text = nil
         postImage.image = nil
         likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.profileImage.layer.cornerRadius = self.profileImage.frame.width / 2
+        self.profileImage.layer.borderColor = UIColor.white.cgColor
+        self.profileImage.layer.borderWidth = 1
+        self.profileImage.clipsToBounds = true
     }
     
 }
