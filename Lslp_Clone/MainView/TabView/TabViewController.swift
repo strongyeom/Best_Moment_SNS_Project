@@ -25,7 +25,7 @@ class TabViewController : UITabBarController {
         
         
         let profile = ProfileViewController()
-        profile.tabBarItem.title = "나의 시장"
+        profile.tabBarItem.title = "마이페이지"
         profile.tabBarItem.image = UIImage(systemName: "person.circle")
         let profileVC = UINavigationController(rootViewController: profile)
         

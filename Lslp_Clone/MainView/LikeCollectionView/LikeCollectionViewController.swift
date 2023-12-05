@@ -30,8 +30,6 @@ class LikeCollectionViewController : BaseViewController {
     let postID = PublishSubject<String>()
     
     let disposeBag = DisposeBag()
-    // 기존 Cursor
-    private var remainCursor = "1"
     // 다음 Cursor
     private var nextCursor = ""
     let likeViewModel = LikeViewModel()
@@ -41,7 +39,7 @@ class LikeCollectionViewController : BaseViewController {
         self.view.backgroundColor = .green
         print("LikeCollectionViewController - configure")
         setNavigationBar()
-//        bind()
+        bind()
         self.title = "좋아요"
         UserDefaultsManager.shared.backToRoot(isRoot: true)
         
@@ -192,11 +190,9 @@ extension LikeCollectionViewController : UITableViewDelegate {
         if targetPointOfy + 70 >= doneScrollOffSet {
             print("네트워크 통신 시작")
             print("LikeVC - nextCursor - \(nextCursor)")
-            if nextCursor != remainCursor {
-                print("LikeVC -remainCursor : \(remainCursor)")
-                print("LikeVC -nextCursor : \(nextCursor)")
-                remainCursor = nextCursor
-//                requestGetLikes(next: nextCursor)
+            if nextCursor != "0" {
+                print("MainVC - 바닥 찍었음 append 네트워크 통신 시작")
+                requestGetLikes(next: nextCursor)
             }
         }
     }

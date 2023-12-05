@@ -36,6 +36,8 @@ class MainViewController : BaseViewController {
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
+    var likeRow: Int = 0
+    
     let viewModel = MainViewModel()
     
     override func configure() {
@@ -83,7 +85,7 @@ class MainViewController : BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("MainViewController - viewWillAppear")
-        readPost(next: "")
+        readPost(next: "", limit: "")
         routinArray = []
 //        print("likeSelectedPostIDArray - \(likeSelectedPostIDArray)")
     }
@@ -98,6 +100,7 @@ class MainViewController : BaseViewController {
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
 //                self.likeSelectedPostIDArray = UserDefaultsManager.shared.loadSelectedPostID()
 
+               
                 cell.configureUI(data: element)
                 
 //                print("** likeSelectedPostIDArray UD에 포함되어 있는 PostID - \(self.likeSelectedPostIDArray)")
@@ -117,7 +120,8 @@ class MainViewController : BaseViewController {
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")
                         owner.likeID.onNext(element._id)
-                        
+                        owner.likeRow = row
+                        print("likeRow : \(owner.likeRow)")
 //                        if !UserDefaultsManager.shared.loadSelectedPostID().contains(element._id) {
 //                            owner.likeSelectedPostIDArray.append(element._id)
 //                            UserDefaultsManager.shared.saveSelectedPostID(array: owner.likeSelectedPostIDArray)
@@ -169,7 +173,7 @@ class MainViewController : BaseViewController {
                         commentView.refreshGetPost = {
                             //                            print("넘어온 데이터")
                             owner.routinArray = []
-                            owner.readPost(next: "")
+                            owner.readPost(next: "", limit: "")
                             
                         }
                         let nav = UINavigationController(rootViewController: commentView)
@@ -184,7 +188,7 @@ class MainViewController : BaseViewController {
         output.like
             .bind(with: self) { owner, response in
                 owner.routinArray = []
-                owner.readPost(next: "")
+                owner.readPost(next: "", limit: owner.likeRow > 5 ? "\(owner.likeRow + 1)" : "")
                 print("** MainVC - 서버 Likes 배열에 추가 : \(response.like_status)")
             }
             .disposed(by: disposeBag)
@@ -194,7 +198,7 @@ class MainViewController : BaseViewController {
             .bind(with: self) { owner, response in
                 print("삭제한 postID : \(response._id)")
                 owner.routinArray = []
-                owner.readPost(next: "")
+                owner.readPost(next: "", limit: "")
             }
             .disposed(by: disposeBag)
         
@@ -235,15 +239,15 @@ extension MainViewController : UITableViewDelegate {
             
             if nextCursor != "0" {
                 print("MainVC - 바닥 찍었음 append 네트워크 통신 시작")
-                readPost(next: nextCursor)
+                readPost(next: nextCursor, limit: "")
             }
         }
     }
 }
 
 extension MainViewController {
-    func readPost(next: String) {
-        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: "", product_id: "yeom"))
+    func readPost(next: String, limit: String) {
+        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
             .catch { err in
                 if let err = err as? ReadPostError {
                     print("MainViewController - readPost \(err.errorDescrtion) , \(err.rawValue)")
@@ -261,5 +265,3 @@ extension MainViewController {
             .disposed(by: disposeBag)
     }
 }
-// MainVC GET- next_cursor: 656a8124d3b44c277c35468b
-// MainVC GET- remain_cursor: 656a8ebc0f5cb42779b6013e
