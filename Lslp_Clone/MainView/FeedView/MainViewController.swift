@@ -18,21 +18,12 @@ class MainViewController : BaseViewController {
         tableView.separatorStyle = .none
         return tableView
     }()
-    
-    lazy var addPostBtn = {
-        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPostBtnTapped))
-        return button
-    }()
-    
+
     var routinArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
-    
-//    var likeSelectedPostIDArray: [String] = []
-//
-//    var likesCount: Int = 0
-    
+
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
@@ -48,8 +39,6 @@ class MainViewController : BaseViewController {
         bind()
         self.title = "홈"
         UserDefaultsManager.shared.backToRoot(isRoot: true)
-//        let aa = UserDefaultsManager.shared.loadSelectedPostID()
-//        print("** MainVC 시작했을때 저장되어 있는 UD postID 배열 : \(aa)")
         
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -58,9 +47,7 @@ class MainViewController : BaseViewController {
     
     func setNavigationBar() {
         self.navigationItem.hidesBackButton = true
-        navigationItem.rightBarButtonItem = addPostBtn
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "위로", style: .plain, target: self, action: #selector(uptoBtn))
-//        navigationController?.title = "미생"
     }
     
     override func setConstraints() {
@@ -73,13 +60,6 @@ class MainViewController : BaseViewController {
     @objc func uptoBtn() {
         let index = IndexPath(row: 0, section: 0)
         self.tableView.scrollToRow(at: index, at: .top, animated: true)
-    }
-    
-    @objc func addPostBtnTapped() {
-        let addRoutinVC = AddRoutinViewController()
-        let nav = UINavigationController(rootViewController: addRoutinVC)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -8,15 +8,18 @@
 import UIKit
 
 class PostImage: UIImageView {
+   
+    init() {
+        super.init(frame: .zero)
+        self.layer.cornerRadius = 12
+        self.clipsToBounds = true
+        self.isUserInteractionEnabled = true
+        self.image = UIImage(systemName: "photo")
+        self.tintColor = .white
+    }
     
-//    init() {
-//        super.init()
-//        self.layer.cornerRadius = 16
-//        self.layer.cornerCurve = .continuous
-//        self.clipsToBounds = true
-//    }
-//    
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 }

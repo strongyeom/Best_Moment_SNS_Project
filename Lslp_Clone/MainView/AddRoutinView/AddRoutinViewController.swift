@@ -10,21 +10,30 @@ import RxSwift
 import PhotosUI
 
 class AddRoutinViewController : BaseViewController {
-    
+
     let titleTextField = SignInTextField(placeHolder: "제목을 입력해주세요.", brandColor: .blue, alignment: .center)
-    let firstRoutinTextField = SignInTextField(placeHolder: "루틴을 추가해주세요", brandColor: .blue, alignment: .center)
-    let saveBtn = SignInButton(text: "저장하기", brandColor: .blue)
+    let firstRoutinTextField = SignInTextField(placeHolder: "우리의 일상을 기록해요.", brandColor: .blue, alignment: .center)
+    let dailyTextView = BasicTextView()
     
-    lazy var imageBtn = {
-        let view = UIImageView(image: UIImage(systemName: "flame"))
+    let saveBtn = SignInButton(text: "저장하기", brandColor: .blue)
+    let postImage = PostImage()
+    let postImageBg = {
+       let view = UIView()
         view.isUserInteractionEnabled = true
-        view.backgroundColor = .yellow
+        view.layer.cornerRadius = 16
+        view.clipsToBounds = true
+        view.backgroundColor = .systemGray5
         return view
     }()
     
-    lazy var cancelBtn = {
-        let button = UIBarButtonItem(title: "닫기", style: .plain, target: self, action: #selector(cancelBtnTapped))
-        return button
+    lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageBtnTaaped))
+    
+    let postImageLabel = {
+       let view = UILabel()
+        view.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        view.textColor = .white
+        view.text = "오늘의 일상 사진을 넣어주세요."
+        return view
     }()
     
     let viewModel = AddRoutinViewModel()
@@ -36,24 +45,21 @@ class AddRoutinViewController : BaseViewController {
     override func configure() {
         super.configure()
         bind()
-        navigationItem.leftBarButtonItem = cancelBtn
-        
-    }
-    
-    @objc func cancelBtnTapped() {
-        dismiss(animated: true)
+        title = "일상 추가"
+        dailyTextView.delegate = self
     }
     
     // 제목 + 루틴 입력후 버튼 누르면 addpost 되게끔 설정
     func bind() {
         
-        let input = AddRoutinViewModel.Input(title: titleTextField.rx.text.orEmpty, firstRoutrin: firstRoutinTextField.rx.text.orEmpty, saveBtn: saveBtn.rx.tap, imageData: selectedImageData)
+        let input = AddRoutinViewModel.Input(title: titleTextField.rx.text.orEmpty, firstRoutrin: dailyTextView.rx.text.orEmpty, saveBtn: saveBtn.rx.tap, imageData: selectedImageData)
         
         let output = viewModel.transform(input: input)
         
         output.saveBtnTapped
             .bind(with: self) { owner, response in
                 owner.dismiss(animated: true)
+                owner.tabBarController?.selectedIndex = 0
             }
             .disposed(by: disposeBag)
         
@@ -82,28 +88,43 @@ class AddRoutinViewController : BaseViewController {
     }
     
     override func setConstraints() {
-        [titleTextField, firstRoutinTextField, saveBtn, imageBtn].forEach {
+        [titleTextField, dailyTextView, saveBtn, postImageBg].forEach {
             view.addSubview($0)
         }
         
+        postImageBg.addSubview(postImage)
+        postImageBg.addSubview(postImageLabel)
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageBtnTaaped))
-        imageBtn.addGestureRecognizer(tapGesture)
+        postImageBg.addGestureRecognizer(tapGesture)
         
-        titleTextField.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).inset(60)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(20)
-            make.height.equalTo(50)
+
+        
+        postImageBg.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.height.equalTo(self.postImageBg.snp.width).multipliedBy(0.8)
         }
         
-        firstRoutinTextField.snp.makeConstraints { make in
-            make.top.equalTo(titleTextField.snp.bottom).offset(20)
-            make.horizontalEdges.equalTo(titleTextField)
-            make.height.equalTo(50)
-        }
-        
-        imageBtn.snp.makeConstraints { make in
+        postImage.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.size.equalTo(100)
+        }
+        
+        postImageLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(postImage.snp.bottom).offset(10)
+        }
+        
+        titleTextField.snp.makeConstraints { make in
+            make.top.equalTo(postImageBg.snp.bottom).offset(20)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.height.equalTo(50)
+        }
+        
+        dailyTextView.snp.makeConstraints { make in
+            make.top.equalTo(titleTextField.snp.bottom).offset(20)
+            make.horizontalEdges.equalTo(titleTextField)
+            make.height.equalTo(100)
         }
         
         saveBtn.snp.makeConstraints { make in
@@ -125,7 +146,7 @@ extension AddRoutinViewController: PHPickerViewControllerDelegate {
                 DispatchQueue.main.async {
                     let image = image as? UIImage
                     
-                    self.imageBtn.image = image
+                    self.postImage.image = image
                     
                     let jpegData = image?.jpegData(compressionQuality: 0.3)
                     
@@ -140,5 +161,29 @@ extension AddRoutinViewController: PHPickerViewControllerDelegate {
         } else {
             // TODO: Handle empty results or item provider not being able load UIImage
         }
+    }
+}
+
+
+// MARK: - UITextViewDelegate
+extension AddRoutinViewController : UITextViewDelegate {
+    // 텍스트 칼라가 회색이면 -> nil, textColor -> black
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if dailyTextView.textColor == .lightGray {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    // 텍스트가 비어있으면 placeHolder, 회색으로 설정
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if dailyTextView.text.isEmpty {
+            dailyTextView.text = "텍스트를 입력해주세요"
+            dailyTextView.textColor = .lightGray
+        }
+    }
+    
+    // TextView 소문자만
+    func textViewDidChange(_ textView: UITextView) {
+        dailyTextView.text = textView.text.lowercased()
     }
 }

@@ -32,6 +32,9 @@
 		2657F3E72B023CA500E3A22E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2657F3E62B023CA500E3A22E /* Alamofire */; };
 		268E47592B186ED9008BECD3 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E47582B186ED9008BECD3 /* AuthManager.swift */; };
 		269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269CEE5E2B1113D900477D04 /* CommentViewController.swift */; };
+		26E5F2FB2B1F6FD700955A5D /* AddDailyRoutinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E5F2FA2B1F6FD700955A5D /* AddDailyRoutinView.swift */; };
+		26E5F2FD2B1F721200955A5D /* Ext+UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E5F2FC2B1F721200955A5D /* Ext+UITextView.swift */; };
+		26E5F2FF2B1F72FE00955A5D /* BasicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E5F2FE2B1F72FE00955A5D /* BasicTextView.swift */; };
 		26E699AE2B0DE00B00DA90C0 /* AddRoutinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699AD2B0DE00B00DA90C0 /* AddRoutinViewController.swift */; };
 		26E699B02B0DE66400DA90C0 /* AddRoutinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699AF2B0DE66400DA90C0 /* AddRoutinViewModel.swift */; };
 		26E699B22B0DFA2D00DA90C0 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */; };
@@ -78,6 +81,9 @@
 		2657F3E32B023C4000E3A22E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		268E47582B186ED9008BECD3 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		269CEE5E2B1113D900477D04 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
+		26E5F2FA2B1F6FD700955A5D /* AddDailyRoutinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDailyRoutinView.swift; sourceTree = "<group>"; };
+		26E5F2FC2B1F721200955A5D /* Ext+UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UITextView.swift"; sourceTree = "<group>"; };
+		26E5F2FE2B1F72FE00955A5D /* BasicTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicTextView.swift; sourceTree = "<group>"; };
 		26E699AD2B0DE00B00DA90C0 /* AddRoutinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoutinViewController.swift; sourceTree = "<group>"; };
 		26E699AF2B0DE66400DA90C0 /* AddRoutinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoutinViewModel.swift; sourceTree = "<group>"; };
 		26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
@@ -121,6 +127,7 @@
 				2649E1B32B04AE43003CA70C /* SignInTextField.swift */,
 				2649E1B82B04B073003CA70C /* SignInButton.swift */,
 				26EB41082B19F9450080E5D8 /* PostImage.swift */,
+				26E5F2FE2B1F72FE00955A5D /* BasicTextView.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -132,6 +139,7 @@
 				2649E1BA2B04B0B4003CA70C /* Ext+UIButton.swift */,
 				2649E1BC2B04B872003CA70C /* Ext+UIViewController.swift */,
 				26E699B52B0E409500DA90C0 /* Ext+StringToDate.swift */,
+				26E5F2FC2B1F721200955A5D /* Ext+UITextView.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -236,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				26E699AD2B0DE00B00DA90C0 /* AddRoutinViewController.swift */,
+				26E5F2FA2B1F6FD700955A5D /* AddDailyRoutinView.swift */,
 				26E699AF2B0DE66400DA90C0 /* AddRoutinViewModel.swift */,
 			);
 			path = AddRoutinView;
@@ -244,6 +253,7 @@
 		26EB339D2B1AB2BE008C7406 /* FeedView */ = {
 			isa = PBXGroup;
 			children = (
+				269CEE5D2B1113C900477D04 /* CommentView */,
 				26F03BCE2B0B2D7400BC5E68 /* MainViewController.swift */,
 				26E699B12B0DFA2D00DA90C0 /* MainTableViewCell.swift */,
 				26E699B32B0E05FA00DA90C0 /* MainViewModel.swift */,
@@ -284,7 +294,6 @@
 				26EB41042B19E2230080E5D8 /* PostEditViewController.swift */,
 				26EB410E2B1A313F0080E5D8 /* LikeCollectionView */,
 				26EB410F2B1A31480080E5D8 /* ProfileView */,
-				269CEE5D2B1113C900477D04 /* CommentView */,
 				26E699AC2B0DDFE500DA90C0 /* AddRoutinView */,
 			);
 			path = MainView;
@@ -418,6 +427,7 @@
 				26F565F22B147764006A58CA /* CommentTableViewCell.swift in Sources */,
 				2649E1B12B04AD9A003CA70C /* BaseView.swift in Sources */,
 				26E699B22B0DFA2D00DA90C0 /* MainTableViewCell.swift in Sources */,
+				26E5F2FF2B1F72FE00955A5D /* BasicTextView.swift in Sources */,
 				26EB41132B1A31800080E5D8 /* LikeCollectionViewController.swift in Sources */,
 				26F2A7CE2B07648200033C93 /* LoginViewModel.swift in Sources */,
 				2657F3BC2B02324000E3A22E /* SignupViewController.swift in Sources */,
@@ -428,12 +438,14 @@
 				2657F3E02B02374B00E3A22E /* APIKeyAndBaseURL.swift in Sources */,
 				2657F3CD2B02328D00E3A22E /* BaseViewController.swift in Sources */,
 				26EC02BC2B17482900EB1D06 /* RefreshTokenManager.swift in Sources */,
+				26E5F2FB2B1F6FD700955A5D /* AddDailyRoutinView.swift in Sources */,
 				26EB339F2B1AC165008C7406 /* LikeViewModel.swift in Sources */,
 				2657F3B82B02324000E3A22E /* AppDelegate.swift in Sources */,
 				26E699B62B0E409500DA90C0 /* Ext+StringToDate.swift in Sources */,
 				2657F3BA2B02324000E3A22E /* SceneDelegate.swift in Sources */,
 				2657F3DA2B02366700E3A22E /* APIModel.swift in Sources */,
 				26EB41152B1A31A80080E5D8 /* ProfileViewController.swift in Sources */,
+				26E5F2FD2B1F721200955A5D /* Ext+UITextView.swift in Sources */,
 				2649E1BD2B04B872003CA70C /* Ext+UIViewController.swift in Sources */,
 				2657F3E22B02377500E3A22E /* APIManager.swift in Sources */,
 			);

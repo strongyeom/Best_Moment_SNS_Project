@@ -67,10 +67,10 @@ class LikeCollectionViewController : BaseViewController {
     }
     
     @objc func addPostBtnTapped() {
-        let addRoutinVC = AddRoutinViewController()
-        let nav = UINavigationController(rootViewController: addRoutinVC)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: true)
+//        let addRoutinVC = AddRoutinViewController()
+//        let nav = UINavigationController(rootViewController: addRoutinVC)
+//        nav.modalPresentationStyle = .fullScreen
+//        present(nav, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

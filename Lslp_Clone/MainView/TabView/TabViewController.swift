@@ -16,6 +16,10 @@ class TabViewController : UITabBarController {
         home.tabBarItem.title = "홈"
         home.tabBarItem.image = UIImage(systemName: "house")
         let homeVC = UINavigationController(rootViewController: home)
+  
+        let add = AddRoutinViewController()
+        add.tabBarItem.image = UIImage(systemName: "plus")
+        let addVC = UINavigationController(rootViewController: add)
         
         let like = LikeCollectionViewController()
         like.tabBarItem.title = "좋아요"
@@ -36,6 +40,6 @@ class TabViewController : UITabBarController {
         self.tabBar.standardAppearance = apperance
         self.tabBar.scrollEdgeAppearance = apperance
         
-        setViewControllers([homeVC, likeVC, profileVC], animated: false)
+        setViewControllers([homeVC, addVC, likeVC, profileVC], animated: false)
     }
 }
