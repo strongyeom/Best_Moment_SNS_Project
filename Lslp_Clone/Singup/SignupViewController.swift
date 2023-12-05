@@ -12,8 +12,8 @@ import SnapKit
 
 class SignupViewController: BaseViewController {
     
-    let nicknameTextField = SignInTextField(placeHolder: "닉네임을 설정해주세요.", brandColor: .blue)
-    let emailTextField = SignInTextField(placeHolder: "이메일을 입력해주세요.", brandColor: .blue)
+    let nicknameTextField = SignInTextField(placeHolder: "닉네임을 설정해주세요.", brandColor: .blue, alignment: .center)
+    let emailTextField = SignInTextField(placeHolder: "이메일을 입력해주세요.", brandColor: .blue, alignment: .center)
     let passwordTextField = SignInTextField(placeHolder: "비밀번호를 입력해주세요", isSecure: true, brandColor: .blue)
     let duplicateBtn = {
        let button = UIButton()

@@ -11,8 +11,8 @@ import PhotosUI
 
 class AddRoutinViewController : BaseViewController {
     
-    let titleTextField = SignInTextField(placeHolder: "제목을 입력해주세요.", brandColor: .blue)
-    let firstRoutinTextField = SignInTextField(placeHolder: "루틴을 추가해주세요", brandColor: .blue)
+    let titleTextField = SignInTextField(placeHolder: "제목을 입력해주세요.", brandColor: .blue, alignment: .center)
+    let firstRoutinTextField = SignInTextField(placeHolder: "루틴을 추가해주세요", brandColor: .blue, alignment: .center)
     let saveBtn = SignInButton(text: "저장하기", brandColor: .blue)
     
     lazy var imageBtn = {

@@ -18,13 +18,8 @@ class CommentViewController : BaseViewController {
         tableView.separatorStyle = .none
         return tableView
     }()
-    
-    lazy var addCommnetBtn = {
-       let button = UIButton()
-        button.setTitle("댓글 추가", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
-        return button
-    }()
+
+    let commentTextField = SignInTextField(placeHolder: "댓글 달기 ...", brandColor: .systemGray, alignment: .left)
     
     var postID: String?
     
@@ -45,7 +40,6 @@ class CommentViewController : BaseViewController {
         title = "댓글"
         sheetPresent()
         bind()
-        
         guard let comments = self.comments else { return }
         
         // 초기값 MainVC에서 넘어온 데이터 담아주기
@@ -53,14 +47,20 @@ class CommentViewController : BaseViewController {
     }
     
     override func setConstraints() {
-        tableView.addSubview(addCommnetBtn)
+        
         view.addSubview(tableView)
-        addCommnetBtn.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
+        view.addSubview(commentTextField)
+        
+       
         
         tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.horizontalEdges.equalToSuperview()
+        }
+        
+        commentTextField.snp.makeConstraints { make in
+            make.height.equalTo(50)
+            make.top.equalTo(tableView.snp.bottom).offset(10)
+            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
         }
     }
     
@@ -73,7 +73,7 @@ class CommentViewController : BaseViewController {
     
     func bind() {
         
-        let input = CommentViewModel.Input(postID: postID, comments: comments, commentTap: addCommnetBtn.rx.tap, tableViewDeleted: tableView.rx.itemDeleted)
+        let input = CommentViewModel.Input(postID: postID, comments: comments, tableViewDeleted: tableView.rx.itemDeleted, addComment: commentTextField)
         
         let output = viewModel.transform(input: input)
         
@@ -84,12 +84,12 @@ class CommentViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        
         output.addCommentTapped
             .bind(with: self) { owner, response in
-               
-                owner.commentsTemporaryArrays.append(response)
+                owner.commentsTemporaryArrays.insert(response, at: 0)
                 output.commentArray.onNext(owner.commentsTemporaryArrays)
+                input.addComment.rx.text.orEmpty.onNext("")
+                
             }
             .disposed(by: disposeBag)
   

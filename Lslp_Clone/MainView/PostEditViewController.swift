@@ -13,7 +13,7 @@ class PostEditViewController : BaseViewController {
     
     var editPost: ElementReadPostResponse?
     
-    let emailTextField = SignInTextField(placeHolder: "이메일을 입력해주세요.", brandColor: .blue)
+    let emailTextField = SignInTextField(placeHolder: "이메일을 입력해주세요.", brandColor: .blue, alignment: .center)
     let saveBtn = SignInButton(text: "저장", brandColor: .blue)
     
     lazy var postImage = {

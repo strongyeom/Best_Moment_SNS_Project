@@ -100,6 +100,8 @@ class MainViewController : BaseViewController {
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
 //                self.likeSelectedPostIDArray = UserDefaultsManager.shared.loadSelectedPostID()
 
+                self.likeRow = row
+                print("likeRow : \(self.likeRow)")
                
                 cell.configureUI(data: element)
                 
@@ -120,27 +122,6 @@ class MainViewController : BaseViewController {
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")
                         owner.likeID.onNext(element._id)
-                        owner.likeRow = row
-                        print("likeRow : \(owner.likeRow)")
-//                        if !UserDefaultsManager.shared.loadSelectedPostID().contains(element._id) {
-//                            owner.likeSelectedPostIDArray.append(element._id)
-//                            UserDefaultsManager.shared.saveSelectedPostID(array: owner.likeSelectedPostIDArray)
-//                            cell.likeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-////                            cell.likeCountLabel.text = "좋아요 : \(cell.cnt + 1)"
-//                            cell.cnt += 1
-//                            cell.updateCnt()
-//                        } else {
-//                            if let index = owner.likeSelectedPostIDArray.firstIndex(of: element._id) {
-//                                owner.likeSelectedPostIDArray.remove(at: index)
-//                                UserDefaultsManager.shared.saveSelectedPostID(array: owner.likeSelectedPostIDArray)
-//                                cell.likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
-//                                UserDefaultsManager.shared.saveLikesCount(likesCountSum: element.likes.count)
-//                                cell.cnt -= 1
-//                                cell.updateCnt()
-//
-//                            }
-//                        }
-                        
                     }
                     .disposed(by: cell.disposeBag)
                 
@@ -173,7 +154,7 @@ class MainViewController : BaseViewController {
                         commentView.refreshGetPost = {
                             //                            print("넘어온 데이터")
                             owner.routinArray = []
-                            owner.readPost(next: "", limit: "")
+                            owner.readPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
                             
                         }
                         let nav = UINavigationController(rootViewController: commentView)
@@ -188,7 +169,7 @@ class MainViewController : BaseViewController {
         output.like
             .bind(with: self) { owner, response in
                 owner.routinArray = []
-                owner.readPost(next: "", limit: owner.likeRow > 5 ? "\(owner.likeRow + 1)" : "")
+                owner.readPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
                 print("** MainVC - 서버 Likes 배열에 추가 : \(response.like_status)")
             }
             .disposed(by: disposeBag)
@@ -198,7 +179,7 @@ class MainViewController : BaseViewController {
             .bind(with: self) { owner, response in
                 print("삭제한 postID : \(response._id)")
                 owner.routinArray = []
-                owner.readPost(next: "", limit: "")
+                owner.readPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
             }
             .disposed(by: disposeBag)
         

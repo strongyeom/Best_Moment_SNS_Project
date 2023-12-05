@@ -12,7 +12,7 @@ import SnapKit
 
 class LoginViewController : BaseViewController {
     
-    let emailTextField = SignInTextField(placeHolder: "이메일을 입력해주세요.", brandColor: .blue)
+    let emailTextField = SignInTextField(placeHolder: "이메일을 입력해주세요.", brandColor: .blue, alignment: .center)
     let passwordTextField = SignInTextField(placeHolder: "비밀번호를 입력해줏요", isSecure: true, brandColor: .blue)
     let signInBtn = SignInButton(text: "로그인", brandColor: .blue)
     let signupBtn = {

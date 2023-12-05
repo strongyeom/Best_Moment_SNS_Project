@@ -16,8 +16,8 @@ class CommentViewModel: BaseInOutPut {
     struct Input {
         let postID: String?
         var comments: [CommentPostResponse]?
-        let commentTap: ControlEvent<Void>
         let tableViewDeleted: ControlEvent<IndexPath>
+        let addComment: SignInTextField
     }
     
     struct Output {
@@ -33,17 +33,18 @@ class CommentViewModel: BaseInOutPut {
         let commentArray = BehaviorSubject(value: input.comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
             
         
-        let addCommentTapped = input.commentTap
-            .flatMap {
-                APIManager.shared.requestCommentPost(api: Router.commentPost(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", comment: "rrnw------newnew-------------".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)) // 한글 인코딩 작업 
+        let addCommentTapped = input.addComment.rx.controlEvent(.editingDidEndOnExit)
+            .withLatestFrom(input.addComment.rx.text.orEmpty)
+            .flatMap { text in
+                APIManager.shared.requestCommentPost(api: Router.commentPost(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", comment: text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)) // 한글 인코딩 작업
                     .catch { err in
                         if let err = err as? CommentPostError {
                             print(err.errorDescription)
                         }
                         return Observable.never()
                     }
+                
             }
-        
         let tableViewDeleted = input.tableViewDeleted
             .flatMap { index in
                 return APIManager.shared.requestCommentRemove(api: Router.commentRemove(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", commentID: try! commentArray.value()[index.row]._id))
@@ -54,19 +55,6 @@ class CommentViewModel: BaseInOutPut {
                         return Observable.never()
                     }
             }
-        
-        
-//        let aa = input.tableViewDeleted
-//            .flatMap { index in
-//                return APIManager.shared.requestAPIFuction(type: CommentRemoveResponse.self, api: Router.commentRemove(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", commentID: input.comments?[index.row]._id ?? ""), someU: RefreshError.self)
-//                    .catch { err in
-//                        if let err = err as? CommentRemoveError {
-//                            print(err.errorDescription)
-//                        }
-//                        return Observable.never()
-//                    }
-//            }
-//
         
         return Output(commentArray: commentArray, addCommentTapped: addCommentTapped, tableViewDeleted: tableViewDeleted)
     }
