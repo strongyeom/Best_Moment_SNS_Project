@@ -42,6 +42,7 @@ class LikeCollectionViewController : BaseViewController {
             make.edges.equalToSuperview()
         }
     }
+    
 }
 
 extension LikeCollectionViewController : UICollectionViewDataSource {

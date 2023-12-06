@@ -19,7 +19,7 @@ class LikeCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    let profileImage = {
+    lazy var profileImage = {
        let view = UIImageView()
         view.backgroundColor = .yellow
         return view
@@ -70,12 +70,20 @@ class LikeCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    // View의 레이아웃을 즉시 업데이트
-    override func layoutIfNeeded() {
-        super.layoutIfNeeded()
-        profileImage.layer.cornerRadius = self.profileImage.frame.width / 2
-        profileImage.clipsToBounds = true
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        DispatchQueue.main.async {
+            self.profileImage.layer.cornerRadius = self.profileImage.bounds.width / 2
+            self.profileImage.clipsToBounds = true
+        }
     }
-   
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        postImage.image = nil
+        profileImage.image = nil
+        nickname.text = nil
+    }
+    
+
 }
