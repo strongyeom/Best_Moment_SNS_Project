@@ -24,7 +24,7 @@ class LikeCollectionViewController : BaseViewController {
     private var nextCursor = ""
     var selectedRow: Int = 0
     var likeID = PublishSubject<String>()
-    let likeViewModel = ExampleViewModel()
+    let likeViewModel = LikeViewModel()
     
     override func configure() {
         super.configure()
@@ -45,7 +45,7 @@ class LikeCollectionViewController : BaseViewController {
     
     func bind() {
         
-        let input = ExampleViewModel.Input(likeID: likeID)
+        let input = LikeViewModel.Input(likeID: likeID)
         
         let output = likeViewModel.transform(input: input)
         

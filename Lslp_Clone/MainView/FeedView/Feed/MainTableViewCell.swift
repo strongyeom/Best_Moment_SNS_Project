@@ -66,6 +66,7 @@ final class MainTableViewCell : UITableViewCell {
         view.font = UIFont.systemFont(ofSize: 13)
         view.numberOfLines = 0
         view.textAlignment = .left
+        view.backgroundColor = .yellow
         return view
     }()
     
@@ -85,6 +86,7 @@ final class MainTableViewCell : UITableViewCell {
     let likeCountLabel = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 14)
+        view.backgroundColor = .green
         return view
     }()
     
@@ -92,6 +94,7 @@ final class MainTableViewCell : UITableViewCell {
         let view = UILabel()
         view.textColor = .systemGray
         view.font = UIFont.systemFont(ofSize: 14)
+        
         return view
     }()
     
@@ -152,13 +155,7 @@ final class MainTableViewCell : UITableViewCell {
             make.leading.equalTo(profileImage.snp.trailing).offset(10)
             make.trailing.equalToSuperview().inset(10)
         }
-        
-//        releaseDate.snp.makeConstraints { make in
-//            make.top.equalTo(routinTitle.snp.bottom).offset(5)
-//            make.leading.equalTo(nickname.snp.trailing).offset(10)
-//
-//        }
-//
+  
         postImage.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(10)

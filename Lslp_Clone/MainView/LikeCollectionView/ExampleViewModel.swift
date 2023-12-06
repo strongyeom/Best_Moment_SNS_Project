@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class ExampleViewModel: BaseInOutPut {
+class LikeViewModel: BaseInOutPut {
     
     struct Input {
         let likeID: PublishSubject<String>
