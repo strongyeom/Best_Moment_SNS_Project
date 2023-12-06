@@ -14,8 +14,7 @@ class LikeCollectionViewCell: UICollectionViewCell {
     static let identifier = "LikeCollectionViewCell"
     
     var disposeBag = DisposeBag()
-    let postImage = PostImage()
-    
+    let postImage = PostImage(nil, color: .yellow)
     let nickname = {
        let view = UILabel()
         view.text = "닉네임입니다."

@@ -364,6 +364,30 @@ class APIManager {
         }
     }
     
+    /// 프로필 조회하기
+    func requestGetProfile(api: Router) -> Observable<GetProfileResponse> {
+        return Observable.create { observer in
+            AF.request(api)
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: GetProfileResponse.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+
+                    switch response.result {
+                    case .success(let data):
+                        observer.onNext(data)
+                    case .failure(_):
+                        if let commonError = CommonError(rawValue: status) {
+                            observer.onError(commonError)
+                        }
+
+                        if let getProfileError = GetProfileError(rawValue: status) {
+                            observer.onError(getProfileError)
+                        }
+                    }
+                }
+            return Disposables.create()
+        }
+    }
 
 
 }

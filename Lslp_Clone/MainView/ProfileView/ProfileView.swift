@@ -1,15 +1,13 @@
 //
-//  ProfileViewController.swift
+//  ProfileView.swift
 //  Lslp_Clone
 //
-//  Created by 염성필 on 2023/12/02.
+//  Created by 염성필 on 2023/12/07.
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
 
-class ProfileViewController : BaseViewController {
+class ProfileView : BaseView {
     
     let profileImage = PostImage("person.fill", color: .blue)
     let nickname = {
@@ -76,23 +74,26 @@ class ProfileViewController : BaseViewController {
         return stack
     }()
     
-    let disposeBag = DisposeBag()
     
-//    lazy var profileView = ProfileView()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func configure() {
-        super.configure()
-        navigationItem.title = "마이페이지"
-        print("ProfileViewController - configure")
-//        view.addSubview(profileView)
         [profileImage, nickname, stackView].forEach {
-            view.addSubview($0)
+            self.addSubview($0)
         }
     }
     
     override func setConstraints() {
         profileImage.snp.makeConstraints { make in
-            make.top.leading.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.top.leading.equalToSuperview()
             make.size.equalTo(70)
         }
         
@@ -103,19 +104,17 @@ class ProfileViewController : BaseViewController {
         
         stackView.snp.makeConstraints { make in
             make.top.equalTo(nickname.snp.bottom).offset(10)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.horizontalEdges.equalToSuperview()
             make.height.equalTo(40)
         }
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
-            .asDriver(onErrorJustReturn: GetProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", email: "", nick: ""))
-            .drive(with: self, onNext: { owner, response in
-                dump(response)
-            })
-            .disposed(by: disposeBag)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        DispatchQueue.main.async {
+            self.profileImage.layer.cornerRadius = self.profileImage.frame.width / 2
+            self.profileImage.clipsToBounds = true
+        }
     }
-  
 }

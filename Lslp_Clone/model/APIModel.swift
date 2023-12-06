@@ -124,3 +124,12 @@ struct CommentRemoveResponse: Decodable {
     let postID: String
     let commentID: String
 }
+
+struct GetProfileResponse: Decodable {
+    let posts: [String]
+    let followers: [Creator]
+    let following: [Creator]
+    let _id: String
+    let email: String
+    let nick: String
+}

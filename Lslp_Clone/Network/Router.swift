@@ -24,6 +24,7 @@ enum Router : URLRequestConvertible {
     case commentPost(access: String, postID: String, comment: String)
     case commentRemove(access: String, postID: String, commentID: String)
     case getLikes(accessToken: String, next: String, limit: String)
+    case getProfile(accessToken: String)
     
     var baseURL: URL {
         return URL(string: BaseAPI.baseUrl)!
@@ -55,6 +56,8 @@ enum Router : URLRequestConvertible {
             return "post/\(id)/comment/\(commentID)"
         case .getLikes:
             return "post/like/me"
+        case .getProfile:
+            return "profile/me"
         }
     }
     
@@ -82,7 +85,8 @@ enum Router : URLRequestConvertible {
                 .like(access: let token, postID: _),
                 .removePost(access: let token, userNickname: _, postID: _),
                 .commentRemove(access: let token, postID: _, commentID: _),
-                .getLikes(accessToken: let token, next: _, limit: _):
+                .getLikes(accessToken: let token, next: _, limit: _),
+                .getProfile(accessToken: let token):
             return [
                 "Authorization" : token,
                 "SesacKey" : APIKey.secretKey
@@ -100,7 +104,7 @@ enum Router : URLRequestConvertible {
         switch self {
         case .signup, .login, .valid, .logOut, .addPost, .like, .commentPost:
             return .post
-        case .refresh, .readPost, .getLikes:
+        case .refresh, .readPost, .getLikes, .getProfile:
             return .get
         case .removePost, .commentRemove:
             return .delete
@@ -142,7 +146,7 @@ enum Router : URLRequestConvertible {
                 "next": next,
                 "limit": limit
             ]
-        case .refresh, .logOut, .like, .removePost, .commentRemove:
+        case .refresh, .logOut, .like, .removePost, .commentRemove, .getProfile:
             return nil
         case .commentPost(access: _, postID: _, comment: let content):
             return [
@@ -165,7 +169,7 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
 
         switch self {
-        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes:
+        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes, .getProfile:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)

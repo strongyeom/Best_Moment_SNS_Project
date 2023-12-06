@@ -9,13 +9,13 @@ import UIKit
 
 class PostImage: UIImageView {
    
-    init() {
+    init(_ basicImage: String?, color: UIColor?) {
         super.init(frame: .zero)
         self.layer.cornerRadius = 12
         self.clipsToBounds = true
         self.isUserInteractionEnabled = true
-        self.image = UIImage(named: "EmptyImage")
-        self.tintColor = .white
+        self.image = basicImage == nil ? UIImage(named: "EmptyImage") : UIImage(systemName: basicImage!)
+        self.tintColor = color
     }
     
     required init?(coder: NSCoder) {

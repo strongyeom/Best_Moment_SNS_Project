@@ -238,3 +238,20 @@ enum CommentRemoveError: Int, Error {
         }
     }
 }
+
+enum GetProfileError: Int, Error {
+    case isNotAuth = 401
+    case forbidden = 403
+    case isExpiration = 419
+    
+    var errorDescription: String {
+        switch self {
+        case .isNotAuth:
+            return "인증 할 수 없는 엑세스 토큰입니다."
+        case .forbidden:
+            return "Forbidden"
+        case .isExpiration:
+            return "엑세스 토큰이 만료되었습니다."
+        }
+    }
+}
