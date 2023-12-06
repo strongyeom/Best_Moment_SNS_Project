@@ -98,21 +98,7 @@ class LikeCollectionViewController : BaseViewController {
                         owner.likeID.onNext(element._id)
                     }
                     .disposed(by: cell.disposeBag)
-                
-                cell.editBtn.rx.tap
-                    .bind(with: self) { owner, _ in
-                        // 바뀐 데이터를 서버에 put 하기
-                        let editView = PostEditViewController()
-                        editView.editPost = element
-                        
-                        let nav = UINavigationController(rootViewController: editView)
-                        owner.present(nav, animated: true)
-                        
-//                        cell.routinDescription.text = "편집 버튼 눌림"
-                        print("편집 버튼 눌림 - Clicked Row: \(row)")
-                    }
-                    .disposed(by: cell.disposeBag)
-                
+               
                 cell.cancelBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("삭제 버튼 눌림 -- Clicked Row: \(row)")
