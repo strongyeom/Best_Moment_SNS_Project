@@ -18,6 +18,7 @@ class TabViewController : UITabBarController {
         let homeVC = UINavigationController(rootViewController: home)
   
         let add = AddRoutinViewController()
+        home.tabBarItem.title = "일상 추가"
         add.tabBarItem.image = UIImage(systemName: "plus")
         let addVC = UINavigationController(rootViewController: add)
         
@@ -40,6 +41,6 @@ class TabViewController : UITabBarController {
         self.tabBar.standardAppearance = apperance
         self.tabBar.scrollEdgeAppearance = apperance
         
-        setViewControllers([homeVC, addVC, likeVC, profileVC], animated: false)
+        setViewControllers([homeVC, likeVC, profileVC], animated: false)
     }
 }

@@ -30,17 +30,16 @@ class AddRoutinViewModel: BaseInOutPut {
         
         let addText = Observable.combineLatest(input.title, input.firstRoutrin, input.imageData)
         
-        
-        
-        
-        
-        
         let saveBtnTapped = input.saveBtn
+            .debug()
             .withLatestFrom(addText)
             .flatMap { title, first, imageData in
-                
+
                 print("제목 : \(title)")
                 print("루틴 1 : \(first)")
+                print("이미지 Data : \(imageData)")
+           
+               
                 return APIManager.shared.requestAddPost(api: Router.addPost(accessToken: UserDefaultsManager.shared.accessToken, title: String(title), content: String(first), product_id: "yeom"), imageData: imageData)
                     .catch { err in
                         if let err = err as? AddPostError {

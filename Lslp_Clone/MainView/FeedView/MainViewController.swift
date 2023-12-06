@@ -23,6 +23,13 @@ class MainViewController : BaseViewController {
     lazy var routins = BehaviorSubject(value: routinArray)
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
+    
+    lazy var addPostBtn = {
+        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPostBtnTapped))
+        return button
+    }()
+    
+    
 
     let disposeBag = DisposeBag()
     // 다음 Cursor
@@ -47,6 +54,7 @@ class MainViewController : BaseViewController {
     
     func setNavigationBar() {
         self.navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem = addPostBtn
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "위로", style: .plain, target: self, action: #selector(uptoBtn))
     }
     
@@ -55,6 +63,13 @@ class MainViewController : BaseViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+    
+    @objc func addPostBtnTapped() {
+        let addRoutinVC = AddRoutinViewController()
+        let nav = UINavigationController(rootViewController: addRoutinVC)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true)
     }
     
     @objc func uptoBtn() {
@@ -78,26 +93,11 @@ class MainViewController : BaseViewController {
         
         routins
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
-//                self.likeSelectedPostIDArray = UserDefaultsManager.shared.loadSelectedPostID()
 
                 self.likeRow = row
                 print("likeRow : \(self.likeRow)")
                
                 cell.configureUI(data: element)
-                
-//                print("** likeSelectedPostIDArray UD에 포함되어 있는 PostID - \(self.likeSelectedPostIDArray)")
-//                print("** element.likes.count - \(row) : \(element.likes.count)")
-//                for id in UserDefaultsManager.shared.loadSelectedPostID() {
-//                    print("저장된 id \(id) , element._id: \(element._id)")
-//                    if element._id == id {
-//                        cell.likeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-////                        cell.likeCountLabel.text = "좋아요 : \(element.likes.count)"
-//                        cell.cnt += 1
-//                        cell.updateCnt()
-//                        continue
-//                    }
-//                }
-                
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")

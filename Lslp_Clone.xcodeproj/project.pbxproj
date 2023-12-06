@@ -32,7 +32,6 @@
 		2657F3E72B023CA500E3A22E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2657F3E62B023CA500E3A22E /* Alamofire */; };
 		268E47592B186ED9008BECD3 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E47582B186ED9008BECD3 /* AuthManager.swift */; };
 		269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269CEE5E2B1113D900477D04 /* CommentViewController.swift */; };
-		26E5F2FB2B1F6FD700955A5D /* AddDailyRoutinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E5F2FA2B1F6FD700955A5D /* AddDailyRoutinView.swift */; };
 		26E5F2FD2B1F721200955A5D /* Ext+UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E5F2FC2B1F721200955A5D /* Ext+UITextView.swift */; };
 		26E5F2FF2B1F72FE00955A5D /* BasicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E5F2FE2B1F72FE00955A5D /* BasicTextView.swift */; };
 		26E699AE2B0DE00B00DA90C0 /* AddRoutinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E699AD2B0DE00B00DA90C0 /* AddRoutinViewController.swift */; };
@@ -81,7 +80,6 @@
 		2657F3E32B023C4000E3A22E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		268E47582B186ED9008BECD3 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		269CEE5E2B1113D900477D04 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
-		26E5F2FA2B1F6FD700955A5D /* AddDailyRoutinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDailyRoutinView.swift; sourceTree = "<group>"; };
 		26E5F2FC2B1F721200955A5D /* Ext+UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UITextView.swift"; sourceTree = "<group>"; };
 		26E5F2FE2B1F72FE00955A5D /* BasicTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicTextView.swift; sourceTree = "<group>"; };
 		26E699AD2B0DE00B00DA90C0 /* AddRoutinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoutinViewController.swift; sourceTree = "<group>"; };
@@ -244,7 +242,6 @@
 			isa = PBXGroup;
 			children = (
 				26E699AD2B0DE00B00DA90C0 /* AddRoutinViewController.swift */,
-				26E5F2FA2B1F6FD700955A5D /* AddDailyRoutinView.swift */,
 				26E699AF2B0DE66400DA90C0 /* AddRoutinViewModel.swift */,
 			);
 			path = AddRoutinView;
@@ -438,7 +435,6 @@
 				2657F3E02B02374B00E3A22E /* APIKeyAndBaseURL.swift in Sources */,
 				2657F3CD2B02328D00E3A22E /* BaseViewController.swift in Sources */,
 				26EC02BC2B17482900EB1D06 /* RefreshTokenManager.swift in Sources */,
-				26E5F2FB2B1F6FD700955A5D /* AddDailyRoutinView.swift in Sources */,
 				26EB339F2B1AC165008C7406 /* LikeViewModel.swift in Sources */,
 				2657F3B82B02324000E3A22E /* AppDelegate.swift in Sources */,
 				26E699B62B0E409500DA90C0 /* Ext+StringToDate.swift in Sources */,

@@ -15,7 +15,6 @@ extension UITextView {
         self.layer.cornerRadius = 12
         self.layer.cornerCurve = .continuous
         self.clipsToBounds = true
-        self.text = "우리의 일상을 기록해요."
         self.textColor = .lightGray
         self.font = UIFont.systemFont(ofSize: 15)
         self.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
