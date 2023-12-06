@@ -14,25 +14,27 @@ class LikeViewModel: BaseInOutPut {
     let disposeBag = DisposeBag()
     
     struct Input {
-        let tableViewIndex:  ControlEvent<IndexPath>
-        let tableViewElement:  ControlEvent<ElementReadPostResponse>
+        let rowArray: [ElementReadPostResponse]
+        
+        let selectedIndex:  ControlEvent<IndexPath>
+        let selectedElement:  ControlEvent<ElementReadPostResponse>
         let likeID: PublishSubject<String>
         let postID: PublishSubject<String>
     }
     
     struct Output {
+        let likesArray: BehaviorSubject<[ElementReadPostResponse]>
         let zip: Observable<(ControlEvent<IndexPath>.Element, ControlEvent<ElementReadPostResponse>.Element)>
         let like: Observable<LikeResponse>
-        let removePost:
-            Observable<RemovePostResponse>
         let errorMessage: PublishSubject<String>
     }
     
     func transform(input: Input) -> Output {
+        let likesArray = BehaviorSubject(value: input.rowArray)
         
         let errorMessage = PublishSubject<String>()
         
-        let zip = Observable.zip(input.tableViewIndex, input.tableViewElement)
+        let zip = Observable.zip(input.selectedIndex, input.selectedElement)
         
         let like = input.likeID
             .flatMap { postID in
@@ -45,25 +47,11 @@ class LikeViewModel: BaseInOutPut {
                             if err.rawValue == 419 {
                                 
                             }
-                            
                         }
                         return Observable.never()
                     }
             }
         
-        let removePost = input.postID
-            .flatMap { postID in
-                return APIManager.shared.requestRemovePost(api: Router.removePost(access: UserDefaultsManager.shared.accessToken, userNickname: UserDefaultsManager.shared.loadNickname(), postID: postID))
-                    .catch { err in
-                        if let err = err as? RemovePostError {
-                            print("🙏🏻- 좋아요 에러 : \(err.errorDescription)")
-                            errorMessage.onNext(err.errorDescription)
-                        }
-                        return Observable.never()
-                    }
-            }
-            
-        
-        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage)
+        return Output(likesArray: likesArray, zip: zip, like: like, errorMessage: errorMessage)
     }
 }

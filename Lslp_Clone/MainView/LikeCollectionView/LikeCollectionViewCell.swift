@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import RxSwift
+import Kingfisher
 
 class LikeCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "LikeCollectionViewCell"
     
+    var disposeBag = DisposeBag()
     let postImage = PostImage()
     
     let nickname = {
@@ -28,6 +31,7 @@ class LikeCollectionViewCell: UICollectionViewCell {
     let likeBtn = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "heart"), for: .normal)
+        view.tintColor = .red
         return view
     }()
     
@@ -41,7 +45,7 @@ class LikeCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
+    private func configure() {
         
         [nickname, profileImage, likeBtn].forEach {
             postImage.addSubview($0)
@@ -50,7 +54,7 @@ class LikeCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(postImage)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         postImage.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -70,6 +74,31 @@ class LikeCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    
+    func configureUI(data: ElementReadPostResponse) {
+       
+        self.nickname.text = data.creator.nick
+        
+        let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
+        likeBtn.setImage(image, for: .normal)
+        
+        cofigurePostImage(data: data.image.first ?? "")
+    }
+    
+    // Data 형식의 이미지 변환하여 UIImage에 뿌려주기
+    func cofigurePostImage(data: String) {
+        let imageDownloadRequest = AnyModifier { request in
+            var requestBody = request
+            requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
+            requestBody.setValue(UserDefaultsManager.shared.accessToken, forHTTPHeaderField: "Authorization")
+            return requestBody
+        }
+        
+        let url = URL(string: BaseAPI.baseUrl + data)
+        self.postImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
+    }
+
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         DispatchQueue.main.async {
@@ -83,7 +112,8 @@ class LikeCollectionViewCell: UICollectionViewCell {
         postImage.image = nil
         profileImage.image = nil
         nickname.text = nil
+        
+        disposeBag = DisposeBag()
+      
     }
-    
-
 }
