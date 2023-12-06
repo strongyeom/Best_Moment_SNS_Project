@@ -16,11 +16,6 @@ class TabViewController : UITabBarController {
         home.tabBarItem.title = "홈"
         home.tabBarItem.image = UIImage(systemName: "house")
         let homeVC = UINavigationController(rootViewController: home)
-  
-        let add = AddRoutinViewController()
-        home.tabBarItem.title = "일상 추가"
-        add.tabBarItem.image = UIImage(systemName: "plus")
-        let addVC = UINavigationController(rootViewController: add)
         
         let like = LikeCollectionViewController()
         like.tabBarItem.title = "좋아요"
