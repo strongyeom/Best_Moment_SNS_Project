@@ -392,21 +392,21 @@ class APIManager {
     /// 프로필 수정하기
     func requestPutProfile(api: Router, imageData: Data?) -> Observable<GetProfileResponse> {
         return Observable.create { observer in
+        
             AF.upload(multipartFormData: { multiPartForm in
-//                for (key, value) in api.query! {
-//                    multiPartForm.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
-//                }
+                for (key, value) in api.query! {
+                    multiPartForm.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
+                }
                 
                 if let imageData {
                     multiPartForm.append(imageData, withName: "file", fileName: "\(api.path).jpg", mimeType: "image/jpg")
                     print("imageData 크기 - \(imageData)")
                 }
-                
-                print("multiPartForm -- \(multiPartForm)")
-                
+                                
             }, with: api, interceptor: AuthManager())
             .validate(statusCode: 200...300)
             .responseDecodable(of: GetProfileResponse.self) { response in
+                print(response.description)
                 guard let status = response.response?.statusCode else { return }
                 print("컨텐츠 상태 코드 ", status)
                 

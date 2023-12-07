@@ -8,10 +8,11 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import PhotosUI
-import Kingfisher
+
 
 class ProfileViewController : BaseViewController {
+    
+//    lazy var tabmainVC = TabManViewController()
     
     lazy var profileImage = PostImage("person.fill", color: .blue)
     let nickname = {
@@ -116,10 +117,12 @@ class ProfileViewController : BaseViewController {
     
     // MARK: - Subject And Properties
     var selectedImageData = PublishSubject<Data>()
-    let profileViewModel = ProfileViewModel()
+    var tabman = TabManViewController()
     let disposeBag = DisposeBag()
     var imageData: String?
-    let tapGesture = UITapGestureRecognizer()
+    let firstVC = FirstViewController()
+    let secondVC = SecondViewController()
+    var containerView: UIView!
     
     override func configure() {
         super.configure()
@@ -128,21 +131,32 @@ class ProfileViewController : BaseViewController {
         [profileImage, nickname, buttonStackView, horizonTalStackView].forEach {
             view.addSubview($0)
         }
-        self.profileImage.addGestureRecognizer(tapGesture)
         
+        containerView = UIView()
+        view.addSubview(containerView)
+        containerView.backgroundColor = .lightGray
         
-        bind()
+        let tabManVC = TabManViewController()
+        self.addChild(tabManVC)
+        containerView.addSubview(tabManVC.view)
+        tabManVC.view.frame = containerView.bounds
+        tabManVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tabManVC.didMove(toParent: self)
+        
+    
+        
         
         
     }
+   
     
     func bind() {
         
    
         APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
-            .asDriver(onErrorJustReturn: GetProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", email: "", nick: "", profile: imageData))
+            .asDriver(onErrorJustReturn: GetProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", email: "", nick: ""))
             .drive(with: self, onNext: { owner, response in
-                dump(response)
+//                dump(response)
                 self.nickname.text = response.nick
                 self.postCount.text = "\(response.posts.count)"
                 self.followersCount.text = "\(response.followers.count)"
@@ -150,27 +164,7 @@ class ProfileViewController : BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        tapGesture.rx.event
-            .bind(with: self) { owner, tap in
-                let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-                
-                let photoLibray = UIAlertAction(title: "갤러리", style: .default) { [weak self] _ in
-                    guard let self else { return }
-                    var config = PHPickerConfiguration()
-                    config.selectionLimit = 1
-                    config.filter = .images
-                    let picker = PHPickerViewController(configuration: config)
-                    picker.delegate = self
-                    self.present(picker, animated: true)
-                }
-                
-                let cancel = UIAlertAction(title: "취소", style: .cancel)
-                
-                actionSheet.addAction(photoLibray)
-                actionSheet.addAction(cancel)
-                owner.present(actionSheet, animated: true)
-            }
-            .disposed(by: disposeBag)
+        
         
         
         profileEdit.rx.tap
@@ -207,34 +201,17 @@ class ProfileViewController : BaseViewController {
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
             make.height.equalTo(40)
         }
-    }
+        
+//
+        containerView.snp.makeConstraints { make in
+            make.top.equalTo(buttonStackView.snp.bottom).offset(30)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
 
-}
-
-extension ProfileViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        let itemProvider = results.first?.itemProvider // 2
-        if let itemProvider = itemProvider,
-           itemProvider.canLoadObject(ofClass: UIImage.self) { // 3
-            itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in // 4
-                DispatchQueue.main.async {
-                    let image = image as? UIImage
-                    
-                    self.profileImage.image = image
-                    
-                    let jpegData = image?.jpegData(compressionQuality: 0.1)
-                    
-                    if let data = jpegData {
-                        // UImage  -> Data로 변환
-                        print("data - \(data)")
-                        self.selectedImageData.onNext(data)
-                    }
-                    
-                }
-            }
-        } else {
-            // TODO: Handle empty results or item provider not being able load UIImage
         }
+        
     }
+
 }
+
+

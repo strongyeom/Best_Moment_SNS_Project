@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		261DAE172B222BD3000C89E9 /* Tabman in Frameworks */ = {isa = PBXBuildFile; productRef = 261DAE162B222BD3000C89E9 /* Tabman */; };
+		261DAE192B222C1D000C89E9 /* TabManViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DAE182B222C1D000C89E9 /* TabManViewController.swift */; };
+		261DAE1C2B222EB7000C89E9 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DAE1B2B222EB7000C89E9 /* FirstViewController.swift */; };
+		261DAE1E2B222ED8000C89E9 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DAE1D2B222ED8000C89E9 /* SecondViewController.swift */; };
 		2630C3502B21ABD5008D62CC /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2630C34F2B21ABD5008D62CC /* ProfileViewModel.swift */; };
 		2649E1B12B04AD9A003CA70C /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B02B04AD9A003CA70C /* BaseView.swift */; };
 		2649E1B42B04AE43003CA70C /* SignInTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B32B04AE43003CA70C /* SignInTextField.swift */; };
@@ -59,6 +63,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		261DAE182B222C1D000C89E9 /* TabManViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabManViewController.swift; sourceTree = "<group>"; };
+		261DAE1B2B222EB7000C89E9 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
+		261DAE1D2B222ED8000C89E9 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		2630C34F2B21ABD5008D62CC /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		2649E1B02B04AD9A003CA70C /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		2649E1B32B04AE43003CA70C /* SignInTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTextField.swift; sourceTree = "<group>"; };
@@ -117,12 +124,23 @@
 				2657F3D42B02352600E3A22E /* RxCocoa in Frameworks */,
 				2657F3D12B02350F00E3A22E /* SnapKit in Frameworks */,
 				26EC02BA2B16FF8C00EB1D06 /* Kingfisher in Frameworks */,
+				261DAE172B222BD3000C89E9 /* Tabman in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		261DAE1A2B222EA6000C89E9 /* Tabman */ = {
+			isa = PBXGroup;
+			children = (
+				261DAE182B222C1D000C89E9 /* TabManViewController.swift */,
+				261DAE1B2B222EB7000C89E9 /* FirstViewController.swift */,
+				261DAE1D2B222ED8000C89E9 /* SecondViewController.swift */,
+			);
+			path = Tabman;
+			sourceTree = "<group>";
+		};
 		2649E1B22B04AE33003CA70C /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
@@ -293,6 +311,7 @@
 			isa = PBXGroup;
 			children = (
 				26EB41142B1A31A80080E5D8 /* ProfileViewController.swift */,
+				261DAE1A2B222EA6000C89E9 /* Tabman */,
 				2686E1B02B20DCEA00C9DF76 /* ProfileEditView.swift */,
 				2630C34F2B21ABD5008D62CC /* ProfileViewModel.swift */,
 			);
@@ -357,6 +376,7 @@
 				2657F3D52B02352600E3A22E /* RxSwift */,
 				2657F3E62B023CA500E3A22E /* Alamofire */,
 				26EC02B92B16FF8C00EB1D06 /* Kingfisher */,
+				261DAE162B222BD3000C89E9 /* Tabman */,
 			);
 			productName = Lslp_Clone;
 			productReference = 2657F3B42B02324000E3A22E /* Lslp_Clone.app */;
@@ -391,6 +411,7 @@
 				2657F3D22B02352600E3A22E /* XCRemoteSwiftPackageReference "RxSwift" */,
 				2657F3E52B023CA500E3A22E /* XCRemoteSwiftPackageReference "Alamofire" */,
 				26EC02B82B16FF8C00EB1D06 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				261DAE152B222BD3000C89E9 /* XCRemoteSwiftPackageReference "Tabman" */,
 			);
 			productRefGroup = 2657F3B52B02324000E3A22E /* Products */;
 			projectDirPath = "";
@@ -419,13 +440,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				261DAE1E2B222ED8000C89E9 /* SecondViewController.swift in Sources */,
 				26F03BCF2B0B2D7400BC5E68 /* MainViewController.swift in Sources */,
+				261DAE192B222C1D000C89E9 /* TabManViewController.swift in Sources */,
 				2686E1B12B20DCEA00C9DF76 /* ProfileEditView.swift in Sources */,
 				2649E1C12B04C677003CA70C /* SignupViewModel.swift in Sources */,
 				26F4937F2B036A5400AA68E7 /* LoginViewController.swift in Sources */,
 				2649E1B42B04AE43003CA70C /* SignInTextField.swift in Sources */,
 				26F2A7CC2B074DE100033C93 /* NetworkErrorCollections.swift in Sources */,
 				26E699B42B0E05FA00DA90C0 /* MainViewModel.swift in Sources */,
+				261DAE1C2B222EB7000C89E9 /* FirstViewController.swift in Sources */,
 				26F565F62B14FB4B006A58CA /* CommentViewModel.swift in Sources */,
 				2649E1C42B04C69D003CA70C /* BaseInOutPut.swift in Sources */,
 				26F493822B0388C500AA68E7 /* UserDefaultsManager.swift in Sources */,
@@ -669,6 +693,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		261DAE152B222BD3000C89E9 /* XCRemoteSwiftPackageReference "Tabman" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/uias/Tabman.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 		2657F3CF2B02350F00E3A22E /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -704,6 +736,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		261DAE162B222BD3000C89E9 /* Tabman */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 261DAE152B222BD3000C89E9 /* XCRemoteSwiftPackageReference "Tabman" */;
+			productName = Tabman;
+		};
 		2657F3D02B02350F00E3A22E /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2657F3CF2B02350F00E3A22E /* XCRemoteSwiftPackageReference "SnapKit" */;

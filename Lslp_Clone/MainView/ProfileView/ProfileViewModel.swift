@@ -13,19 +13,20 @@ class ProfileViewModel: BaseInOutPut {
     
     struct Input {
         let imageData: PublishSubject<Data>
+        let saveBtn: ControlEvent<Void>
         let imageTap: ControlEvent<UITapGestureRecognizer>
     }
     
     struct Output {
-        let imageTap: Observable<GetProfileResponse>
+        let putImageClicked: Observable<GetProfileResponse>
     }
     
     func transform(input: Input) -> Output {
-        
-        let imageTap = input.imageTap
+     
+        let imageTap = input.saveBtn
             .withLatestFrom(input.imageData)
             .flatMap { imageData in
-                return APIManager.shared.requestPutProfile(api: Router.putProfile(accessToken: UserDefaultsManager.shared.accessToken), imageData: imageData)
+                return APIManager.shared.requestPutProfile(api: Router.putProfile(accessToken: UserDefaultsManager.shared.accessToken, nick: ""), imageData: imageData)
                     .catch { err in
                         if let err = err as? PutProfileError {
                             
@@ -36,6 +37,6 @@ class ProfileViewModel: BaseInOutPut {
         
         
         
-        return Output(imageTap: imageTap)
+        return Output(putImageClicked: imageTap)
     }
 }

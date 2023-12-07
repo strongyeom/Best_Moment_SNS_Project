@@ -25,7 +25,7 @@ enum Router : URLRequestConvertible {
     case commentRemove(access: String, postID: String, commentID: String)
     case getLikes(accessToken: String, next: String, limit: String)
     case getProfile(accessToken: String)
-    case putProfile(accessToken: String)
+    case putProfile(accessToken: String, nick: String)
     
     var baseURL: URL {
         return URL(string: BaseAPI.baseUrl)!
@@ -70,7 +70,7 @@ enum Router : URLRequestConvertible {
             "SesacKey" : APIKey.secretKey
            ]
         case .addPost(accessToken: let token, title: _, content: _, product_id: _),
-             .putProfile(accessToken: let token):
+                .putProfile(accessToken: let token, nick: _):
             return [
                 "Authorization" : token,
                 "Content-Type": "multipart/form-data",
@@ -150,11 +150,16 @@ enum Router : URLRequestConvertible {
                 "next": next,
                 "limit": limit
             ]
-        case .refresh, .logOut, .like, .removePost, .commentRemove, .getProfile, .putProfile:
+        case .refresh, .logOut, .like, .removePost, .commentRemove, .getProfile:
             return nil
         case .commentPost(access: _, postID: _, comment: let content):
             return [
                 "content" : content
+            ]
+            
+        case .putProfile(accessToken: _, nick: let nickname):
+            return [
+                "nick" : nickname
             ]
         }
     }
