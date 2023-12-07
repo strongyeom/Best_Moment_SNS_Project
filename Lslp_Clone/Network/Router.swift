@@ -25,6 +25,7 @@ enum Router : URLRequestConvertible {
     case commentRemove(access: String, postID: String, commentID: String)
     case getLikes(accessToken: String, next: String, limit: String)
     case getProfile(accessToken: String)
+    case putProfile(accessToken: String)
     
     var baseURL: URL {
         return URL(string: BaseAPI.baseUrl)!
@@ -56,7 +57,7 @@ enum Router : URLRequestConvertible {
             return "post/\(id)/comment/\(commentID)"
         case .getLikes:
             return "post/like/me"
-        case .getProfile:
+        case .getProfile, .putProfile:
             return "profile/me"
         }
     }
@@ -68,7 +69,8 @@ enum Router : URLRequestConvertible {
             "Content-Type": "application/json",
             "SesacKey" : APIKey.secretKey
            ]
-        case .addPost(accessToken: let token, title: _, content: _, product_id: _):
+        case .addPost(accessToken: let token, title: _, content: _, product_id: _),
+                .putProfile(accessToken: let token):
             return [
                 "Authorization" : token,
                 "Content-Type": "multipart/form-data",
@@ -108,6 +110,8 @@ enum Router : URLRequestConvertible {
             return .get
         case .removePost, .commentRemove:
             return .delete
+        case .putProfile:
+            return .put
         }
     }
     
@@ -146,12 +150,13 @@ enum Router : URLRequestConvertible {
                 "next": next,
                 "limit": limit
             ]
-        case .refresh, .logOut, .like, .removePost, .commentRemove, .getProfile:
+        case .refresh, .logOut, .like, .removePost, .commentRemove, .getProfile, .putProfile:
             return nil
         case .commentPost(access: _, postID: _, comment: let content):
             return [
                 "content" : content
             ]
+        
         }
     }
     
@@ -169,7 +174,7 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
 
         switch self {
-        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes, .getProfile:
+        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes, .getProfile, .putProfile:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)

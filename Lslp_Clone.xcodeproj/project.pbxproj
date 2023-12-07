@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2630C3502B21ABD5008D62CC /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2630C34F2B21ABD5008D62CC /* ProfileViewModel.swift */; };
 		2649E1B12B04AD9A003CA70C /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B02B04AD9A003CA70C /* BaseView.swift */; };
 		2649E1B42B04AE43003CA70C /* SignInTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B32B04AE43003CA70C /* SignInTextField.swift */; };
 		2649E1B72B04AEB6003CA70C /* Ext+UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B62B04AEB6003CA70C /* Ext+UITextField.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2630C34F2B21ABD5008D62CC /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		2649E1B02B04AD9A003CA70C /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		2649E1B32B04AE43003CA70C /* SignInTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTextField.swift; sourceTree = "<group>"; };
 		2649E1B62B04AEB6003CA70C /* Ext+UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UITextField.swift"; sourceTree = "<group>"; };
@@ -292,6 +294,7 @@
 			children = (
 				26EB41142B1A31A80080E5D8 /* ProfileViewController.swift */,
 				2686E1B02B20DCEA00C9DF76 /* ProfileView.swift */,
+				2630C34F2B21ABD5008D62CC /* ProfileViewModel.swift */,
 			);
 			path = ProfileView;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				26E5F2FF2B1F72FE00955A5D /* BasicTextView.swift in Sources */,
 				26F2A7CE2B07648200033C93 /* LoginViewModel.swift in Sources */,
 				2686E1B32B20DDB800C9DF76 /* Ext+UILabel.swift in Sources */,
+				2630C3502B21ABD5008D62CC /* ProfileViewModel.swift in Sources */,
 				2657F3BC2B02324000E3A22E /* SignupViewController.swift in Sources */,
 				26E699AE2B0DE00B00DA90C0 /* AddRoutinViewController.swift in Sources */,
 				2649E1BB2B04B0B4003CA70C /* Ext+UIButton.swift in Sources */,

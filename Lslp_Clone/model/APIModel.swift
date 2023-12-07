@@ -132,4 +132,5 @@ struct GetProfileResponse: Decodable {
     let _id: String
     let email: String
     let nick: String
+    let profile: String?
 }

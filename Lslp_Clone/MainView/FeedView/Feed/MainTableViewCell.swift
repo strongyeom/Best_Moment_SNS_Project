@@ -208,11 +208,11 @@ final class MainTableViewCell : UITableViewCell {
         likeCountLabel.text = "좋아요 \(data.likes.count)개"
         commentCountLabel.text = "댓글 \(data.comments.count)개 모두 보기"
         
-        cofigurePostImage(data: data.image.first ?? "")
+        cofigurePostImage(data: data)
     }
    
     // Data 형식의 이미지 변환하여 UIImage에 뿌려주기
-    func cofigurePostImage(data: String) {
+    func cofigurePostImage(data: ElementReadPostResponse) {
         let imageDownloadRequest = AnyModifier { request in
             var requestBody = request
             requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
@@ -220,8 +220,9 @@ final class MainTableViewCell : UITableViewCell {
             return requestBody
         }
         
-        let url = URL(string: BaseAPI.baseUrl + data)
+        let url = URL(string: BaseAPI.baseUrl + (data.image.first ?? ""))
         self.postImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
+        // 여기에 프로필 데이터 넣으면 됨
     }
     
     override func prepareForReuse() {

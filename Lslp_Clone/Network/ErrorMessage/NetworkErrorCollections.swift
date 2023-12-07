@@ -255,3 +255,24 @@ enum GetProfileError: Int, Error {
         }
     }
 }
+
+enum PutProfileError: Int, Error {
+    case isNotRequired = 400
+    case isNotAuth = 401
+    case forbidden = 403
+    case isExpiration = 419
+    
+    var errorDescription: String {
+        switch self {
+        case .isNotRequired:
+            return "파일 형식 맞지 않습니다."
+        case .isNotAuth:
+            return "인증 할 수 없는 엑세스 토큰입니다."
+        case .forbidden:
+            return "Forbidden"
+        case .isExpiration:
+            return "엑세스 토큰이 만료되었습니다."
+        }
+    }
+}
+

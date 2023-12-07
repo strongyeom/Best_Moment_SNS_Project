@@ -16,7 +16,7 @@ class AddRoutinViewController : BaseViewController {
     
     let saveBtn = SignInButton(text: "저장하기", brandColor: .blue)
     let postImage = PostImage(nil, color: .yellow)
-    lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageBtnTaaped))
+//    lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageBtnTaaped))
     let viewModel = AddRoutinViewModel()
     let disposeBag = DisposeBag()
     var selectedImageData = PublishSubject<Data>()
