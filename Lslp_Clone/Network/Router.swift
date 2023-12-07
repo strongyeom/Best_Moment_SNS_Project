@@ -70,7 +70,7 @@ enum Router : URLRequestConvertible {
             "SesacKey" : APIKey.secretKey
            ]
         case .addPost(accessToken: let token, title: _, content: _, product_id: _),
-                .putProfile(accessToken: let token):
+             .putProfile(accessToken: let token):
             return [
                 "Authorization" : token,
                 "Content-Type": "multipart/form-data",
@@ -156,9 +156,9 @@ enum Router : URLRequestConvertible {
             return [
                 "content" : content
             ]
-        
         }
     }
+    
     
 
     // asURLRequest() 만 외부에서 사용할 것이기 때문에 그 외의 프로퍼티는 private으로 설정해준다.

@@ -13,7 +13,7 @@ import Kingfisher
 
 class ProfileViewController : BaseViewController {
     
-    let profileImage = PostImage("person.fill", color: .blue)
+    lazy var profileImage = PostImage("person.fill", color: .blue)
     let nickname = {
         let view = UILabel()
         view.text = "닉네임 입니다."
@@ -119,6 +119,7 @@ class ProfileViewController : BaseViewController {
     let profileViewModel = ProfileViewModel()
     let disposeBag = DisposeBag()
     var imageData: String?
+    let tapGesture = UITapGestureRecognizer()
     
     override func configure() {
         super.configure()
@@ -127,7 +128,7 @@ class ProfileViewController : BaseViewController {
         [profileImage, nickname, buttonStackView, horizonTalStackView].forEach {
             view.addSubview($0)
         }
-        
+        self.profileImage.addGestureRecognizer(tapGesture)
         
         
         bind()
@@ -137,8 +138,8 @@ class ProfileViewController : BaseViewController {
     
     func bind() {
         
+   
         APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
-            .share(replay: 1)
             .asDriver(onErrorJustReturn: GetProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", email: "", nick: "", profile: imageData))
             .drive(with: self, onNext: { owner, response in
                 dump(response)
@@ -146,24 +147,8 @@ class ProfileViewController : BaseViewController {
                 self.postCount.text = "\(response.posts.count)"
                 self.followersCount.text = "\(response.followers.count)"
                 self.followingCount.text = "\(response.following.count)"
-                
-                
-                let imageDownloadRequest = AnyModifier { request in
-                    var requestBody = request
-                    requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
-                    requestBody.setValue(UserDefaultsManager.shared.accessToken, forHTTPHeaderField: "Authorization")
-                    return requestBody
-                }
-                
-                guard let imageString = response.profile else { return }
-                let url = URL(string: BaseAPI.baseUrl + imageString)
-                self.profileImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
-                
             })
             .disposed(by: disposeBag)
-        
-        let tapGesture = UITapGestureRecognizer()
-        self.profileImage.addGestureRecognizer(tapGesture)
         
         tapGesture.rx.event
             .bind(with: self) { owner, tap in
@@ -184,6 +169,17 @@ class ProfileViewController : BaseViewController {
                 actionSheet.addAction(photoLibray)
                 actionSheet.addAction(cancel)
                 owner.present(actionSheet, animated: true)
+            }
+            .disposed(by: disposeBag)
+        
+        
+        profileEdit.rx.tap
+            .bind(with: self) { owner, _ in
+                let profileEditView = ProfileEditView()
+                profileEditView.modalPresentationStyle = .fullScreen
+                let nav = UINavigationController(rootViewController: profileEditView)
+                owner.present(nav, animated: true)
+                
             }
             .disposed(by: disposeBag)
     }
@@ -212,7 +208,7 @@ class ProfileViewController : BaseViewController {
             make.height.equalTo(40)
         }
     }
-    
+
 }
 
 extension ProfileViewController: PHPickerViewControllerDelegate {

@@ -34,7 +34,7 @@
 		2686E19D2B20527D00C9DF76 /* LikeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E19C2B20527D00C9DF76 /* LikeCollectionViewCell.swift */; };
 		2686E1A12B20619A00C9DF76 /* LikeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E1A02B20619A00C9DF76 /* LikeCollectionViewController.swift */; };
 		2686E1A32B207CA600C9DF76 /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E1A22B207CA600C9DF76 /* LikeViewModel.swift */; };
-		2686E1B12B20DCEA00C9DF76 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E1B02B20DCEA00C9DF76 /* ProfileView.swift */; };
+		2686E1B12B20DCEA00C9DF76 /* ProfileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E1B02B20DCEA00C9DF76 /* ProfileEditView.swift */; };
 		2686E1B32B20DDB800C9DF76 /* Ext+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E1B22B20DDB800C9DF76 /* Ext+UILabel.swift */; };
 		268E47592B186ED9008BECD3 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E47582B186ED9008BECD3 /* AuthManager.swift */; };
 		269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269CEE5E2B1113D900477D04 /* CommentViewController.swift */; };
@@ -84,7 +84,7 @@
 		2686E19C2B20527D00C9DF76 /* LikeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCollectionViewCell.swift; sourceTree = "<group>"; };
 		2686E1A02B20619A00C9DF76 /* LikeCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCollectionViewController.swift; sourceTree = "<group>"; };
 		2686E1A22B207CA600C9DF76 /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
-		2686E1B02B20DCEA00C9DF76 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		2686E1B02B20DCEA00C9DF76 /* ProfileEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditView.swift; sourceTree = "<group>"; };
 		2686E1B22B20DDB800C9DF76 /* Ext+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UILabel.swift"; sourceTree = "<group>"; };
 		268E47582B186ED9008BECD3 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		269CEE5E2B1113D900477D04 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
@@ -293,7 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				26EB41142B1A31A80080E5D8 /* ProfileViewController.swift */,
-				2686E1B02B20DCEA00C9DF76 /* ProfileView.swift */,
+				2686E1B02B20DCEA00C9DF76 /* ProfileEditView.swift */,
 				2630C34F2B21ABD5008D62CC /* ProfileViewModel.swift */,
 			);
 			path = ProfileView;
@@ -420,7 +420,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26F03BCF2B0B2D7400BC5E68 /* MainViewController.swift in Sources */,
-				2686E1B12B20DCEA00C9DF76 /* ProfileView.swift in Sources */,
+				2686E1B12B20DCEA00C9DF76 /* ProfileEditView.swift in Sources */,
 				2649E1C12B04C677003CA70C /* SignupViewModel.swift in Sources */,
 				26F4937F2B036A5400AA68E7 /* LoginViewController.swift in Sources */,
 				2649E1B42B04AE43003CA70C /* SignInTextField.swift in Sources */,
