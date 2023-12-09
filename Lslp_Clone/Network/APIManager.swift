@@ -374,7 +374,7 @@ class APIManager {
                     
                     switch response.result {
                     case .success(let data):
-                        dump(data)
+//                        dump(data)
                         observer.onNext(data)
                     case .failure(_):
                         if let commonError = CommonError(rawValue: status) {

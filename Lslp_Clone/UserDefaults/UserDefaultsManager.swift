@@ -10,13 +10,7 @@ import Foundation
 class UserDefaultsManager {
     
     static let shared = UserDefaultsManager()
-    
-//    func saveToken(token: TokenResponse) {
-//        UserDefaults.standard.set(token.token, forKey: "accessToken")
-//        UserDefaults.standard.set(token.refreshToken, forKey: "refreshToken")
-////        print("UD에 저장 AT, RT", token.token, token.refreshToken)
-//    }
-//
+
     func saveAccessToken(accessToken: String) {
         UserDefaults.standard.set(accessToken, forKey: "accessToken")
     }
@@ -36,6 +30,11 @@ class UserDefaultsManager {
         return userid
     }
     
+    // 로그아웃 하거나 토큰이 만료되어 로그인뷰로 갔을때 초기화
+    
+    // 로그인 버튼 눌렀을 때  다시 id값 저장
+
+    
     func saveNickname(_ nick: String) {
         UserDefaults.standard.set(nick, forKey: "nickname")
     }
@@ -46,33 +45,7 @@ class UserDefaultsManager {
         }
         return nickname
     }
-    
-//    func saveLikesCount(likesCountSum: Int) {
-//        UserDefaults.standard.set(likesCountSum, forKey: "likesCount")
-//    }
-//
-//    func loadLikesCount() -> Int {
-//       return UserDefaults.standard.integer(forKey: "likesCount")
-//    }
-    
-    
-    
-    
-//    func saveSelectedPostID(array: [String]) {
-//        UserDefaults.standard.set(array, forKey: "postIDCollection")
-//    }
-//
-//    func loadSelectedPostID() -> [String] {
-//
-//        guard let array = UserDefaults.standard.array(forKey: "postIDCollection") else {
-//            return []
-//        }
-//        return array as! [String]
-//    }
-    
-    
-    
-    
+
     func backToRoot(isRoot: Bool = false) {
         UserDefaults.standard.set(isRoot, forKey: "isVaild")
     }

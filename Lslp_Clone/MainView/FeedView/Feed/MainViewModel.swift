@@ -26,6 +26,7 @@ class MainViewModel: BaseInOutPut {
         let removePost:
             Observable<RemovePostResponse>
         let errorMessage: PublishSubject<String>
+        let unFollower: Observable<FollowerStatusResponse>
     }
     
     func transform(input: Input) -> Output {
@@ -64,7 +65,7 @@ class MainViewModel: BaseInOutPut {
                     }
             }
             
-       input.userID
+       let unFollower = input.userID
             .flatMap { userID in
                 APIManager.shared.requestDeleteFollowers(api: Router.deleteFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
                     .catch { err in
@@ -75,12 +76,9 @@ class MainViewModel: BaseInOutPut {
                         return Observable.never()
                     }
             }
-            .bind(with: self) { owner, response in
-                print("*** response : \(response)")
-            }
-            .disposed(by: disposeBag)
+            
             
         
-        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage)
+        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage, unFollower: unFollower)
     }
 }
