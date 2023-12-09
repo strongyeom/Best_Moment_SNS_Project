@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-
+import Kingfisher
 
 class ProfileViewController : BaseViewController {
     
@@ -159,13 +159,32 @@ class ProfileViewController : BaseViewController {
         
    
         APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
-            .asDriver(onErrorJustReturn: GetProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", email: "", nick: ""))
-            .drive(with: self, onNext: { owner, response in
+            .catch { err in
+                if let err = err as? PutProfileError {
+                   
+                }
+                return Observable.never()
+            }
+            .bind(with: self, onNext: { owner, response in
 //                dump(response)
                 self.nickname.text = response.nick
                 self.postCount.text = "\(response.posts.count)"
                 self.followersCount.text = "\(response.followers.count)"
                 self.followingCount.text = "\(response.following.count)"
+                
+                print("** response.profile : \(response.profile)")
+                
+//                let imageDownloadRequest = AnyModifier { request in
+//                    var requestBody = request
+//                    requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
+//                    requestBody.setValue(UserDefaultsManager.shared.accessToken, forHTTPHeaderField: "Authorization")
+//                    return requestBody
+//                }
+                
+//                let url = URL(string: BaseAPI.baseUrl + response.profile)
+//                print("*** url : \(url)")
+//                self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
+                
             })
             .disposed(by: disposeBag)
         

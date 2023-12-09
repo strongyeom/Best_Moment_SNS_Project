@@ -10,9 +10,7 @@ import RxCocoa
 import Foundation
 
 class AddRoutinViewModel: BaseInOutPut {
-    
-    let disposeBag = DisposeBag()
-    
+        
     struct Input {
         let title: ControlProperty<String>
         let firstRoutrin: ControlProperty<String>

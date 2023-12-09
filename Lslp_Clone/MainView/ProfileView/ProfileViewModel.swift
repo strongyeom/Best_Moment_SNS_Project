@@ -18,15 +18,17 @@ class ProfileViewModel: BaseInOutPut {
     }
     
     struct Output {
-        let putImageClicked: Observable<GetProfileResponse>
+        let putImageClicked: Observable<PutProfileResponse>
     }
     
     func transform(input: Input) -> Output {
      
         let imageTap = input.saveBtn
-//            .withLatestFrom(input.imageData)
+            .withLatestFrom(input.imageData)
             .flatMap { imageData in
-                return APIManager.shared.requestPutProfile(api: Router.putProfile(accessToken: UserDefaultsManager.shared.accessToken, nick: "135"), imageData: nil)
+                
+                print("** 넘어온 데이터 : \(imageData)")
+                return APIManager.shared.requestPutProfile(api: Router.putProfile(accessToken: UserDefaultsManager.shared.accessToken, nick: "135"), imageData: imageData)
                     .catch { err in
                         if let err = err as? PutProfileError {
                             

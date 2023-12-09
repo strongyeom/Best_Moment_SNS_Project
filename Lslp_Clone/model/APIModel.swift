@@ -132,5 +132,14 @@ struct GetProfileResponse: Decodable {
     let _id: String
     let email: String
     let nick: String
-//    let profile: String?
+    let profile: String
+}
+
+struct PutProfileResponse: Decodable {
+    let posts: [String]
+    let followers: [Creator]
+    let following: [Creator]
+    let _id: String
+    let email: String
+    let nick: String
 }

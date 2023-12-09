@@ -51,16 +51,6 @@ class ProfileEditView : BaseViewController {
         output.putImageClicked
             .bind(with: self) { owner, response in
                 dump(response)
-                let imageDownloadRequest = AnyModifier { request in
-                    var requestBody = request
-                    requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
-                    requestBody.setValue(UserDefaultsManager.shared.accessToken, forHTTPHeaderField: "Authorization")
-                    return requestBody
-                }
-                
-//                let url = URL(string: BaseAPI.baseUrl + )
-//                
-//                self.profileImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
                 owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
@@ -97,7 +87,9 @@ class ProfileEditView : BaseViewController {
 
 extension ProfileEditView: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        
         picker.dismiss(animated: true)
+        
         let itemProvider = results.first?.itemProvider // 2
         if let itemProvider = itemProvider,
            itemProvider.canLoadObject(ofClass: UIImage.self) { // 3
@@ -108,11 +100,10 @@ extension ProfileEditView: PHPickerViewControllerDelegate {
                     self.profileImage.image = image
                     
                     let jpegData = image?.jpegData(compressionQuality: 0.5)
-//                    let pngData = image?.pngData()
-                    
+
                     if let data = jpegData {
                         // UImage  -> Data로 변환
-                        print("data - \(data)")
+                        print("***data - \(data.description)")
                         self.selectedImageData.onNext(data)
                     }
                     

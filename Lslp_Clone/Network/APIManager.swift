@@ -374,6 +374,7 @@ class APIManager {
                     
                     switch response.result {
                     case .success(let data):
+                        dump(data)
                         observer.onNext(data)
                     case .failure(_):
                         if let commonError = CommonError(rawValue: status) {
@@ -390,7 +391,7 @@ class APIManager {
     }
     
     /// 프로필 수정하기
-    func requestPutProfile(api: Router, imageData: Data?) -> Observable<GetProfileResponse> {
+    func requestPutProfile(api: Router, imageData: Data?) -> Observable<PutProfileResponse> {
         return Observable.create { observer in
         
             AF.upload(multipartFormData: { multiPartForm in
@@ -400,16 +401,14 @@ class APIManager {
                 
                 if let imageData {
                     multiPartForm.append(imageData, withName: "file", fileName: "\(api.path).jpg", mimeType: "image/jpg")
-                    print("imageData 크기 - \(imageData)")
                 }
-                                
+                
             }, with: api, interceptor: AuthManager())
             .validate(statusCode: 200...300)
-            .responseDecodable(of: GetProfileResponse.self) { response in
-                print(response.description)
+            .responseDecodable(of: PutProfileResponse.self) { response in
                 guard let status = response.response?.statusCode else { return }
                 print("컨텐츠 상태 코드 ", status)
-                
+                print("** error.Description : \(response.debugDescription)")
                 switch response.result {
                 case .success(let data):
                     observer.onNext(data)
