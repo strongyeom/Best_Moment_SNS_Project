@@ -22,15 +22,34 @@ final class MainTableViewCell : UITableViewCell {
         view.textAlignment = .left
         return view
     }()
-
-    let cancelBtn = {
-        let button = UIButton()
-        button.setTitle("삭제", for: .normal)
-        button.setTitleColor(.red, for: .normal)
-        button.isUserInteractionEnabled = true
+    
+    var deleteCompletion: (() -> Void)?
+    
+    
+   lazy var pullDownButton = {
+       let button = UIButton()
+        button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        button.showsMenuAsPrimaryAction = true
+        
+        let follower = UIAction(title: "팔로우", handler: { _ in print("팔로우 ") })
+        let edit = UIAction(title: "편집", handler: { _ in print("편집") })
+        let cancel = UIAction(title: "삭제", attributes: .destructive, handler: { _ in
+            self.deleteCompletion?()
+            print("취소")
+        })
+        let buttonMenu = UIMenu(title: "", children: [follower, edit, cancel])
+        button.menu = buttonMenu
         return button
     }()
-    
+
+//    let cancelBtn = {
+//        let button = UIButton()
+//        button.setTitle("삭제", for: .normal)
+//        button.setTitleColor(.red, for: .normal)
+//        button.isUserInteractionEnabled = true
+//        return button
+//    }()
+//
     let profileImage = {
         let image = UIImageView()
         image.backgroundColor = .yellow
@@ -110,7 +129,7 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage].forEach {
+        [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage, pullDownButton].forEach {
             contentView.addSubview($0)
         }
     }
@@ -122,12 +141,20 @@ final class MainTableViewCell : UITableViewCell {
             make.top.leading.equalToSuperview().inset(10)
         }
         
-        cancelBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        cancelBtn.snp.makeConstraints { make in
+        pullDownButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        pullDownButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        pullDownButton.snp.makeConstraints { make in
             make.leading.equalTo(routinTitle.snp.trailing).offset(10)
             make.centerY.equalTo(routinTitle)
             make.trailing.equalToSuperview().inset(10)
         }
+        
+//        cancelBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+//        cancelBtn.snp.makeConstraints { make in
+//            make.leading.equalTo(pullDownButton.snp.trailing).offset(10)
+//            make.centerY.equalTo(routinTitle)
+//            make.trailing.equalToSuperview().inset(10)
+//        }
         
         profileImage.snp.makeConstraints { make in
             make.top.equalTo(routinTitle.snp.bottom).offset(5)
@@ -205,12 +232,13 @@ final class MainTableViewCell : UITableViewCell {
             return requestBody
         }
         
-        let url = URL(string: BaseAPI.baseUrl + (data.image.first ?? ""))
-        self.postImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
+        let postUrl = URL(string: BaseAPI.baseUrl + (data.image.first ?? ""))
+        self.postImage.kf.setImage(with: postUrl, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
 
-        let url1 = URL(string: BaseAPI.baseUrl + (data.creator.profile ?? ""))
-        self.profileImage.kf.setImage(with: url1, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
         // 여기에 프로필 데이터 넣으면 됨
+        let profileUrl = URL(string: BaseAPI.baseUrl + (data.creator.profile ?? ""))
+        self.profileImage.kf.setImage(with: profileUrl, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
+        
     }
     
     override func prepareForReuse() {

@@ -81,7 +81,6 @@ class MainViewController : BaseViewController {
         print("MainViewController - viewWillAppear")
         readPost(next: "", limit: "")
         routinArray = []
-//        print("likeSelectedPostIDArray - \(likeSelectedPostIDArray)")
     }
     
     func bind() {
@@ -104,13 +103,18 @@ class MainViewController : BaseViewController {
                     }
                     .disposed(by: cell.disposeBag)
 
-                cell.cancelBtn.rx.tap
-                    .bind(with: self) { owner, _ in
-                        print("삭제 버튼 눌림 -- Clicked Row: \(row)")
-                        owner.postID.onNext(element._id)
-                    }
-                    .disposed(by: cell.disposeBag)
+//                cell.cancelBtn.rx.tap
+//                    .bind(with: self) { owner, _ in
+//                        print("삭제 버튼 눌림 -- Clicked Row: \(row)")
+//                        owner.postID.onNext(element._id)
+//                    }
+//                    .disposed(by: cell.disposeBag)
                 
+                cell.deleteCompletion = {
+                    print("\(row) - \(element.title)")
+                    self.postID.onNext(element._id)
+                }
+    
                 cell.postCommentBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         let commentView = CommentViewController()
