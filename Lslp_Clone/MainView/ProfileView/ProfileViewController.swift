@@ -132,24 +132,29 @@ class ProfileViewController : BaseViewController {
             view.addSubview($0)
         }
         
-        containerView = UIView()
-        view.addSubview(containerView)
-        containerView.backgroundColor = .lightGray
-        
-        let tabManVC = TabManViewController()
-        self.addChild(tabManVC)
-        containerView.addSubview(tabManVC.view)
-        tabManVC.view.frame = containerView.bounds
-        tabManVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        tabManVC.didMove(toParent: self)
-        
+//        containerView = UIView()
+//        view.addSubview(containerView)
+//        containerView.backgroundColor = .lightGray
+//        
+//        let tabManVC = TabManViewController()
+//        self.addChild(tabManVC)
+//        containerView.addSubview(tabManVC.view)
+//        tabManVC.view.frame = containerView.bounds
+//        tabManVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        tabManVC.didMove(toParent: self)
+//        
     
         
         
-        
+       
     }
-   
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("ProfileViewController - viewWillAppear")
+        bind()
+    }
+
     func bind() {
         
    
@@ -170,8 +175,8 @@ class ProfileViewController : BaseViewController {
         profileEdit.rx.tap
             .bind(with: self) { owner, _ in
                 let profileEditView = ProfileEditView()
-                profileEditView.modalPresentationStyle = .fullScreen
                 let nav = UINavigationController(rootViewController: profileEditView)
+                nav.modalPresentationStyle = .fullScreen
                 owner.present(nav, animated: true)
                 
             }
@@ -203,15 +208,13 @@ class ProfileViewController : BaseViewController {
         }
         
 //
-        containerView.snp.makeConstraints { make in
-            make.top.equalTo(buttonStackView.snp.bottom).offset(30)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
-
-        }
-        
+//        containerView.snp.makeConstraints { make in
+//            make.top.equalTo(buttonStackView.snp.bottom).offset(30)
+//            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+//            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+//
+//        }
     }
-
 }
 
 

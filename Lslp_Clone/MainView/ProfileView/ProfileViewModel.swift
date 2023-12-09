@@ -24,9 +24,9 @@ class ProfileViewModel: BaseInOutPut {
     func transform(input: Input) -> Output {
      
         let imageTap = input.saveBtn
-            .withLatestFrom(input.imageData)
+//            .withLatestFrom(input.imageData)
             .flatMap { imageData in
-                return APIManager.shared.requestPutProfile(api: Router.putProfile(accessToken: UserDefaultsManager.shared.accessToken, nick: ""), imageData: imageData)
+                return APIManager.shared.requestPutProfile(api: Router.putProfile(accessToken: UserDefaultsManager.shared.accessToken, nick: "135"), imageData: nil)
                     .catch { err in
                         if let err = err as? PutProfileError {
                             

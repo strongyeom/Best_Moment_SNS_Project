@@ -32,6 +32,7 @@ class TabManViewController : TabmanViewController {
         let bar = TMBar.ButtonBar()
         bar.layout.transitionStyle = .snap // Customize
         bar.indicator.weight = .custom(value: 1)
+        
         // Add to view
         addBar(bar, dataSource: self, at: .custom(view: baseView, layout: nil))
 
