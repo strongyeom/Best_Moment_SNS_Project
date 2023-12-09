@@ -297,14 +297,14 @@
 			path = TabView;
 			sourceTree = "<group>";
 		};
-		26EB410E2B1A313F0080E5D8 /* LikeCollectionView */ = {
+		26EB410E2B1A313F0080E5D8 /* LikeView */ = {
 			isa = PBXGroup;
 			children = (
 				2686E1A02B20619A00C9DF76 /* LikeCollectionViewController.swift */,
 				2686E19C2B20527D00C9DF76 /* LikeCollectionViewCell.swift */,
 				2686E1A22B207CA600C9DF76 /* LikeViewModel.swift */,
 			);
-			path = LikeCollectionView;
+			path = LikeView;
 			sourceTree = "<group>";
 		};
 		26EB410F2B1A31480080E5D8 /* ProfileView */ = {
@@ -323,7 +323,7 @@
 			children = (
 				26EB410A2B1A308E0080E5D8 /* TabView */,
 				26EB339D2B1AB2BE008C7406 /* FeedView */,
-				26EB410E2B1A313F0080E5D8 /* LikeCollectionView */,
+				26EB410E2B1A313F0080E5D8 /* LikeView */,
 				26EB410F2B1A31480080E5D8 /* ProfileView */,
 			);
 			path = MainView;

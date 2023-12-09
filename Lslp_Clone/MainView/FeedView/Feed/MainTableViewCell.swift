@@ -22,15 +22,7 @@ final class MainTableViewCell : UITableViewCell {
         view.textAlignment = .left
         return view
     }()
-    
-    let editBtn = {
-        let button = UIButton()
-        button.setTitle("편집", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)
-        button.isUserInteractionEnabled = true
-        return button
-    }()
-    
+
     let cancelBtn = {
         let button = UIButton()
         button.setTitle("삭제", for: .normal)
@@ -118,28 +110,21 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, editBtn, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage].forEach {
+        [routinTitle, cancelBtn, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage].forEach {
             contentView.addSubview($0)
         }
     }
     
     private func setConstraints() {
         routinTitle.setContentHuggingPriority(.defaultLow, for: .horizontal)
-//        routinTitle.setContentHuggingPriority(.defaultHigh, for: .vertical)
         routinTitle.setContentHuggingPriority(.defaultHigh, for: .vertical)
         routinTitle.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(10)
         }
         
-        editBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        editBtn.snp.makeConstraints { make in
-            make.leading.equalTo(routinTitle.snp.trailing).offset(10)
-            make.centerY.equalTo(routinTitle)
-        }
-        
         cancelBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         cancelBtn.snp.makeConstraints { make in
-            make.leading.equalTo(editBtn.snp.trailing).offset(10)
+            make.leading.equalTo(routinTitle.snp.trailing).offset(10)
             make.centerY.equalTo(routinTitle)
             make.trailing.equalToSuperview().inset(10)
         }
@@ -222,6 +207,9 @@ final class MainTableViewCell : UITableViewCell {
         
         let url = URL(string: BaseAPI.baseUrl + (data.image.first ?? ""))
         self.postImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
+
+        let url1 = URL(string: BaseAPI.baseUrl + (data.creator.profile ?? ""))
+        self.profileImage.kf.setImage(with: url1, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
         // 여기에 프로필 데이터 넣으면 됨
     }
     
