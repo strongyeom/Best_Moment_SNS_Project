@@ -143,3 +143,9 @@ struct PutProfileResponse: Decodable {
     let email: String
     let nick: String
 }
+
+struct FollowerStatusResponse: Decodable {
+    let user: String
+    let following: String
+    let following_status: Bool
+}

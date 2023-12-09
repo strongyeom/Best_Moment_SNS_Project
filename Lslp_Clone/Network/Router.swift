@@ -26,6 +26,9 @@ enum Router : URLRequestConvertible {
     case getLikes(accessToken: String, next: String, limit: String)
     case getProfile(accessToken: String)
     case putProfile(accessToken: String, nick: String)
+    case deleteFollower(accessToken: String, userID: String)
+    
+    
     
     var baseURL: URL {
         return URL(string: BaseAPI.baseUrl)!
@@ -59,6 +62,8 @@ enum Router : URLRequestConvertible {
             return "post/like/me"
         case .getProfile, .putProfile:
             return "profile/me"
+        case .deleteFollower(accessToken: _, userID: let userID):
+            return "follow/\(userID)"
         }
     }
     
@@ -88,7 +93,8 @@ enum Router : URLRequestConvertible {
                 .removePost(access: let token, userNickname: _, postID: _),
                 .commentRemove(access: let token, postID: _, commentID: _),
                 .getLikes(accessToken: let token, next: _, limit: _),
-                .getProfile(accessToken: let token):
+                .getProfile(accessToken: let token),
+                .deleteFollower(accessToken: let token, userID: _):
             return [
                 "Authorization" : token,
                 "SesacKey" : APIKey.secretKey
@@ -108,7 +114,7 @@ enum Router : URLRequestConvertible {
             return .post
         case .refresh, .readPost, .getLikes, .getProfile:
             return .get
-        case .removePost, .commentRemove:
+        case .removePost, .commentRemove, .deleteFollower:
             return .delete
         case .putProfile:
             return .put
@@ -150,7 +156,7 @@ enum Router : URLRequestConvertible {
                 "next": next,
                 "limit": limit
             ]
-        case .refresh, .logOut, .like, .removePost, .commentRemove, .getProfile:
+        case .refresh, .logOut, .like, .removePost, .commentRemove, .getProfile, .deleteFollower:
             return nil
         case .commentPost(access: _, postID: _, comment: let content):
             return [
@@ -179,12 +185,12 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
 
         switch self {
-        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes, .getProfile, .putProfile:
+        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes, .getProfile, .putProfile, .deleteFollower:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)
         }
-        
+        print("request - \(request)")
         // => ❗️The data couldn’t be read because it is missing.
 //        print("Router request URL- \(request)")
         return request

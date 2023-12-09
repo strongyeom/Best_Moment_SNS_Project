@@ -431,4 +431,35 @@ class APIManager {
             return Disposables.create()
         }
     }
+    
+    /// 팔로우 취소
+    func requestDeleteFollowers(api: Router) -> Observable<FollowerStatusResponse> {
+        return Observable.create { observer in
+            AF.request(api)
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: FollowerStatusResponse.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    print("Status - \(status)")
+                    switch response.result {
+                    case .success(let data):
+                        observer.onNext(data)
+                    case .failure(_):
+                        if let commonError = CommonError(rawValue: status) {
+                            print("CommonError - \(commonError)")
+                            observer.onError(commonError)
+                        }
+                        
+                        if let deleteFollowerError = DeleteFollowerError(rawValue: status) {
+                            
+                            print("deleteFollowerError - \(deleteFollowerError)")
+                            observer.onError(deleteFollowerError)
+                        }
+                    }
+                }
+            return Disposables.create()
+        }
+    }
+    
+    
+    
 }

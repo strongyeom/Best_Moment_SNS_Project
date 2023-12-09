@@ -18,18 +18,19 @@ class MainViewController : BaseViewController {
         return tableView
     }()
 
-    var routinArray: [ElementReadPostResponse] = []
-    lazy var routins = BehaviorSubject(value: routinArray)
-    var likeID = PublishSubject<String>()
-    let postID = PublishSubject<String>()
-    
+
     lazy var addPostBtn = {
         let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPostBtnTapped))
         return button
     }()
     
     
-
+    var routinArray: [ElementReadPostResponse] = []
+    lazy var routins = BehaviorSubject(value: routinArray)
+    var likeID = PublishSubject<String>()
+    let postID = PublishSubject<String>()
+    let userID = PublishSubject<String>()
+    
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
@@ -85,7 +86,7 @@ class MainViewController : BaseViewController {
     
     func bind() {
         
-        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID)
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID)
         
         let output = viewModel.transform(input: input)
         
@@ -103,16 +104,14 @@ class MainViewController : BaseViewController {
                     }
                     .disposed(by: cell.disposeBag)
 
-//                cell.cancelBtn.rx.tap
-//                    .bind(with: self) { owner, _ in
-//                        print("삭제 버튼 눌림 -- Clicked Row: \(row)")
-//                        owner.postID.onNext(element._id)
-//                    }
-//                    .disposed(by: cell.disposeBag)
-                
                 cell.deleteCompletion = {
                     print("\(row) - \(element.title)")
                     self.postID.onNext(element._id)
+                }
+                
+                
+                cell.deleteFollowerCompletion = {
+                    self.userID.onNext(element.creator._id)
                 }
     
                 cell.postCommentBtn.rx.tap

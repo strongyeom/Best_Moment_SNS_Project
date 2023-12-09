@@ -17,6 +17,7 @@ class MainViewModel: BaseInOutPut {
         let tableViewElement:  ControlEvent<ElementReadPostResponse>
         let likeID: PublishSubject<String>
         let postID: PublishSubject<String>
+        let userID: PublishSubject<String>
     }
     
     struct Output {
@@ -30,6 +31,7 @@ class MainViewModel: BaseInOutPut {
     func transform(input: Input) -> Output {
         
         let errorMessage = PublishSubject<String>()
+        
         
         let zip = Observable.zip(input.tableViewIndex, input.tableViewElement)
         
@@ -55,12 +57,28 @@ class MainViewModel: BaseInOutPut {
                 return APIManager.shared.requestRemovePost(api: Router.removePost(access: UserDefaultsManager.shared.accessToken, userNickname: UserDefaultsManager.shared.loadNickname(), postID: postID))
                     .catch { err in
                         if let err = err as? RemovePostError {
-                            print("🙏🏻- 좋아요 에러 : \(err.errorDescription)")
+                            print("🙏🏻- 게시글 에러 : \(err.errorDescription)")
                             errorMessage.onNext(err.errorDescription)
                         }
                         return Observable.never()
                     }
             }
+            
+       input.userID
+            .flatMap { userID in
+                APIManager.shared.requestDeleteFollowers(api: Router.deleteFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+                    .catch { err in
+                        if let err = err as? DeleteFollowerError {
+                            print("🙏🏻- 언팔로우 에러 : \(err.errorDescription)")
+                            errorMessage.onNext(err.errorDescription)
+                        }
+                        return Observable.never()
+                    }
+            }
+            .bind(with: self) { owner, response in
+                print("*** response : \(response)")
+            }
+            .disposed(by: disposeBag)
             
         
         return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage)
