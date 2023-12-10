@@ -48,6 +48,13 @@ class SearchViewController : BaseViewController {
                 
                 cell.configureUI(data: element)
                 
+                cell.followerBtn.rx.tap
+                    .bind(with: self) { owner, _ in
+                        print("\(row) 버튼 눌림")
+                    }
+                    .disposed(by: cell.disposeBag)
+                
+                
             }
             .disposed(by: disposeBag)
         

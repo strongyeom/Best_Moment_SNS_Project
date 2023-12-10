@@ -46,14 +46,14 @@ final class MainTableViewCell : UITableViewCell {
         return button
     }()
 
-    let followerBtn = {
-        let button = UIButton()
-        var config = UIButton.Configuration.tinted()
-        config.attributedTitle = AttributedString("팔로우", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .medium)]))
-        config.baseForegroundColor = .systemBlue
-        button.configuration = config
-        return button
-    }()
+//    let followerBtn = {
+//        let button = UIButton()
+//        var config = UIButton.Configuration.tinted()
+//        config.attributedTitle = AttributedString("팔로우", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .medium)]))
+//        config.baseForegroundColor = .systemBlue
+//        button.configuration = config
+//        return button
+//    }()
 //
     let profileImage = {
         let image = UIImageView()
@@ -134,7 +134,7 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage, pullDownButton, followerBtn].forEach {
+        [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage, pullDownButton].forEach {
             contentView.addSubview($0)
         }
     }
@@ -145,20 +145,14 @@ final class MainTableViewCell : UITableViewCell {
         routinTitle.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(10)
         }
+       
         
         // setContentHuggingPriority : 뷰가 고유 크기보다 커지는 것을 방지하는 우선 순위를 설정
-        followerBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        // setContentCompressionResistancePriority : 뷰가 고유 크기보다 작제 만들어지지 않도록 하는 우선 순위를 설정
-        followerBtn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        followerBtn.snp.makeConstraints { make in
-            make.leading.equalTo(routinTitle.snp.trailing).offset(10)
-            make.centerY.equalTo(routinTitle)
-        }
-        
         pullDownButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        // setContentCompressionResistancePriority : 뷰가 고유 크기보다 작제 만들어지지 않도록 하는 우선 순위를 설정
         pullDownButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         pullDownButton.snp.makeConstraints { make in
-            make.leading.equalTo(followerBtn.snp.trailing).offset(10)
+            make.leading.equalTo(routinTitle.snp.trailing).offset(10)
             make.centerY.equalTo(routinTitle)
             make.trailing.equalToSuperview().inset(10)
         }

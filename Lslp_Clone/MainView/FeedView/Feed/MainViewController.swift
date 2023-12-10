@@ -206,32 +206,54 @@ extension MainViewController : UITableViewDelegate {
 extension MainViewController {
     func readPost(next: String, limit: String) {
         
+//
+//        group.enter()
+//        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+//            .asDriver(onErrorJustReturn: GetProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", email: "", nick: "", profile: ""))
+//            .drive(with: self) { owner, response in
+//                print(response.following.map { data in
+//                    data._id
+//                })
+//
+//
+//
+//                owner.followeruserIDs = response.following.map { data in
+//                    data._id
+//                }
+//
+//                // 내 userID 저장
+//                owner.followeruserIDs.append(UserDefaultsManager.shared.loadUserID())
+//                print("*** followeruserIDs : \(self.followeruserIDs)")
+//                owner.group.leave()
+//
+//            }
+//            .disposed(by: disposeBag)
         
-        group.enter()
-        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
-            .asDriver(onErrorJustReturn: GetProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", email: "", nick: "", profile: ""))
-            .drive(with: self) { owner, response in
-                print(response.following.map { data in
-                    data._id
-                })
-                
-                
-                
-                owner.followeruserIDs = response.following.map { data in
-                    data._id
-                }
-                
-                // 내 userID 저장
-                owner.followeruserIDs.append(UserDefaultsManager.shared.loadUserID())
-                print("*** followeruserIDs : \(self.followeruserIDs)")
-                owner.group.leave()
-                
-            }
-            .disposed(by: disposeBag)
+        
+//
+//        group.enter()
+//        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
+//            .catch { err in
+//                if let err = err as? ReadPostError {
+//                    print("MainViewController - readPost \(err.errorDescrtion) , \(err.rawValue)")
+//                }
+//                return Observable.never()
+//            }
+//            .bind(with: self) { owner, response in
+//                owner.nextCursor = response.next_cursor
+//                // 네트워크 통신 시작하면 5개 넘어가게 있으면 next_cursor 확인
+//                // next_cursor 값이 "0"나면 더이상 없는것임
+//                print("MainVC GET- next_cursor: \(response.next_cursor)")
+//
+//                for userID in owner.followeruserIDs {
+//                    let array = response.data.filter { $0.creator._id == userID }
+//                    owner.routinArray.append(contentsOf: array)
+//                }
+//                owner.group.leave()
+//            }
+//            .disposed(by: disposeBag)
         
         
-        
-        group.enter()
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
             .catch { err in
                 if let err = err as? ReadPostError {
@@ -244,18 +266,15 @@ extension MainViewController {
                 // 네트워크 통신 시작하면 5개 넘어가게 있으면 next_cursor 확인
                 // next_cursor 값이 "0"나면 더이상 없는것임
                 print("MainVC GET- next_cursor: \(response.next_cursor)")
-                
-                for userID in owner.followeruserIDs {
-                    let array = response.data.filter { $0.creator._id == userID }
-                    owner.routinArray.append(contentsOf: array)
-                }
-                owner.group.leave()
+                owner.nextCursor = response.next_cursor
+                owner.routinArray.append(contentsOf: response.data)
+                owner.routins.onNext(owner.routinArray)
             }
             .disposed(by: disposeBag)
         
         
-        group.notify(queue: .main) {
-            self.routins.onNext(self.routinArray)
-        }
+//        group.notify(queue: .main) {
+//            self.routins.onNext(self.routinArray)
+//        }
     }
 }

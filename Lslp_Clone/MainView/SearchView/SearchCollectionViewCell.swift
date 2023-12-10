@@ -13,6 +13,7 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
     
     let thumbnail = {
        let view = UIImageView()
+        view.isUserInteractionEnabled = true
         return view
     }()
     
@@ -25,11 +26,24 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
         return view
     }()
     
+    let followerBtn = {
+        let button = UIButton()
+        var config = UIButton.Configuration.bordered()
+        config.attributedTitle = AttributedString("팔로우", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .medium)]))
+        config.baseForegroundColor = .systemBlue
+        config.baseBackgroundColor = .lightGray
+        button.configuration = config
+        button.isUserInteractionEnabled = true
+        return button
+    }()
+    
     var disposeBag = DisposeBag()
     
     override func configure() {
         contentView.addSubview(thumbnail)
-        thumbnail.addSubview(thumbnailDescription)
+        [thumbnailDescription, followerBtn].forEach {
+            thumbnail.addSubview($0)
+        }
     }
     
     override func setConstraints() {
@@ -38,6 +52,10 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
         }
         thumbnailDescription.snp.makeConstraints { make in
             make.horizontalEdges.bottom.equalToSuperview().inset(10)
+        }
+        
+        followerBtn.snp.makeConstraints { make in
+            make.top.trailing.equalToSuperview()
         }
     }
     
