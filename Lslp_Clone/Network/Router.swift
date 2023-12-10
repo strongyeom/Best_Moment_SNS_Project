@@ -20,7 +20,7 @@ enum Router : URLRequestConvertible {
     case refresh(access: String, refresh: String)
     case logOut(access: String)
     case like(access: String, postID: String)
-    case removePost(access: String, userNickname: String, postID: String)
+    case removePost(access: String, postID: String)
     case commentPost(access: String, postID: String, comment: String)
     case commentRemove(access: String, postID: String, commentID: String)
     case getLikes(accessToken: String, next: String, limit: String)
@@ -52,7 +52,7 @@ enum Router : URLRequestConvertible {
             return "withdraw"
         case .like(access: _, postID: let id):
             return "post/like/\(id)"
-        case .removePost(access: _, userNickname: _, postID: let id):
+        case .removePost(access: _, postID: let id):
             return "post/\(id)"
         case .commentPost(access: _, postID: let id, comment: _):
             return "post/\(id)/comment"
@@ -92,7 +92,7 @@ enum Router : URLRequestConvertible {
         case .logOut(access: let token),
                 .readPost(accessToken: let token, next: _, limit: _, product_id: _ ),
                 .like(access: let token, postID: _),
-                .removePost(access: let token, userNickname: _, postID: _),
+                .removePost(access: let token, postID: _),
                 .commentRemove(access: let token, postID: _, commentID: _),
                 .getLikes(accessToken: let token, next: _, limit: _),
                 .getProfile(accessToken: let token),
@@ -200,7 +200,7 @@ enum Router : URLRequestConvertible {
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)
         }
-        print("request - \(request)")
+//        print("request - \(request)")
         // => ❗️The data couldn’t be read because it is missing.
 //        print("Router request URL- \(request)")
         return request

@@ -51,16 +51,13 @@ class SearchViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        
-        // TODO: - zip을 사용하고 Cell을 클릭하면 Error 발생 -  rxFatalErrorInDebug
+        Observable.zip(collectionView.rx.itemSelected, collectionView.rx.modelSelected(ElementReadPostResponse.self))
+            .bind(with: self) { owner, response in
+                print("response row : \(response.0.row)")
+                print("response element : \(response.1)")
+            }
+            .disposed(by: disposeBag)
 
-//        Observable.zip(collectionView.rx.itemSelected, collectionView.rx.modelSelected(SearchCollectionViewCell.self))
-//            .bind(with: self) { owner, response in
-//                print("response row : \(response.0)")
-//                print("response element : \(response.1)")
-//            }
-//            .disposed(by: disposeBag)
-//
         
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
@@ -91,8 +88,23 @@ extension SearchViewController: UICollectionViewDelegate {
     }
 }
 
-// 이메일 중복검사 했듯이 닉네임도 중복검사를 통해 고유하게 만든 다음에
-// Filter를 통해 찾고 해당 Id를 활용하여 검새하면 어떨까?
+
+
+// MARK: - 유저벌 작성한 포스트 조회... path값으로 유저의 ID를 찾기가 어려움... nickname (고유값으로 설정) 으로 바꿔달라고 요청드려보기
+
+/*
+ 이메일 중복검사 했듯이 닉네임도 중복검사를 통해 고유하게 만든 다음에
+ 1. Filter를 통해 찾고 해당 Id를 활용하여 검색하면 어떨까?
+ 2. 닉네임과 ID값을 딕셔너리 형탠로 묶어서 활용 - 몇개가 있을줄 알고... limit의 갯수는 어떻게 지정할 것인가?
+ 
+ 
+ 
+ */
+
+
+
+
+
 
 extension SearchViewController {
     
@@ -101,12 +113,11 @@ extension SearchViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "검색"
         searchController.hidesNavigationBarDuringPresentation = false
-        searchController.delegate = self
+        searchController.searchBar.delegate = self
         self.navigationItem.searchController = searchController
         self.navigationItem.title = "Search"
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
-    
     
     func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
@@ -137,6 +148,8 @@ extension SearchViewController {
     }
 }
 
-extension SearchViewController : UISearchControllerDelegate {
-    
+extension SearchViewController : UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("검색 버튼 눌림 ")
+    }
 }

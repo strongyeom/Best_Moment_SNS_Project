@@ -55,7 +55,7 @@ class MainViewModel: BaseInOutPut {
         
         let removePost = input.postID
             .flatMap { postID in
-                return APIManager.shared.requestRemovePost(api: Router.removePost(access: UserDefaultsManager.shared.accessToken, userNickname: UserDefaultsManager.shared.loadNickname(), postID: postID))
+                return APIManager.shared.requestRemovePost(api: Router.removePost(access: UserDefaultsManager.shared.accessToken, postID: postID))
                     .catch { err in
                         if let err = err as? RemovePostError {
                             print("🙏🏻- 게시글 에러 : \(err.errorDescription)")

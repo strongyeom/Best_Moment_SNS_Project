@@ -460,6 +460,8 @@ class APIManager {
         }
     }
     
+    
+    /// 유저벌 작성한 포스트 조회
     func requestSearchUserPost(api: Router) -> Observable<ElementReadPostResponse> {
         return Observable<ElementReadPostResponse>.create { observer in
             

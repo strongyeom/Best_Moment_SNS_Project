@@ -33,7 +33,6 @@ class LoginViewController : BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 로그인 뷰 떳을때 빈값으로 설정
-        UserDefaultsManager.shared.saveUserID("")
     }
     
     
