@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import RxSwift
 
 class TabViewController : UITabBarController {
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.hidesBackButton = true
@@ -43,4 +45,5 @@ class TabViewController : UITabBarController {
         
         setViewControllers([homeVC, searchVC, likeVC, profileVC], animated: false)
     }
+    
 }

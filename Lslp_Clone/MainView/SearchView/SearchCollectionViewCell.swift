@@ -26,17 +26,14 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
         return view
     }()
     
-    let followerBtn = {
+    lazy var followerBtn = {
         let button = UIButton()
-        var config = UIButton.Configuration.bordered()
-        config.attributedTitle = AttributedString("팔로우", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .medium)]))
-        config.baseForegroundColor = .systemBlue
-        config.baseBackgroundColor = .lightGray
-        button.configuration = config
+       
+        button.configuration = followOption(text: "팔로우")
         button.isUserInteractionEnabled = true
         return button
     }()
-    
+   
     var disposeBag = DisposeBag()
     
     override func configure() {
@@ -59,7 +56,13 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureUI(data: ElementReadPostResponse) {
+    func configureUI(data: ElementReadPostResponse, followingUsers: [String]) {
+        
+        print(followingUsers.count)
+        if followingUsers.contains(data.creator._id) {
+            followerBtn.configuration = followOption(text: "팔로잉")
+        }
+        
         self.thumbnailDescription.text = data.title
         cofigurePostImage(data: data.image.first ?? "")
     }
@@ -83,5 +86,14 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
         self.thumbnailDescription.text = nil
         disposeBag = DisposeBag()
     }
+    
+    func followOption(text: String) -> UIButton.Configuration {
+        var config = UIButton.Configuration.bordered()
+        config.attributedTitle = AttributedString(text, attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .medium)]))
+        config.baseForegroundColor = .systemBlue
+        config.baseBackgroundColor = .lightGray
+        return config
+    }
+
     
 }

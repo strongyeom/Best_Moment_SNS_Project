@@ -22,7 +22,7 @@ class SearchViewModel: BaseInOutPut {
     let disposeBag = DisposeBag()
     
     func transform(input: Input) -> Output {
-        
+      
         let follow = input.userID
             .flatMap { userID in
                 APIManager.shared.requestFollowStatus(api: Router.follow(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
@@ -35,9 +35,19 @@ class SearchViewModel: BaseInOutPut {
             }
         
 //        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
-//            .asDriver(onErrorJustReturn: GetProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", email: "", nick: "", profile: ""))
-//            .drive(with: self) { owner, response in
+//            .catch { err in
+//                if let err = err as? GetProfileError {
+//
+//                }
+//                return Observable.never()
+//            }
+//            .bind(with: self) { owner, response in
 //                print("response - \(response.following)")
+//                let myFollowingID = response.following.map {
+//                    $0._id
+//                }
+//                followingUsers = myFollowingID
+//                print("** followingUsers : \(followingUsers)")
 //            }
 //            .disposed(by: disposeBag)
         

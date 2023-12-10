@@ -23,7 +23,7 @@ class SearchViewController : BaseViewController {
     let group = DispatchGroup()
     var nextCursor = ""
     var disposeBag = DisposeBag()
-    var myID: String = ""
+    var followingUserID: [String] = []
     
     override func configure() {
         super.configure()
@@ -32,7 +32,7 @@ class SearchViewController : BaseViewController {
         collectionView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
-//        readPost(next: "", limit: "20")
+        //        readPost(next: "", limit: "20")
         bind()
     }
     
@@ -40,7 +40,8 @@ class SearchViewController : BaseViewController {
         super.viewWillAppear(animated)
         readPost(next: "", limit: "20")
     }
- 
+    
+    
     func bind() {
         
         let input = SearchViewModel.Input(userID: userID)
@@ -51,14 +52,20 @@ class SearchViewController : BaseViewController {
         posts
             .bind(to: collectionView.rx.items(cellIdentifier: SearchCollectionViewCell.identifier, cellType: SearchCollectionViewCell.self)) { row, element, cell in
                 
-                cell.configureUI(data: element)
+                
+                
+                cell.configureUI(data: element, followingUsers: [])
                 
                 cell.followerBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("\(row) 버튼 눌림")
                         owner.userID.onNext(element.creator._id)
+                        
+                        
                     }
                     .disposed(by: cell.disposeBag)
+                
+             
                 
             }
             .disposed(by: disposeBag)
@@ -150,6 +157,23 @@ extension SearchViewController {
     }
     
     func readPost(next: String, limit: String) {
+        
+//        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+//            .catch { err in
+//                if let err = err as? GetProfileError {
+//
+//                }
+//                return Observable.never()
+//            }
+//            .bind(with: self) { owner, response in
+//                print("response - \(response.following)")
+//                let myFollowingID = response.following.map {
+//                    $0._id
+//                }
+//                owner.followingUserID = myFollowingID
+//                print("** followingUserID : \(self.followingUserID)")
+//            }
+//            .disposed(by: disposeBag)
         
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
             .catch { err in
