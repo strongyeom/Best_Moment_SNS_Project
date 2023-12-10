@@ -22,6 +22,11 @@ class TabViewController : UITabBarController {
         like.tabBarItem.image = UIImage(systemName: "heart")
         let likeVC = UINavigationController(rootViewController: like)
         
+        let search = SearchViewController()
+        search.tabBarItem.title = "검색"
+        search.tabBarItem.image = UIImage(systemName: "magnifyingglass")
+        let searchVC = UINavigationController(rootViewController: search)
+        
         
         
         let profile = ProfileViewController()
@@ -36,6 +41,6 @@ class TabViewController : UITabBarController {
         self.tabBar.standardAppearance = apperance
         self.tabBar.scrollEdgeAppearance = apperance
         
-        setViewControllers([homeVC, likeVC, profileVC], animated: false)
+        setViewControllers([homeVC, searchVC, likeVC, profileVC], animated: false)
     }
 }

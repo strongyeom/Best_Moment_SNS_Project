@@ -71,7 +71,7 @@ struct ReadPostResponse: Decodable {
     }
 }
 
-struct ElementReadPostResponse: Decodable {
+struct ElementReadPostResponse: Decodable, Hashable {
     var likes: [String]
     var image: [String]
     var hashTags: [String]
@@ -89,7 +89,7 @@ struct ElementReadPostResponse: Decodable {
     var product_id: String
 }
 
-struct Creator: Decodable {
+struct Creator: Decodable, Hashable {
     var _id: String
     var nick: String
     var profile: String?
@@ -113,7 +113,7 @@ struct RemovePostResponse: Decodable {
     let _id: String
 }
 
-struct CommentPostResponse: Decodable {
+struct CommentPostResponse: Decodable, Hashable {
     let _id: String
     let content: String
     let time: String

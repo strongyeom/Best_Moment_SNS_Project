@@ -14,6 +14,10 @@ final class MainTableViewCell : UITableViewCell {
     static let identifier = "MainTableViewCell"
     var disposeBag = DisposeBag()
     var likesArray: [String] = []
+
+
+    var deleteCompletion: (() -> Void)?
+    var deleteFollowerCompletion: (() -> Void)?
     
     let routinTitle = {
         let view = UILabel()
@@ -22,9 +26,6 @@ final class MainTableViewCell : UITableViewCell {
         view.textAlignment = .left
         return view
     }()
-    
-    var deleteCompletion: (() -> Void)?
-    var deleteFollowerCompletion: (() -> Void)?
     
    lazy var pullDownButton = {
        let button = UIButton()
@@ -228,6 +229,8 @@ final class MainTableViewCell : UITableViewCell {
         commentCountLabel.text = "댓글 \(data.comments.count)개 모두 보기"
         
         cofigurePostImage(data: data)
+        
+        
     }
    
     // Data 형식의 이미지 변환하여 UIImage에 뿌려주기

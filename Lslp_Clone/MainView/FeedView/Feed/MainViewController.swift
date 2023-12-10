@@ -93,7 +93,7 @@ class MainViewController : BaseViewController {
         
         routins
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
-
+                
                 self.likeRow = row
                 print("likeRow : \(self.likeRow)")
                
@@ -143,7 +143,7 @@ class MainViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        // 삭제 후 네트워크 통신 
+        // 삭제 후 네트워크 통신
         output.removePost
             .bind(with: self) { owner, response in
                 print("삭제한 postID : \(response._id)")
@@ -221,6 +221,7 @@ extension MainViewController {
                     data._id
                 }
                 
+                // 내 userID 저장
                 owner.followeruserIDs.append(UserDefaultsManager.shared.loadUserID())
                 print("*** followeruserIDs : \(self.followeruserIDs)")
                 owner.group.leave()
