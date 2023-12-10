@@ -55,6 +55,7 @@ class MainViewModel: BaseInOutPut {
         
         let removePost = input.postID
             .flatMap { postID in
+                print("UserDefaultsManager.shared.loadNickname() - \(UserDefaultsManager.shared.loadNickname())")
                 return APIManager.shared.requestRemovePost(api: Router.removePost(access: UserDefaultsManager.shared.accessToken, postID: postID))
                     .catch { err in
                         if let err = err as? RemovePostError {
@@ -67,7 +68,7 @@ class MainViewModel: BaseInOutPut {
             
        let unFollower = input.userID
             .flatMap { userID in
-                APIManager.shared.requestDeleteFollowers(api: Router.deleteFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+                APIManager.shared.requestFollowStatus(api: Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
                     .catch { err in
                         if let err = err as? DeleteFollowerError {
                             print("🙏🏻- 언팔로우 에러 : \(err.errorDescription)")

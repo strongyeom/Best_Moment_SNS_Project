@@ -432,8 +432,8 @@ class APIManager {
         }
     }
     
-    /// 팔로우 취소
-    func requestDeleteFollowers(api: Router) -> Observable<FollowerStatusResponse> {
+    /// 팔로우 / 언 팔로우  Router에 따라 달라짐
+    func requestFollowStatus(api: Router) -> Observable<FollowerStatusResponse> {
         return Observable.create { observer in
             AF.request(api)
                 .validate(statusCode: 200...300)

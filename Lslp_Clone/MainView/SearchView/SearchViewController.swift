@@ -18,10 +18,12 @@ class SearchViewController : BaseViewController {
     
     var allOfPost: [ElementReadPostResponse] = []
     lazy var posts = BehaviorSubject(value: allOfPost)
-//    let viewModel = SearchViewModel()
+    let userID = PublishSubject<String>()
+    let viewModel = SearchViewModel()
+    let group = DispatchGroup()
     var nextCursor = ""
-    let disposeBag = DisposeBag()
-    
+    var disposeBag = DisposeBag()
+    var myID: String = ""
     
     override func configure() {
         super.configure()
@@ -30,18 +32,21 @@ class SearchViewController : BaseViewController {
         collectionView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
-        readPost(next: "", limit: "20")
+//        readPost(next: "", limit: "20")
         bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        readPost(next: "", limit: "30")
+        readPost(next: "", limit: "20")
     }
-    
-    
+ 
     func bind() {
-
+        
+        let input = SearchViewModel.Input(userID: userID)
+        
+        let output = viewModel.transform(input: input)
+        
         
         posts
             .bind(to: collectionView.rx.items(cellIdentifier: SearchCollectionViewCell.identifier, cellType: SearchCollectionViewCell.self)) { row, element, cell in
@@ -51,9 +56,9 @@ class SearchViewController : BaseViewController {
                 cell.followerBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("\(row) 버튼 눌림")
+                        owner.userID.onNext(element.creator._id)
                     }
                     .disposed(by: cell.disposeBag)
-                
                 
             }
             .disposed(by: disposeBag)
@@ -64,13 +69,19 @@ class SearchViewController : BaseViewController {
                 print("response element : \(response.1)")
             }
             .disposed(by: disposeBag)
-
+        
+        
+        
+        output.follow
+            .bind(with: self) { owner, response in
+                print("response - \(response.following_status)")
+            }
+            .disposed(by: disposeBag)
+        
         
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
     }
-    
-    
     
 }
 
@@ -139,6 +150,7 @@ extension SearchViewController {
     }
     
     func readPost(next: String, limit: String) {
+        
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
             .catch { err in
                 if let err = err as? ReadPostError {
