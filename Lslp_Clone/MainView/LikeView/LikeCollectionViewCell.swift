@@ -9,20 +9,18 @@ import UIKit
 import RxSwift
 import Kingfisher
 
-class LikeCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "LikeCollectionViewCell"
+class LikeCollectionViewCell: BaseCollectionViewCell {
     
     var disposeBag = DisposeBag()
     let postImage = PostImage(nil, color: .yellow)
     let nickname = {
-       let view = UILabel()
+        let view = UILabel()
         view.text = "닉네임입니다."
         return view
     }()
     
     lazy var profileImage = {
-       let view = UIImageView()
+        let view = UIImageView()
         view.backgroundColor = .yellow
         return view
     }()
@@ -34,18 +32,7 @@ class LikeCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        configure()
-        setConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configure() {
-        
+    override func configure() {
         [nickname, profileImage, likeBtn].forEach {
             postImage.addSubview($0)
         }
@@ -53,7 +40,7 @@ class LikeCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(postImage)
     }
     
-    private func setConstraints() {
+    override func setConstraints() {
         postImage.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -72,10 +59,9 @@ class LikeCollectionViewCell: UICollectionViewCell {
             make.trailing.bottom.equalToSuperview().inset(10)
         }
     }
-    
-    
+ 
     func configureUI(data: ElementReadPostResponse) {
-       
+        
         self.nickname.text = data.creator.nick
         
         let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
@@ -96,7 +82,7 @@ class LikeCollectionViewCell: UICollectionViewCell {
         let url = URL(string: BaseAPI.baseUrl + data)
         self.postImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
     }
-
+    
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -113,6 +99,6 @@ class LikeCollectionViewCell: UICollectionViewCell {
         nickname.text = nil
         
         disposeBag = DisposeBag()
-      
+        
     }
 }

@@ -10,8 +10,7 @@ import RxSwift
 import Kingfisher
 
 final class MainTableViewCell : UITableViewCell {
-    
-    static let identifier = "MainTableViewCell"
+
     var disposeBag = DisposeBag()
     var likesArray: [String] = []
 

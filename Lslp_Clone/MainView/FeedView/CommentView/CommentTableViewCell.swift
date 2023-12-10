@@ -31,8 +31,6 @@ class CommentTableViewCell: UITableViewCell {
     
     // menu 버튼 만들기
     
-    static let identifier = "CommentTableViewCell"
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()

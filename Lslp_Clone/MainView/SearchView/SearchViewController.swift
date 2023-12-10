@@ -12,12 +12,13 @@ class SearchViewController : BaseViewController {
     
     lazy var collectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout())
-        collection.register(LikeCollectionViewCell.self, forCellWithReuseIdentifier: LikeCollectionViewCell.identifier)
+        collection.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
         return collection
     }()
     
     var allOfPost: [ElementReadPostResponse] = []
     lazy var posts = BehaviorSubject(value: allOfPost)
+//    let viewModel = SearchViewModel()
     var nextCursor = ""
     let disposeBag = DisposeBag()
     
@@ -29,25 +30,37 @@ class SearchViewController : BaseViewController {
         collectionView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
+        readPost(next: "", limit: "20")
         bind()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        readPost(next: "", limit: "30")
+//        readPost(next: "", limit: "30")
     }
     
     
     func bind() {
+
         
         posts
-            .bind(to: collectionView.rx.items(cellIdentifier: LikeCollectionViewCell.identifier, cellType: LikeCollectionViewCell.self)) { row, element, cell in
+            .bind(to: collectionView.rx.items(cellIdentifier: SearchCollectionViewCell.identifier, cellType: SearchCollectionViewCell.self)) { row, element, cell in
+                
                 cell.configureUI(data: element)
                 
             }
             .disposed(by: disposeBag)
         
         
+        // TODO: - zip을 사용하고 Cell을 클릭하면 Error 발생 -  rxFatalErrorInDebug
+
+//        Observable.zip(collectionView.rx.itemSelected, collectionView.rx.modelSelected(SearchCollectionViewCell.self))
+//            .bind(with: self) { owner, response in
+//                print("response row : \(response.0)")
+//                print("response element : \(response.1)")
+//            }
+//            .disposed(by: disposeBag)
+//
         
         collectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
@@ -58,6 +71,7 @@ class SearchViewController : BaseViewController {
 }
 
 extension SearchViewController: UICollectionViewDelegate {
+    
     // 스크롤 하는 중일때 실시간으로 반영하는 방법은 없을까?
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
