@@ -91,6 +91,9 @@ extension SearchViewController: UICollectionViewDelegate {
     }
 }
 
+// 이메일 중복검사 했듯이 닉네임도 중복검사를 통해 고유하게 만든 다음에
+// Filter를 통해 찾고 해당 Id를 활용하여 검새하면 어떨까?
+
 extension SearchViewController {
     
     func setupSearchController() {
@@ -98,6 +101,7 @@ extension SearchViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "검색"
         searchController.hidesNavigationBarDuringPresentation = false
+        searchController.delegate = self
         self.navigationItem.searchController = searchController
         self.navigationItem.title = "Search"
         self.navigationItem.hidesSearchBarWhenScrolling = false
@@ -131,4 +135,8 @@ extension SearchViewController {
             }
             .disposed(by: disposeBag)
     }
+}
+
+extension SearchViewController : UISearchControllerDelegate {
+    
 }

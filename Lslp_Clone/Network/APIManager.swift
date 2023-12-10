@@ -460,6 +460,34 @@ class APIManager {
         }
     }
     
-    
-    
+    func requestSearchUserPost(api: Router) -> Observable<ElementReadPostResponse> {
+        return Observable<ElementReadPostResponse>.create { observer in
+            
+            AF.request(api, interceptor: AuthManager())
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: ElementReadPostResponse.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    
+                    switch response.result {
+                    case .success(let data):
+                        observer.onNext(data)
+                        
+                    case .failure(_):
+                        if let commonError = CommonError(rawValue: status) {
+                            print("CommonError - \(commonError)")
+                            observer.onError(commonError)
+                        }
+                        
+                        if let searchUserError = DeleteFollowerError(rawValue: status) {
+                            print("searchUserError - \(searchUserError)")
+                            observer.onError(searchUserError)
+                        }
+                    }
+                    
+                }
+            return Disposables.create()
+        }
+      
+    }
+  
 }
