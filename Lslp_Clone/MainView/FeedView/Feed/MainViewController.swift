@@ -24,7 +24,7 @@ class MainViewController : BaseViewController {
         return button
     }()
     
-    var followeruserIDs: [String] = []
+    var followeruserIDs = Set<String>()
     
     var routinArray: [ElementReadPostResponse] = []
     var followingFilterArray: [ElementReadPostResponse] = []
@@ -158,6 +158,7 @@ class MainViewController : BaseViewController {
         // unFollower 후 네트워크 통신
         output.unFollower
             .bind(with: self) { owner, response in
+                dump(response)
                 owner.routinArray = []
 //                owner.followingFilterArray = []
                 owner.readPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
@@ -222,8 +223,14 @@ extension MainViewController {
             }
             .bind(with: self) { owner, response in
                 owner.myID = response._id
-                owner.followeruserIDs = response.following.map { $0.nick }
-                owner.followeruserIDs.append(response.nick)
+                
+                let followings = response.following.map { $0.nick }
+                for following in followings {
+                    owner.followeruserIDs.insert(following)
+                }
+                
+                owner.followeruserIDs.insert(response.nick)
+                
                 print("팔로잉 한 닉네임 : \(owner.followeruserIDs)")
             }
             .disposed(by: disposeBag)
@@ -244,12 +251,15 @@ extension MainViewController {
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
                 
-                // 네트워크가 늦어져서 append가 되지 않았을때 먼저 for문이 돌아갈 수 있음...
-                for nick in owner.followeruserIDs {
-                    let filterd = owner.routinArray.filter { $0.creator.nick == nick}
-                    owner.followingFilterArray.append(contentsOf: filterd)
-                    print("followingFilterArray \(self.followingFilterArray.count)")
+                for routin in owner.routinArray {
+                    let nickname = routin.creator.nick
+                    
+                    if owner.followeruserIDs.contains(nickname) {
+                        owner.followingFilterArray.append(routin)
+                    }
                 }
+                
+                
                 owner.routins.onNext(owner.followingFilterArray)
             }
             .disposed(by: disposeBag)
