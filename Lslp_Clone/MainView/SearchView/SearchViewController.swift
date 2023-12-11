@@ -19,13 +19,14 @@ class SearchViewController : BaseViewController {
     var allOfPost: [ElementReadPostResponse] = []
     lazy var posts = BehaviorSubject(value: allOfPost)
     let userID = PublishSubject<String>()
+    let followingString = BehaviorSubject(value: "팔로우")
     let toggleFollow = BehaviorSubject(value: false)
     let viewModel = SearchViewModel()
     let group = DispatchGroup()
     var nextCursor = ""
     var myNickname: String = ""
     var disposeBag = DisposeBag()
-    var followingUserID: [String] = []
+    var followingUserID = Set<String>()
     
     override func configure() {
         super.configure()
@@ -42,12 +43,13 @@ class SearchViewController : BaseViewController {
         super.viewWillAppear(animated)
         readPost(next: "", limit: "20")
         allOfPost = []
+        followingUserID = []
     }
     
     
     func bind() {
         
-        let input = SearchViewModel.Input(userID: userID)
+        let input = SearchViewModel.Input(userID: userID, followingString: followingString)
         
         let output = viewModel.transform(input: input)
         
@@ -57,7 +59,7 @@ class SearchViewController : BaseViewController {
                 
                 
                 
-                cell.configureUI(data: element, followingUsers: [])
+                cell.configureUI(data: element, followingUsers: self.followingUserID)
                 
                 cell.followerBtn.rx.tap
                     .bind(with: self) { owner, response in
@@ -69,10 +71,12 @@ class SearchViewController : BaseViewController {
                             cell.followerBtn.configurationUpdateHandler = { button in
                                 button.configuration = cell.followOption(text: "팔로잉")
                             }
+                            owner.followingString.onNext("팔로잉")
                         } else {
                             cell.followerBtn.configurationUpdateHandler = { button in
                                 button.configuration = cell.followOption(text: "팔로우")
                             }
+                            owner.followingString.onNext("팔로우")
                         }
                        
                     }
@@ -182,6 +186,10 @@ extension SearchViewController {
             .bind(with: self) { owner, response in
                print("MyID : \(response.nick)")
                 owner.myNickname = response.nick
+                let followings = response.following.map { $0._id }
+                for following in followings {
+                    owner.followingUserID.insert(following)
+                }
             }
             .disposed(by: disposeBag)
         
@@ -196,14 +204,11 @@ extension SearchViewController {
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
                 
-                
                 owner.allOfPost.append(contentsOf: response.data)
-                
                 let filter = owner.allOfPost.filter { $0.creator.nick != owner.myNickname }
                 owner.posts.onNext(filter)
             }
             .disposed(by: disposeBag)
-     
     }
 }
 

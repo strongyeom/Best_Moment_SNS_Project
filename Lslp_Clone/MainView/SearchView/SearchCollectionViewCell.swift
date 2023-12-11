@@ -60,12 +60,18 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
         }
     }
     
-    func configureUI(data: ElementReadPostResponse, followingUsers: [String]) {
+    func configureUI(data: ElementReadPostResponse, followingUsers: Set<String>) {
         
-//        if followingUsers.contains(data.creator._id) {
-//            followerBtn.configuration = followOption(text: "팔로잉")
-//        }
-//        
+        if followingUsers.contains(data.creator._id) {
+            self.followerBtn.configurationUpdateHandler = { button in
+                button.configuration = self.followOption(text: "팔로잉")
+            }
+        } else {
+            self.followerBtn.configurationUpdateHandler = { button in
+                button.configuration = self.followOption(text: "팔로우")
+            }
+        }
+  
         self.thumbnailDescription.text = data.title
         cofigurePostImage(data: data.image.first ?? "")
     }

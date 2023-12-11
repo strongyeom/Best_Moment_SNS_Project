@@ -13,19 +13,23 @@ class SearchViewModel: BaseInOutPut {
     
     struct Input {
         let userID: PublishSubject<String>
+        let followingString: BehaviorSubject<String>
     }
     
     struct Output {
         let follow: Observable<FollowerStatusResponse>
+        
     }
     
     let disposeBag = DisposeBag()
     
     func transform(input: Input) -> Output {
-      
+        
+        print("**** \(try! input.followingString.value())")
+        
         let follow = input.userID
             .flatMap { userID in
-                APIManager.shared.requestFollowStatus(api: Router.follow(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+                APIManager.shared.requestFollowStatus(api:Router.follow(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
                     .catch { err in
                         if let err = err as? FollowerError {
                             
@@ -34,22 +38,29 @@ class SearchViewModel: BaseInOutPut {
                     }
             }
         
-//        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
-//            .catch { err in
-//                if let err = err as? GetProfileError {
+      
+//        let follow = input.userID
+//            .flatMap { userID in
+//                APIManager.shared.requestFollowStatus(api: Router.follow(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+//                    .catch { err in
+//                        if let err = err as? FollowerError {
 //
-//                }
-//                return Observable.never()
+//                        }
+//                        return Observable.never()
+//                    }
 //            }
-//            .bind(with: self) { owner, response in
-//                print("response - \(response.following)")
-//                let myFollowingID = response.following.map {
-//                    $0._id
-//                }
-//                followingUsers = myFollowingID
-//                print("** followingUsers : \(followingUsers)")
-//            }
-//            .disposed(by: disposeBag)
+        
+//        let unFollow = input.userID
+//             .flatMap { userID in
+//                 APIManager.shared.requestFollowStatus(api: Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+//                     .catch { err in
+//                         if let err = err as? DeleteFollowerError {
+//
+//                         }
+//                         return Observable.never()
+//                     }
+//             }
+    
         
         return Output(follow: follow)
     }

@@ -1,15 +1,14 @@
 //
-//  FollowingViewController.swift
+//  MainViewController.swift
 //  Lslp_Clone
 //
-//  Created by 염성필 on 2023/12/11.
+//  Created by 염성필 on 2023/11/20.
 //
 
 import UIKit
 import RxSwift
-import RxCocoa
 
-class MainViewController : BaseViewController {
+class FollowingViewController : BaseViewController {
     
     var tableView = {
         let tableView = UITableView()
@@ -25,7 +24,10 @@ class MainViewController : BaseViewController {
         return button
     }()
     
+    var followeruserIDs = Set<String>()
+    
     var routinArray: [ElementReadPostResponse] = []
+    var followingFilterArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
@@ -34,7 +36,9 @@ class MainViewController : BaseViewController {
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
+    var myID = ""
     var likeRow: Int = 0
+    
     let viewModel = MainViewModel()
     
     override func configure() {
@@ -43,7 +47,7 @@ class MainViewController : BaseViewController {
         print("MainViewController - configure")
         setNavigationBar()
         bind()
-        self.title = "홈"
+        self.title = "팔로잉"
         UserDefaultsManager.shared.backToRoot(isRoot: true)
         
     }
@@ -106,6 +110,12 @@ class MainViewController : BaseViewController {
                     self.postID.onNext(element._id)
                 }
                 
+                
+                cell.deleteFollowerCompletion = {
+                    if element._id != self.myID {
+                        self.userID.onNext(element.creator._id)
+                    }
+                }
     
                 cell.postCommentBtn.rx.tap
                     .bind(with: self) { owner, _ in
@@ -145,14 +155,14 @@ class MainViewController : BaseViewController {
             .disposed(by: disposeBag)
         
         // unFollower 후 네트워크 통신
-//        output.unFollower
-//            .bind(with: self) { owner, response in
-//                dump(response)
-//                owner.routinArray = []
-////                owner.followingFilterArray = []
-//                owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
-//            }
-//            .disposed(by: disposeBag)
+        output.unFollower
+            .bind(with: self) { owner, response in
+                dump(response)
+                owner.routinArray = []
+//                owner.followingFilterArray = []
+                owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
+            }
+            .disposed(by: disposeBag)
         
         /// 에러 문구 Alert
         output.errorMessage
@@ -177,7 +187,7 @@ class MainViewController : BaseViewController {
     }
 }
 
-extension MainViewController : UITableViewDelegate {
+extension FollowingViewController : UITableViewDelegate {
     // 스크롤 하는 중일때 실시간으로 반영하는 방법은 없을까?
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         
@@ -198,9 +208,30 @@ extension MainViewController : UITableViewDelegate {
     }
 }
 
-extension MainViewController {
+extension FollowingViewController {
     func getPost(next: String, limit: String) {
-      
+        followingFilterArray = []
+        followeruserIDs = []
+        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+            .catch { err in
+                if let erro = err as? GetProfileError {
+                    
+                }
+                return Observable.never()
+            }
+            .bind(with: self) { owner, response in
+                owner.myID = response._id
+                
+                let followings = response.following.map { $0.nick }
+                for following in followings {
+                    owner.followeruserIDs.insert(following)
+                }
+                
+                owner.followeruserIDs.insert(response.nick)
+                
+                print("팔로잉 한 닉네임 : \(owner.followeruserIDs)")
+            }
+            .disposed(by: disposeBag)
      
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
             .catch { err in
@@ -210,13 +241,27 @@ extension MainViewController {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
+//                owner.nextCursor = response.next_cursor
+                // 네트워크 통신 시작하면 5개 넘어가게 있으면 next_cursor 확인
+                // next_cursor 값이 "0"나면 더이상 없는것임
                 print("MainVC GET- next_cursor: \(response.next_cursor)")
                
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
-                owner.routins.onNext(owner.routinArray)
+                
+                for routin in owner.routinArray {
+                    let nickname = routin.creator.nick
+                    
+                    if owner.followeruserIDs.contains(nickname) {
+                        owner.followingFilterArray.append(routin)
+                    }
+                }
+                
+                
+                owner.routins.onNext(owner.followingFilterArray)
             }
             .disposed(by: disposeBag)
         
     }
+ 
 }
