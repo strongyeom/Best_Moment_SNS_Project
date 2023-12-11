@@ -41,6 +41,7 @@
 		2657F3E42B023C4000E3A22E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2657F3E32B023C4000E3A22E /* Router.swift */; };
 		2657F3E72B023CA500E3A22E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2657F3E62B023CA500E3A22E /* Alamofire */; };
 		266C11452B2736AB002929B6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C11442B2736AB002929B6 /* MainViewController.swift */; };
+		266C11472B275FFD002929B6 /* FollowingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C11462B275FFD002929B6 /* FollowingCell.swift */; };
 		2686E19D2B20527D00C9DF76 /* LikeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E19C2B20527D00C9DF76 /* LikeCollectionViewCell.swift */; };
 		2686E1A12B20619A00C9DF76 /* LikeCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E1A02B20619A00C9DF76 /* LikeCollectionViewController.swift */; };
 		2686E1A32B207CA600C9DF76 /* LikeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E1A22B207CA600C9DF76 /* LikeViewModel.swift */; };
@@ -100,6 +101,7 @@
 		2657F3E12B02377500E3A22E /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2657F3E32B023C4000E3A22E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		266C11442B2736AB002929B6 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		266C11462B275FFD002929B6 /* FollowingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCell.swift; sourceTree = "<group>"; };
 		2686E19C2B20527D00C9DF76 /* LikeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCollectionViewCell.swift; sourceTree = "<group>"; };
 		2686E1A02B20619A00C9DF76 /* LikeCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCollectionViewController.swift; sourceTree = "<group>"; };
 		2686E1A22B207CA600C9DF76 /* LikeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewModel.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				26F03BCE2B0B2D7400BC5E68 /* FollowingViewController.swift */,
+				266C11462B275FFD002929B6 /* FollowingCell.swift */,
 			);
 			path = Following;
 			sourceTree = "<group>";
@@ -477,6 +480,7 @@
 				261DAE1E2B222ED8000C89E9 /* SecondViewController.swift in Sources */,
 				26F03BCF2B0B2D7400BC5E68 /* FollowingViewController.swift in Sources */,
 				261DAE192B222C1D000C89E9 /* TabManViewController.swift in Sources */,
+				266C11472B275FFD002929B6 /* FollowingCell.swift in Sources */,
 				2686E1B12B20DCEA00C9DF76 /* ProfileEditView.swift in Sources */,
 				260DF1462B25495700E06C74 /* SearchCollectionViewCell.swift in Sources */,
 				2649E1C12B04C677003CA70C /* SignupViewModel.swift in Sources */,

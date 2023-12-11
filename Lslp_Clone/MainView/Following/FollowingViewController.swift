@@ -13,16 +13,11 @@ class FollowingViewController : BaseViewController {
     var tableView = {
         let tableView = UITableView()
         tableView.estimatedRowHeight = UITableView.automaticDimension
-        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
+        tableView.register(FollowingCell.self, forCellReuseIdentifier: FollowingCell.identifier)
         tableView.separatorStyle = .none
         return tableView
     }()
 
-
-    lazy var addPostBtn = {
-        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPostBtnTapped))
-        return button
-    }()
     
     var followeruserIDs = Set<String>()
     
@@ -61,8 +56,6 @@ class FollowingViewController : BaseViewController {
  
     func setNavigationBar() {
         self.navigationItem.hidesBackButton = true
-        navigationItem.rightBarButtonItem = addPostBtn
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "위로", style: .plain, target: self, action: #selector(uptoBtn))
     }
     
     override func setConstraints() {
@@ -71,14 +64,7 @@ class FollowingViewController : BaseViewController {
             make.edges.equalToSuperview()
         }
     }
-    
-    @objc func addPostBtnTapped() {
-        let addRoutinVC = AddRoutinViewController()
-        let nav = UINavigationController(rootViewController: addRoutinVC)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: true)
-    }
-    
+
     @objc func uptoBtn() {
         let index = IndexPath(row: 0, section: 0)
         self.tableView.scrollToRow(at: index, at: .top, animated: true)
@@ -93,7 +79,7 @@ class FollowingViewController : BaseViewController {
         let output = viewModel.transform(input: input)
         
         routins
-            .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
+            .bind(to: tableView.rx.items(cellIdentifier: FollowingCell.identifier, cellType: FollowingCell.self)) { row, element, cell in
                 
                 self.likeRow = row
                 print("likeRow : \(self.likeRow)")
@@ -104,18 +90,12 @@ class FollowingViewController : BaseViewController {
                         owner.likeID.onNext(element._id)
                     }
                     .disposed(by: cell.disposeBag)
-
-                cell.deleteCompletion = {
-                    print("\(row) - \(element.title)")
-                    self.postID.onNext(element._id)
-                }
                 
-                
-                cell.deleteFollowerCompletion = {
-                    if element._id != self.myID {
-                        self.userID.onNext(element.creator._id)
+                cell.followerBtn.rx.tap
+                    .bind(with: self) { owner, _ in
+                        owner.userID.onNext(element.creator._id)
                     }
-                }
+                    .disposed(by: cell.disposeBag)
     
                 cell.postCommentBtn.rx.tap
                     .bind(with: self) { owner, _ in
@@ -144,15 +124,7 @@ class FollowingViewController : BaseViewController {
                 print("** MainVC - 서버 Likes 배열에 추가 : \(response.like_status)")
             }
             .disposed(by: disposeBag)
-        
-        // 삭제 후 네트워크 통신
-        output.removePost
-            .bind(with: self) { owner, response in
-                print("삭제한 postID : \(response._id)")
-                owner.routinArray = []
-                owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
-            }
-            .disposed(by: disposeBag)
+   
         
         // unFollower 후 네트워크 통신
         output.unFollower
@@ -226,8 +198,6 @@ extension FollowingViewController {
                 for following in followings {
                     owner.followeruserIDs.insert(following)
                 }
-                
-                owner.followeruserIDs.insert(response.nick)
                 
                 print("팔로잉 한 닉네임 : \(owner.followeruserIDs)")
             }
