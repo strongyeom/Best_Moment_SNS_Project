@@ -12,9 +12,6 @@ final class FollowingCell : UITableViewCell {
    
     var disposeBag = DisposeBag()
     
-    
-    var deleteFollowerCompletion: (() -> Void)?
-    
     let routinTitle = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 17, weight: .bold)
@@ -22,29 +19,7 @@ final class FollowingCell : UITableViewCell {
         view.textAlignment = .left
         return view
     }()
-    
-//   lazy var pullDownButton = {
-//       let button = UIButton()
-//        button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-//        button.showsMenuAsPrimaryAction = true
-//
-//
-//        let cancelFollower = UIAction(title: "팔로우 취소", handler: { _ in
-//            self.deleteFollowerCompletion?()
-//            print("팔로우 버튼 눌림 ")
-//
-//        })
-//
-//        let edit = UIAction(title: "편집", handler: { _ in print("편집") })
-//        let cancel = UIAction(title: "삭제", attributes: .destructive, handler: { _ in
-//
-//            print("취소")
-//        })
-//        let buttonMenu = UIMenu(title: "", children: [cancelFollower, edit, cancel])
-//        button.menu = buttonMenu
-//        return button
-//    }()
-
+   
     let followerBtn = {
         let button = UIButton()
         var config = UIButton.Configuration.tinted()
