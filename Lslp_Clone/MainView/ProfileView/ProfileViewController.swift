@@ -172,7 +172,7 @@ class ProfileViewController : BaseViewController {
                 self.followersCount.text = "\(response.followers.count)"
                 self.followingCount.text = "\(response.following.count)"
                 
-                print("** response.profile : \(response.profile)")
+//                print("** response.profile : \(response.profile)")
                 
 //                let imageDownloadRequest = AnyModifier { request in
 //                    var requestBody = request

@@ -371,7 +371,8 @@ class APIManager {
                 .validate(statusCode: 200...300)
                 .responseDecodable(of: GetProfileResponse.self) { response in
                     guard let status = response.response?.statusCode else { return }
-                    
+                    print("Status : \(status)")
+                    print("resonse : \(response.description)")
                     switch response.result {
                     case .success(let data):
 //                        dump(data)

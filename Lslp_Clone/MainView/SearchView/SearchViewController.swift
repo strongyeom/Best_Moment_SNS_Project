@@ -23,6 +23,7 @@ class SearchViewController : BaseViewController {
     let viewModel = SearchViewModel()
     let group = DispatchGroup()
     var nextCursor = ""
+    var myNickname: String = ""
     var disposeBag = DisposeBag()
     var followingUserID: [String] = []
     
@@ -170,22 +171,19 @@ extension SearchViewController {
     
     func readPost(next: String, limit: String) {
         
-//        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
-//            .catch { err in
-//                if let err = err as? GetProfileError {
-//
-//                }
-//                return Observable.never()
-//            }
-//            .bind(with: self) { owner, response in
-//                print("response - \(response.following)")
-//                let myFollowingID = response.following.map {
-//                    $0._id
-//                }
-//                owner.followingUserID = myFollowingID
-//                print("** followingUserID : \(self.followingUserID)")
-//            }
-//            .disposed(by: disposeBag)
+        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+            .catch { err in
+                if let err = err as? GetProfileError {
+
+                }
+                return Observable.never()
+            }
+            .bind(with: self) { owner, response in
+               print("MyID : \(response.nick)")
+                owner.myNickname = response.nick
+            }
+            .disposed(by: disposeBag)
+        
         
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
             .catch { err in
@@ -196,10 +194,13 @@ extension SearchViewController {
             }
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
-                owner.allOfPost.append(contentsOf: response.data)
+                
+                let filter = response.data.filter { $0.creator.nick != owner.myNickname }
+                owner.allOfPost.append(contentsOf: filter)
                 owner.posts.onNext(owner.allOfPost)
             }
             .disposed(by: disposeBag)
+     
     }
 }
 
