@@ -41,6 +41,7 @@ class SearchViewController : BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         readPost(next: "", limit: "20")
+        allOfPost = []
     }
     
     
@@ -195,9 +196,11 @@ extension SearchViewController {
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
                 
-                let filter = response.data.filter { $0.creator.nick != owner.myNickname }
-                owner.allOfPost.append(contentsOf: filter)
-                owner.posts.onNext(owner.allOfPost)
+                
+                owner.allOfPost.append(contentsOf: response.data)
+                
+                let filter = owner.allOfPost.filter { $0.creator.nick != owner.myNickname }
+                owner.posts.onNext(filter)
             }
             .disposed(by: disposeBag)
      

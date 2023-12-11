@@ -25,9 +25,9 @@ class MainViewController : BaseViewController {
     }()
     
     var followeruserIDs: [String] = []
-    let group = DispatchGroup()
     
     var routinArray: [ElementReadPostResponse] = []
+    var followingFilterArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
@@ -36,6 +36,7 @@ class MainViewController : BaseViewController {
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
+    var myID = ""
     var likeRow: Int = 0
     
     let viewModel = MainViewModel()
@@ -54,7 +55,7 @@ class MainViewController : BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("MainViewController - viewWillAppear")
-        readPost(next: "", limit: "")
+        readPost(next: "", limit: "10")
         routinArray = []
     }
  
@@ -112,7 +113,9 @@ class MainViewController : BaseViewController {
                 
                 
                 cell.deleteFollowerCompletion = {
-                    self.userID.onNext(element.creator._id)
+                    if element._id != self.myID {
+                        self.userID.onNext(element.creator._id)
+                    }
                 }
     
                 cell.postCommentBtn.rx.tap
@@ -156,6 +159,7 @@ class MainViewController : BaseViewController {
         output.unFollower
             .bind(with: self) { owner, response in
                 owner.routinArray = []
+//                owner.followingFilterArray = []
                 owner.readPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
             }
             .disposed(by: disposeBag)
@@ -198,6 +202,7 @@ extension MainViewController : UITableViewDelegate {
             if nextCursor != "0" {
                 print("MainVC - 바닥 찍었음 append 네트워크 통신 시작")
                 readPost(next: nextCursor, limit: "")
+                
             }
         }
     }
@@ -205,55 +210,24 @@ extension MainViewController : UITableViewDelegate {
 
 extension MainViewController {
     func readPost(next: String, limit: String) {
+        followingFilterArray = []
+        // followeruserIDs : [String]
         
-//
-//        group.enter()
-//        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
-//            .asDriver(onErrorJustReturn: GetProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", email: "", nick: "", profile: ""))
-//            .drive(with: self) { owner, response in
-//                print(response.following.map { data in
-//                    data._id
-//                })
-//
-//
-//
-//                owner.followeruserIDs = response.following.map { data in
-//                    data._id
-//                }
-//
-//                // 내 userID 저장
-//                owner.followeruserIDs.append(UserDefaultsManager.shared.loadUserID())
-//                print("*** followeruserIDs : \(self.followeruserIDs)")
-//                owner.group.leave()
-//
-//            }
-//            .disposed(by: disposeBag)
-        
-        
-//
-//        group.enter()
-//        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
-//            .catch { err in
-//                if let err = err as? ReadPostError {
-//                    print("MainViewController - readPost \(err.errorDescrtion) , \(err.rawValue)")
-//                }
-//                return Observable.never()
-//            }
-//            .bind(with: self) { owner, response in
-//                owner.nextCursor = response.next_cursor
-//                // 네트워크 통신 시작하면 5개 넘어가게 있으면 next_cursor 확인
-//                // next_cursor 값이 "0"나면 더이상 없는것임
-//                print("MainVC GET- next_cursor: \(response.next_cursor)")
-//
-//                for userID in owner.followeruserIDs {
-//                    let array = response.data.filter { $0.creator._id == userID }
-//                    owner.routinArray.append(contentsOf: array)
-//                }
-//                owner.group.leave()
-//            }
-//            .disposed(by: disposeBag)
-        
-        
+        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+            .catch { err in
+                if let erro = err as? GetProfileError {
+                    
+                }
+                return Observable.never()
+            }
+            .bind(with: self) { owner, response in
+                owner.myID = response._id
+                owner.followeruserIDs = response.following.map { $0.nick }
+                owner.followeruserIDs.append(response.nick)
+                print("팔로잉 한 닉네임 : \(owner.followeruserIDs)")
+            }
+            .disposed(by: disposeBag)
+     
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
             .catch { err in
                 if let err = err as? ReadPostError {
@@ -262,19 +236,24 @@ extension MainViewController {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
-                owner.nextCursor = response.next_cursor
+//                owner.nextCursor = response.next_cursor
                 // 네트워크 통신 시작하면 5개 넘어가게 있으면 next_cursor 확인
                 // next_cursor 값이 "0"나면 더이상 없는것임
                 print("MainVC GET- next_cursor: \(response.next_cursor)")
+               
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
-                owner.routins.onNext(owner.routinArray)
+                
+                // 네트워크가 늦어져서 append가 되지 않았을때 먼저 for문이 돌아갈 수 있음...
+                for nick in owner.followeruserIDs {
+                    let filterd = owner.routinArray.filter { $0.creator.nick == nick}
+                    owner.followingFilterArray.append(contentsOf: filterd)
+                    print("followingFilterArray \(self.followingFilterArray.count)")
+                }
+                owner.routins.onNext(owner.followingFilterArray)
             }
             .disposed(by: disposeBag)
         
-        
-//        group.notify(queue: .main) {
-//            self.routins.onNext(self.routinArray)
-//        }
     }
+ 
 }
