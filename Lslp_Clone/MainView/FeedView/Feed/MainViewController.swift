@@ -55,7 +55,7 @@ class MainViewController : BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("MainViewController - viewWillAppear")
-        readPost(next: "", limit: "10")
+        getPost(next: "", limit: "10")
         routinArray = []
     }
  
@@ -126,7 +126,7 @@ class MainViewController : BaseViewController {
                         commentView.refreshGetPost = {
                             //                            print("넘어온 데이터")
                             owner.routinArray = []
-                            owner.readPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
+                            owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
                             
                         }
                         let nav = UINavigationController(rootViewController: commentView)
@@ -141,7 +141,7 @@ class MainViewController : BaseViewController {
         output.like
             .bind(with: self) { owner, response in
                 owner.routinArray = []
-                owner.readPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
+                owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
                 print("** MainVC - 서버 Likes 배열에 추가 : \(response.like_status)")
             }
             .disposed(by: disposeBag)
@@ -151,7 +151,7 @@ class MainViewController : BaseViewController {
             .bind(with: self) { owner, response in
                 print("삭제한 postID : \(response._id)")
                 owner.routinArray = []
-                owner.readPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
+                owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
             }
             .disposed(by: disposeBag)
         
@@ -161,7 +161,7 @@ class MainViewController : BaseViewController {
                 dump(response)
                 owner.routinArray = []
 //                owner.followingFilterArray = []
-                owner.readPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
+                owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
             }
             .disposed(by: disposeBag)
         
@@ -202,7 +202,7 @@ extension MainViewController : UITableViewDelegate {
             
             if nextCursor != "0" {
                 print("MainVC - 바닥 찍었음 append 네트워크 통신 시작")
-                readPost(next: nextCursor, limit: "")
+                getPost(next: nextCursor, limit: "")
                 
             }
         }
@@ -210,10 +210,9 @@ extension MainViewController : UITableViewDelegate {
 }
 
 extension MainViewController {
-    func readPost(next: String, limit: String) {
+    func getPost(next: String, limit: String) {
         followingFilterArray = []
-        // followeruserIDs : [String]
-        
+        followeruserIDs = []
         APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
             .catch { err in
                 if let erro = err as? GetProfileError {
