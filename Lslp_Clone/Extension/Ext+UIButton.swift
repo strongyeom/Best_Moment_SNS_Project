@@ -18,4 +18,5 @@ extension UIButton {
         self.setTitleColor(.white, for: .normal)
         self.backgroundColor = brandColor
     }
+
 }

@@ -28,11 +28,15 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
     
     lazy var followerBtn = {
         let button = UIButton()
-       
         button.configuration = followOption(text: "팔로우")
         button.isUserInteractionEnabled = true
         return button
     }()
+    
+    lazy var exampleButton = {
+       exampleOption(text: "팔로우")
+    }()
+
    
     var disposeBag = DisposeBag()
     
@@ -58,11 +62,10 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
     
     func configureUI(data: ElementReadPostResponse, followingUsers: [String]) {
         
-        print(followingUsers.count)
-        if followingUsers.contains(data.creator._id) {
-            followerBtn.configuration = followOption(text: "팔로잉")
-        }
-        
+//        if followingUsers.contains(data.creator._id) {
+//            followerBtn.configuration = followOption(text: "팔로잉")
+//        }
+//        
         self.thumbnailDescription.text = data.title
         cofigurePostImage(data: data.image.first ?? "")
     }
@@ -94,6 +97,15 @@ class SearchCollectionViewCell: BaseCollectionViewCell {
         config.baseBackgroundColor = .lightGray
         return config
     }
-
     
+    func exampleOption(text: String) -> UIButton {
+        let button = UIButton()
+         button.setTitle("팔로우", for: .normal)
+         button.backgroundColor = .lightGray
+         button.layer.cornerRadius = 12
+         button.layer.cornerCurve = .continuous
+         button.clipsToBounds = true
+         return button
+    }
+ 
 }

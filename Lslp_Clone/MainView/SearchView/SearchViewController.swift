@@ -19,6 +19,7 @@ class SearchViewController : BaseViewController {
     var allOfPost: [ElementReadPostResponse] = []
     lazy var posts = BehaviorSubject(value: allOfPost)
     let userID = PublishSubject<String>()
+    let toggleFollow = BehaviorSubject(value: false)
     let viewModel = SearchViewModel()
     let group = DispatchGroup()
     var nextCursor = ""
@@ -57,11 +58,21 @@ class SearchViewController : BaseViewController {
                 cell.configureUI(data: element, followingUsers: [])
                 
                 cell.followerBtn.rx.tap
-                    .bind(with: self) { owner, _ in
+                    .bind(with: self) { owner, response in
                         print("\(row) 버튼 눌림")
+                        print("팔로우 토글 :\(response)")
                         owner.userID.onNext(element.creator._id)
-                        
-                        
+                       
+                        if cell.followerBtn.titleLabel?.text == "팔로우" {
+                            cell.followerBtn.configurationUpdateHandler = { button in
+                                button.configuration = cell.followOption(text: "팔로잉")
+                            }
+                        } else {
+                            cell.followerBtn.configurationUpdateHandler = { button in
+                                button.configuration = cell.followOption(text: "팔로우")
+                            }
+                        }
+                       
                     }
                     .disposed(by: cell.disposeBag)
                 
@@ -81,6 +92,7 @@ class SearchViewController : BaseViewController {
         
         output.follow
             .bind(with: self) { owner, response in
+                owner.toggleFollow.onNext(response.following_status)
                 print("response - \(response.following_status)")
             }
             .disposed(by: disposeBag)
