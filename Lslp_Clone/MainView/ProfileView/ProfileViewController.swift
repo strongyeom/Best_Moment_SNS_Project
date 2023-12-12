@@ -122,6 +122,9 @@ class ProfileViewController : BaseViewController {
     var imageData: String?
     let firstVC = MyPostViewController()
     let secondVC = MyFavoritePostViewController()
+    
+    
+    
     var containerView: UIView!
     let tabManVC = TabManViewController()
     

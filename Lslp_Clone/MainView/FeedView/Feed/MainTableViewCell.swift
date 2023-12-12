@@ -73,7 +73,6 @@ final class MainTableViewCell : UITableViewCell {
         view.font = UIFont.systemFont(ofSize: 13)
         view.numberOfLines = 0
         view.textAlignment = .left
-        view.backgroundColor = .yellow
         return view
     }()
     
@@ -93,7 +92,6 @@ final class MainTableViewCell : UITableViewCell {
     let likeCountLabel = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 14)
-        view.backgroundColor = .green
         return view
     }()
     
@@ -132,7 +130,6 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     private func setConstraints() {
-        routinTitle.setContentHuggingPriority(.defaultLow, for: .horizontal)
         routinTitle.setContentHuggingPriority(.defaultHigh, for: .vertical)
         routinTitle.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(10)
@@ -141,8 +138,8 @@ final class MainTableViewCell : UITableViewCell {
         followerBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         followerBtn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         followerBtn.snp.makeConstraints { make in
-            make.centerY.equalTo(routinTitle)
-            make.leading.equalTo(routinTitle.snp.trailing).offset(10)
+            make.centerY.equalTo(nickname)
+            make.leading.equalTo(nickname.snp.trailing).offset(10)
         }
         
         // setContentHuggingPriority : 뷰가 고유 크기보다 커지는 것을 방지하는 우선 순위를 설정
@@ -151,10 +148,11 @@ final class MainTableViewCell : UITableViewCell {
         pullDownButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         pullDownButton.snp.makeConstraints { make in
             make.leading.equalTo(followerBtn.snp.trailing).offset(10)
-            make.centerY.equalTo(routinTitle)
+            make.centerY.equalTo(nickname)
             make.trailing.equalToSuperview().inset(10)
         }
         
+
         profileImage.snp.makeConstraints { make in
             make.top.equalTo(routinTitle.snp.bottom).offset(5)
             make.leading.equalTo(routinTitle)
@@ -164,7 +162,7 @@ final class MainTableViewCell : UITableViewCell {
         nickname.snp.makeConstraints { make in
             make.centerY.equalTo(profileImage)
             make.leading.equalTo(profileImage.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(10)
+            
         }
   
         postImage.snp.makeConstraints { make in
