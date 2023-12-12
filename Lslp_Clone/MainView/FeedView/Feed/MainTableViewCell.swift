@@ -212,6 +212,8 @@ final class MainTableViewCell : UITableViewCell {
         nickname.text = data.creator.nick
         releaseDate.text = data.time
         
+        print("UTC :\(data.time)")
+        
         print("넘오온 followings : \(followings)")
         if followings.contains(data.creator._id) {
             self.followerBtn.configurationUpdateHandler = { button in
