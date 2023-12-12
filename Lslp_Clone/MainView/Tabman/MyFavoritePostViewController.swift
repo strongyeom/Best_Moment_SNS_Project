@@ -13,7 +13,7 @@ class MyFavoritePostViewController : BaseViewController {
     
     lazy var collectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout())
-        collection.register(LikeCollectionViewCell.self, forCellWithReuseIdentifier: LikeCollectionViewCell.identifier)
+        collection.register(MyPostCell.self, forCellWithReuseIdentifier: MyPostCell.identifier)
         return collection
     }()
     
@@ -44,9 +44,9 @@ class MyFavoritePostViewController : BaseViewController {
     func bind() {
         
         myFavoritesPosts
-            .bind(to: collectionView.rx.items(cellIdentifier: LikeCollectionViewCell.identifier, cellType: LikeCollectionViewCell.self)) {
+            .bind(to: collectionView.rx.items(cellIdentifier: MyPostCell.identifier, cellType: MyPostCell.self)) {
                 row, element, cell in
-                cell.configureUI(data: element, isHidden: false)
+                cell.configureUI(data: element, isHidden: .favorite)
             }
             .disposed(by: disposeBag)
     }

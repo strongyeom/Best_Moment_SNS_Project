@@ -9,7 +9,12 @@ import UIKit
 import RxSwift
 import Kingfisher
 
-class LikeCollectionViewCell: BaseCollectionViewCell {
+class MyPostCell: BaseCollectionViewCell {
+    
+    enum Section {
+        case post
+        case favorite
+    }
     
     var disposeBag = DisposeBag()
     let postImage = PostImage(nil, color: .yellow)
@@ -37,12 +42,14 @@ class LikeCollectionViewCell: BaseCollectionViewCell {
         }
     }
  
-    func configureUI(data: ElementReadPostResponse, isHidden: Bool) {
+    func configureUI(data: ElementReadPostResponse, isHidden: Section) {
         
-        print("data.likes: \(data.likes)")
-        likeBtn.isHidden = isHidden
         
-        if isHidden == false {
+        switch isHidden {
+        case .post:
+            likeBtn.isHidden = true
+        case .favorite:
+            likeBtn.isHidden = false
             likeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
         

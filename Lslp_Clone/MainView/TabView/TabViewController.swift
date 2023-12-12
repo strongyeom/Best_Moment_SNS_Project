@@ -23,11 +23,6 @@ class TabViewController : UITabBarController {
         follow.tabBarItem.title = "팔로잉"
         follow.tabBarItem.image = UIImage(systemName: "person.2.fill")
         let followVC = UINavigationController(rootViewController: follow)
-        
-        let like = LikeCollectionViewController()
-        like.tabBarItem.title = "좋아요"
-        like.tabBarItem.image = UIImage(systemName: "heart")
-        let likeVC = UINavigationController(rootViewController: like)
       
         let profile = ProfileViewController()
         profile.tabBarItem.title = "마이페이지"
@@ -41,7 +36,7 @@ class TabViewController : UITabBarController {
         self.tabBar.standardAppearance = apperance
         self.tabBar.scrollEdgeAppearance = apperance
         
-        setViewControllers([homeVC, followVC, likeVC, profileVC], animated: false)
+        setViewControllers([homeVC, followVC, profileVC], animated: false)
     }
     
 }
