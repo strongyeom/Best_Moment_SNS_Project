@@ -6,8 +6,11 @@ import Kingfisher
 
 class ProfileEditView : BaseViewController {
     
-    lazy var profileImage = PostImage("person.fill", color: .blue)
+    lazy var profileImage = PostImage("person.circle.fill", color: .lightGray)
+    let nicknameTitle = BaseLabel(text: "닉네임 수정", fontSize: 22)
+    let nicknameTextField = SignInTextField(placeHolder: "닉네임을 설정해주세요.", brandColor: .blue, alignment: .left)
     let saveButton = SignInButton(text: "저장하기", brandColor: .blue)
+    
     lazy var cancelBtn = {
         let view = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelBtnClicked))
         return view
@@ -21,22 +24,11 @@ class ProfileEditView : BaseViewController {
     override func configure() {
         super.configure()
         navigationItem.leftBarButtonItem = cancelBtn
-        view.addSubview(profileImage)
-        view.addSubview(saveButton)
+        [profileImage, nicknameTitle, nicknameTextField, saveButton].forEach {
+            view.addSubview($0)
+        }
+        
         self.profileImage.addGestureRecognizer(tapGesture)
-        
-        profileImage.snp.makeConstraints { make in
-            make.size.equalTo(80)
-            make.center.equalToSuperview()
-        }
-        
-        
-        saveButton.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).offset(20)
-            make.horizontalEdges.equalToSuperview().inset(10)
-            make.height.equalTo(50)
-        }
-        
         bind()
     }
     
@@ -44,11 +36,11 @@ class ProfileEditView : BaseViewController {
     
     func bind() {
         
-        let input = ProfileViewModel.Input(imageData: selectedImageData, saveBtn: saveButton.rx.tap, imageTap: tapGesture.rx.event)
+        let input = ProfileViewModel.Input(imageData: selectedImageData, saveBtn: saveButton.rx.tap, imageTap: tapGesture.rx.event, nickText: nicknameTextField.rx.text.orEmpty)
         
         let output = profileViewModel.transform(input: input)
         
-        output.putImageClicked
+        output.saveProfile
             .bind(with: self) { owner, response in
                 dump(response)
                 owner.dismiss(animated: true)
@@ -82,6 +74,36 @@ class ProfileEditView : BaseViewController {
     
     @objc func cancelBtnClicked() {
         dismiss(animated: true)
+    }
+    override func setConstraints() {
+        profileImage.snp.makeConstraints { make in
+            make.size.equalTo(200)
+            make.centerX.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(60)
+        }
+        
+        nicknameTitle.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        nicknameTitle.snp.makeConstraints { make in
+            make.top.equalTo(profileImage.snp.bottom).offset(15)
+            make.leading.equalTo(view.safeAreaLayoutGuide).inset(10)
+        }
+        
+        
+        nicknameTextField.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        nicknameTextField.snp.makeConstraints { make in
+            make.centerY.equalTo(nicknameTitle)
+            make.leading.equalTo(nicknameTitle.snp.trailing).offset(15)
+            make.height.equalTo(40)
+            make.trailing.equalTo(view.safeAreaLayoutGuide).inset(10)
+        }
+        
+        
+        saveButton.snp.makeConstraints { make in
+//            make.top.equalTo(profileImage.snp.bottom).offset(20)
+            make.horizontalEdges.equalToSuperview().inset(10)
+            make.top.equalTo(nicknameTitle.snp.bottom).offset(60)
+            make.height.equalTo(50)
+        }
     }
 }
 

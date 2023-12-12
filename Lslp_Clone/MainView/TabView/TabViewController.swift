@@ -28,14 +28,7 @@ class TabViewController : UITabBarController {
         like.tabBarItem.title = "좋아요"
         like.tabBarItem.image = UIImage(systemName: "heart")
         let likeVC = UINavigationController(rootViewController: like)
-        
-        let search = SearchViewController()
-        search.tabBarItem.title = "검색"
-        search.tabBarItem.image = UIImage(systemName: "magnifyingglass")
-        let searchVC = UINavigationController(rootViewController: search)
-        
-        
-        
+      
         let profile = ProfileViewController()
         profile.tabBarItem.title = "마이페이지"
         profile.tabBarItem.image = UIImage(systemName: "person.circle")

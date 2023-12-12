@@ -147,7 +147,7 @@ final class MainTableViewCell : UITableViewCell {
         
         // setContentHuggingPriority : 뷰가 고유 크기보다 커지는 것을 방지하는 우선 순위를 설정
         pullDownButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        // setContentCompressionResistancePriority : 뷰가 고유 크기보다 작제 만들어지지 않도록 하는 우선 순위를 설정
+        // setContentCompressionResistancePriority : 뷰가 고유 크기보다 작게 만들어지지 않도록 하는 우선 순위를 설정
         pullDownButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         pullDownButton.snp.makeConstraints { make in
             make.leading.equalTo(followerBtn.snp.trailing).offset(10)
@@ -230,8 +230,16 @@ final class MainTableViewCell : UITableViewCell {
         
         
         routinDescription.text = data.content
-        likeCountLabel.text = "좋아요 \(data.likes.count)개"
-        commentCountLabel.text = "댓글 \(data.comments.count)개 모두 보기"
+        
+        
+        if data.likes.count > 0 {
+            likeCountLabel.text = "좋아요 \(data.likes.count)개"
+        }
+        
+        if data.comments.count > 0 {
+            commentCountLabel.text = "댓글 \(data.comments.count)개 모두 보기"
+        }
+       
         
         cofigurePostImage(data: data)
         

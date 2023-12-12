@@ -84,10 +84,10 @@ class MainViewModel: BaseInOutPut {
                     }
             }
         
-        let bb = Observable.combineLatest(input.userID, input.toggleFollowing)
+        let userIDAndFollowingStatus = Observable.combineLatest(input.userID, input.toggleFollowing)
         
         let followingStatus = input.userID
-            .withLatestFrom(bb)
+            .withLatestFrom(userIDAndFollowingStatus)
             .flatMap { userID, response in
                 APIManager.shared.requestFollowStatus(api: response ? Router.follow(accessToken: UserDefaultsManager.shared.accessToken, userID: userID) : Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
                     .catch { err in

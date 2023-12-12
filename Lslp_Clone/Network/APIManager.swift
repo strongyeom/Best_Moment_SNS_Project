@@ -401,7 +401,7 @@ class APIManager {
                 }
                 
                 if let imageData {
-                    multiPartForm.append(imageData, withName: "file", fileName: "\(api.path).jpg", mimeType: "image/jpg")
+                    multiPartForm.append(imageData, withName: "profile", fileName: "\(api.path).jpg", mimeType: "image/jpg")
                 }
                 
             }, with: api, interceptor: AuthManager())

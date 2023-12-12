@@ -172,18 +172,18 @@ class ProfileViewController : BaseViewController {
                 self.followersCount.text = "\(response.followers.count)"
                 self.followingCount.text = "\(response.following.count)"
                 
-//                print("** response.profile : \(response.profile)")
+                print("** response.profile : \(response.profile)")
                 
-//                let imageDownloadRequest = AnyModifier { request in
-//                    var requestBody = request
-//                    requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
-//                    requestBody.setValue(UserDefaultsManager.shared.accessToken, forHTTPHeaderField: "Authorization")
-//                    return requestBody
-//                }
+                let imageDownloadRequest = AnyModifier { request in
+                    var requestBody = request
+                    requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
+                    requestBody.setValue(UserDefaultsManager.shared.accessToken, forHTTPHeaderField: "Authorization")
+                    return requestBody
+                }
                 
-//                let url = URL(string: BaseAPI.baseUrl + response.profile)
-//                print("*** url : \(url)")
-//                self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
+                let url = URL(string: BaseAPI.baseUrl + response.profile)
+                print("*** url : \(url)")
+                self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
                 
             })
             .disposed(by: disposeBag)
