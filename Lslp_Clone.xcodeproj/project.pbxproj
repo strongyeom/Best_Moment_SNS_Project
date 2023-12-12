@@ -44,6 +44,7 @@
 		2686E1B32B20DDB800C9DF76 /* Ext+UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E1B22B20DDB800C9DF76 /* Ext+UILabel.swift */; };
 		268E47592B186ED9008BECD3 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268E47582B186ED9008BECD3 /* AuthManager.swift */; };
 		2695F9DF2B2845B50014F19B /* BaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2695F9DE2B2845B50014F19B /* BaseLabel.swift */; };
+		2695F9E22B28BDC00014F19B /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2695F9E12B28BDC00014F19B /* EditViewController.swift */; };
 		269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269CEE5E2B1113D900477D04 /* CommentViewController.swift */; };
 		26E5F2FD2B1F721200955A5D /* Ext+UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E5F2FC2B1F721200955A5D /* Ext+UITextView.swift */; };
 		26E5F2FF2B1F72FE00955A5D /* BasicTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E5F2FE2B1F72FE00955A5D /* BasicTextView.swift */; };
@@ -100,6 +101,7 @@
 		2686E1B22B20DDB800C9DF76 /* Ext+UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UILabel.swift"; sourceTree = "<group>"; };
 		268E47582B186ED9008BECD3 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		2695F9DE2B2845B50014F19B /* BaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLabel.swift; sourceTree = "<group>"; };
+		2695F9E12B28BDC00014F19B /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		269CEE5E2B1113D900477D04 /* CommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewController.swift; sourceTree = "<group>"; };
 		26E5F2FC2B1F721200955A5D /* Ext+UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UITextView.swift"; sourceTree = "<group>"; };
 		26E5F2FE2B1F72FE00955A5D /* BasicTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicTextView.swift; sourceTree = "<group>"; };
@@ -279,6 +281,14 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		2695F9E02B28BDB10014F19B /* EditView */ = {
+			isa = PBXGroup;
+			children = (
+				2695F9E12B28BDC00014F19B /* EditViewController.swift */,
+			);
+			path = EditView;
+			sourceTree = "<group>";
+		};
 		269CEE5D2B1113C900477D04 /* CommentView */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,6 +313,7 @@
 			children = (
 				2686E1952B204B3000C9DF76 /* Feed */,
 				26E699AC2B0DDFE500DA90C0 /* AddRoutinView */,
+				2695F9E02B28BDB10014F19B /* EditView */,
 				269CEE5D2B1113C900477D04 /* CommentView */,
 			);
 			path = FeedView;
@@ -457,6 +468,7 @@
 				2649E1C12B04C677003CA70C /* SignupViewModel.swift in Sources */,
 				266C11452B2736AB002929B6 /* MainViewController.swift in Sources */,
 				26F4937F2B036A5400AA68E7 /* LoginViewController.swift in Sources */,
+				2695F9E22B28BDC00014F19B /* EditViewController.swift in Sources */,
 				2695F9DF2B2845B50014F19B /* BaseLabel.swift in Sources */,
 				2649E1B42B04AE43003CA70C /* SignInTextField.swift in Sources */,
 				26F2A7CC2B074DE100033C93 /* NetworkErrorCollections.swift in Sources */,

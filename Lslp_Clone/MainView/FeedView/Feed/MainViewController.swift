@@ -101,7 +101,14 @@ class MainViewController : BaseViewController {
                         owner.likeID.onNext(element._id)
                     }
                     .disposed(by: cell.disposeBag)
-
+                
+                // 편집
+                cell.editCompletion = {
+                    let editVC = EditViewController()
+                    editVC.data = element
+                    self.navigationController?.pushViewController(editVC, animated: true)
+                }
+                // 삭제
                 cell.deleteCompletion = {
                     print("\(row) - \(element.title)")
                     self.postID.onNext(element._id)

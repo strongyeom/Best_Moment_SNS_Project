@@ -13,6 +13,7 @@ final class MainTableViewCell : UITableViewCell {
    
     var disposeBag = DisposeBag()
     var deleteCompletion: (() -> Void)?
+    var editCompletion: (() -> Void)?
     
     let routinTitle = {
         let view = UILabel()
@@ -27,7 +28,10 @@ final class MainTableViewCell : UITableViewCell {
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         button.showsMenuAsPrimaryAction = true
        
-        let edit = UIAction(title: "편집", handler: { _ in print("편집") }) 
+        let edit = UIAction(title: "편집", handler: { _ in
+            self.editCompletion?()
+            print("편집")
+        })
         let cancel = UIAction(title: "삭제", attributes: .destructive, handler: { _ in
             self.deleteCompletion?()
             print("취소")
