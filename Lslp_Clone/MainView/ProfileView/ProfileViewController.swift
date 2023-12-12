@@ -120,8 +120,8 @@ class ProfileViewController : BaseViewController {
     var tabman = TabManViewController()
     let disposeBag = DisposeBag()
     var imageData: String?
-    let firstVC = FirstViewController()
-    let secondVC = SecondViewController()
+    let firstVC = MyPostViewController()
+    let secondVC = MyFavoritePostViewController()
     var containerView: UIView!
     let tabManVC = TabManViewController()
     

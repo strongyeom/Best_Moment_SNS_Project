@@ -52,7 +52,7 @@ class LikeCollectionViewController : BaseViewController {
         likesArray
             .bind(to: collectionView.rx.items(cellIdentifier: LikeCollectionViewCell.identifier, cellType: LikeCollectionViewCell.self)) {
                 row, element, cell in
-                cell.configureUI(data: element)
+                cell.configureUI(data: element, isHidden: false)
 //                dump(element)
            
                 cell.likeBtn.rx.tap

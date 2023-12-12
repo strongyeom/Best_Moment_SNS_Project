@@ -13,18 +13,7 @@ class LikeCollectionViewCell: BaseCollectionViewCell {
     
     var disposeBag = DisposeBag()
     let postImage = PostImage(nil, color: .yellow)
-    let nickname = {
-        let view = UILabel()
-        view.text = "닉네임입니다."
-        return view
-    }()
-    
-    lazy var profileImage = {
-        let view = UIImageView()
-        view.backgroundColor = .yellow
-        return view
-    }()
-    
+
     let likeBtn = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "heart"), for: .normal)
@@ -33,11 +22,9 @@ class LikeCollectionViewCell: BaseCollectionViewCell {
     }()
     
     override func configure() {
-        [nickname, profileImage, likeBtn].forEach {
-            postImage.addSubview($0)
+        [postImage, likeBtn].forEach {
+            contentView.addSubview($0)
         }
-        
-        contentView.addSubview(postImage)
     }
     
     override func setConstraints() {
@@ -45,27 +32,19 @@ class LikeCollectionViewCell: BaseCollectionViewCell {
             make.edges.equalToSuperview()
         }
         
-        profileImage.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(10)
-            make.size.equalTo(60)
-        }
-        
-        nickname.snp.makeConstraints { make in
-            make.centerY.equalTo(profileImage)
-            make.leading.equalTo(profileImage.snp.trailing).offset(10)
-        }
-        
         likeBtn.snp.makeConstraints { make in
             make.trailing.bottom.equalToSuperview().inset(10)
         }
     }
  
-    func configureUI(data: ElementReadPostResponse) {
+    func configureUI(data: ElementReadPostResponse, isHidden: Bool) {
         
-        self.nickname.text = data.creator.nick
+        print("data.likes: \(data.likes)")
+        likeBtn.isHidden = isHidden
         
-        let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
-        likeBtn.setImage(image, for: .normal)
+        if isHidden == false {
+            likeBtn.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        }
         
         cofigurePostImage(data: data.image.first ?? "")
     }
@@ -82,22 +61,10 @@ class LikeCollectionViewCell: BaseCollectionViewCell {
         let url = URL(string: BaseAPI.baseUrl + data)
         self.postImage.kf.setImage(with: url, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
     }
-    
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        DispatchQueue.main.async {
-            self.profileImage.layer.cornerRadius = self.profileImage.bounds.width / 2
-            self.profileImage.clipsToBounds = true
-        }
-    }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
-        postImage.image = nil
-        profileImage.image = nil
-        nickname.text = nil
-        
+        postImage.image = nil        
         disposeBag = DisposeBag()
         
     }

@@ -19,8 +19,8 @@ class TabManViewController : TabmanViewController {
         super.viewDidLoad()
         print("TabManViewController - viewDidLoad")
         
-        viewControllers.append(FirstViewController())
-        viewControllers.append(SecondViewController())
+        viewControllers.append(MyPostViewController())
+        viewControllers.append(MyFavoritePostViewController())
         self.dataSource = self
 //
         view.addSubview(baseView)
@@ -28,18 +28,8 @@ class TabManViewController : TabmanViewController {
             make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
 
-
-//        // Create bar
-//        let bar = TMBar.ButtonBar()
-//        bar.layout.transitionStyle = .snap // Customize
-//        bar.indicator.weight = .custom(value: 1)
-//        //탭바 레이아웃 설정
-//        bar.layout.alignment = .centerDistributed
-//        //        .fit : indicator가 버튼크기로 설정됨
-//        bar.layout.interButtonSpacing = view.bounds.width / 8
-        
+        // bar 설정
         let bar = TMBar.ButtonBar()
-        // 배경 회색으로 나옴 -> 하얀색으로 바뀜
         bar.backgroundView.style = .clear
         bar.layout.transitionStyle = .snap
         // 간격 설정
