@@ -123,6 +123,7 @@ class ProfileViewController : BaseViewController {
     let firstVC = FirstViewController()
     let secondVC = SecondViewController()
     var containerView: UIView!
+    let tabManVC = TabManViewController()
     
     override func configure() {
         super.configure()
@@ -132,21 +133,10 @@ class ProfileViewController : BaseViewController {
             view.addSubview($0)
         }
         
-//        containerView = UIView()
-//        view.addSubview(containerView)
-//        containerView.backgroundColor = .lightGray
-//        
-//        let tabManVC = TabManViewController()
-//        self.addChild(tabManVC)
-//        containerView.addSubview(tabManVC.view)
-//        tabManVC.view.frame = containerView.bounds
-//        tabManVC.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        tabManVC.didMove(toParent: self)
-//        
-    
-        
-        
-       
+        containerView = UIView()
+        view.addSubview(containerView)
+        containerView.addSubview(tabManVC.view)
+ 
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -227,12 +217,14 @@ class ProfileViewController : BaseViewController {
         }
         
 //
-//        containerView.snp.makeConstraints { make in
-//            make.top.equalTo(buttonStackView.snp.bottom).offset(30)
-//            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
-//            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
-//
-//        }
+        containerView.snp.makeConstraints { make in
+            make.top.equalTo(buttonStackView.snp.bottom).offset(30)
+            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+
+        }
+        
+        
     }
 }
 

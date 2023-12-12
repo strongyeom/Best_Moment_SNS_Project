@@ -13,26 +13,48 @@ class TabManViewController : TabmanViewController {
     
     let baseView = UIView()
     
-    private var viewControllers = [FirstViewController(), SecondViewController()]
+    private var viewControllers: [UIViewController] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print("TabManViewController - viewDidLoad")
+        
+        viewControllers.append(FirstViewController())
+        viewControllers.append(SecondViewController())
+        self.dataSource = self
+//
         view.addSubview(baseView)
         baseView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
 
-        
-        
-        
-        self.dataSource = self
 
-        // Create bar
-        let bar = TMBar.ButtonBar()
-        bar.layout.transitionStyle = .snap // Customize
-        bar.indicator.weight = .custom(value: 1)
+//        // Create bar
+//        let bar = TMBar.ButtonBar()
+//        bar.layout.transitionStyle = .snap // Customize
+//        bar.indicator.weight = .custom(value: 1)
+//        //탭바 레이아웃 설정
+//        bar.layout.alignment = .centerDistributed
+//        //        .fit : indicator가 버튼크기로 설정됨
+//        bar.layout.interButtonSpacing = view.bounds.width / 8
         
+        let bar = TMBar.ButtonBar()
+        // 배경 회색으로 나옴 -> 하얀색으로 바뀜
+        bar.backgroundView.style = .clear
+        bar.layout.transitionStyle = .snap
+        // 간격 설정
+        bar.layout.contentInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
+        // 버튼 글씨 커스텀
+        bar.buttons.customize { (button) in
+            button.tintColor = .systemGray4
+            button.selectedTintColor = .black
+            button.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+            button.selectedFont = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        }
+        // 밑줄 쳐지는 부분
+        bar.indicator.weight = .custom(value: 2)
+        bar.indicator.tintColor = .black
+        bar.indicator.overscrollBehavior = .none
         // Add to view
         addBar(bar, dataSource: self, at: .custom(view: baseView, layout: nil))
 
@@ -55,7 +77,17 @@ extension TabManViewController: PageboyViewControllerDataSource, TMBarDataSource
     }
 
     func barItem(for bar: TMBar, at index: Int) -> TMBarItemable {
-        let title = "Page \(index)"
-        return TMBarItem(title: title)
+        
+        switch index {
+        case 0:
+            let title = "내 게시물"
+            return TMBarItem(title: title)
+        case 1:
+            let title = "좋아요한 게시물"
+            return TMBarItem(title: title)
+        default:
+            return TMBarItem(title: "")
+        }
+        
     }
 }
