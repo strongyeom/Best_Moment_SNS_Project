@@ -30,11 +30,12 @@ class MainViewController : BaseViewController {
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
     let userID = PublishSubject<String>()
-    
+    let toggleFollowing = BehaviorSubject(value: false)
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
     var likeRow: Int = 0
+    var followings: [String] = []
     let viewModel = MainViewModel()
     
     override func configure() {
@@ -84,7 +85,7 @@ class MainViewController : BaseViewController {
     
     func bind() {
         
-        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID)
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, toggleFollowing: toggleFollowing)
         
         let output = viewModel.transform(input: input)
         
@@ -93,7 +94,7 @@ class MainViewController : BaseViewController {
                 
                 self.likeRow = row
                 print("likeRow : \(self.likeRow)")
-                cell.configureUI(data: element)
+                cell.configureUI(data: element, followings: self.followings)
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")
@@ -105,6 +106,29 @@ class MainViewController : BaseViewController {
                     print("\(row) - \(element.title)")
                     self.postID.onNext(element._id)
                 }
+                
+                cell.followerBtn.rx.tap
+                    .bind(with: self) { owner, _ in
+                        print("팔로우 버튼 눌림")
+                        
+                        
+                        if cell.followerBtn.titleLabel?.text == "팔로우" {
+                            cell.followerBtn.configurationUpdateHandler = { button in
+                                button.configuration = cell.followOption(text: "팔로잉")
+                                owner.toggleFollowing.onNext(true)
+                                owner.userID.onNext(element.creator._id)
+                            }
+                        } else {
+                            
+                            cell.followerBtn.configurationUpdateHandler = { button in
+                                button.configuration = cell.followOption(text: "팔로우")
+                                owner.toggleFollowing.onNext(false)
+                                owner.userID.onNext(element.creator._id)
+                            }
+                        }
+                        
+                    }
+                    .disposed(by: cell.disposeBag)
                 
     
                 cell.postCommentBtn.rx.tap
@@ -144,15 +168,12 @@ class MainViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        // unFollower 후 네트워크 통신
-//        output.unFollower
-//            .bind(with: self) { owner, response in
-//                dump(response)
-//                owner.routinArray = []
-////                owner.followingFilterArray = []
-//                owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
-//            }
-//            .disposed(by: disposeBag)
+        output.followingStatus
+            .bind(with: self) { owner, response in
+                print("팔로잉 상태 ", response.following_status)
+                owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
+            }
+            .disposed(by: disposeBag)
         
         /// 에러 문구 Alert
         output.errorMessage
@@ -200,6 +221,19 @@ extension MainViewController : UITableViewDelegate {
 
 extension MainViewController {
     func getPost(next: String, limit: String) {
+        
+        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+            .catch { err in
+                if let err = err as? GetProfileError {
+                    
+                }
+                return Observable.never()
+            }
+            .bind(with: self) { owner, response in
+                print("팔로잉 된 ID : \(response.following.map { $0._id })")
+                owner.followings = response.following.map { $0._id }
+            }
+            .disposed(by: disposeBag)
       
      
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))

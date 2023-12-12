@@ -18,6 +18,7 @@ class MainViewModel: BaseInOutPut {
         let likeID: PublishSubject<String>
         let postID: PublishSubject<String>
         let userID: PublishSubject<String>
+        let toggleFollowing: BehaviorSubject<Bool>
     }
     
     struct Output {
@@ -27,6 +28,7 @@ class MainViewModel: BaseInOutPut {
             Observable<RemovePostResponse>
         let errorMessage: PublishSubject<String>
         let unFollower: Observable<FollowerStatusResponse>
+        let followingStatus : Observable<FollowerStatusResponse>
     }
     
     func transform(input: Input) -> Output {
@@ -43,7 +45,7 @@ class MainViewModel: BaseInOutPut {
                         if let err = err as? LikeError {
                             print("🙏🏻- 좋아요 에러 : \(err.errorDescripion)")
                             errorMessage.onNext(err.errorDescripion)
-                           
+                            
                             if err.rawValue == 419 {
                                 
                             }
@@ -65,8 +67,12 @@ class MainViewModel: BaseInOutPut {
                         return Observable.never()
                     }
             }
-            
-       let unFollower = input.userID
+        
+      
+        
+        
+        
+        let unFollower = input.userID
             .flatMap { userID in
                 APIManager.shared.requestFollowStatus(api: Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
                     .catch { err in
@@ -77,9 +83,36 @@ class MainViewModel: BaseInOutPut {
                         return Observable.never()
                     }
             }
-            
+        
+        let bb = Observable.combineLatest(input.userID, input.toggleFollowing)
+        
+        let followingStatus = input.userID
+            .withLatestFrom(bb)
+            .flatMap { userID, response in
+                APIManager.shared.requestFollowStatus(api: response ? Router.follow(accessToken: UserDefaultsManager.shared.accessToken, userID: userID) : Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+                    .catch { err in
+                        if let err = err as? DeleteFollowerError {
+                            print("🙏🏻- 언팔로우 에러 : \(err.errorDescription)")
+                            errorMessage.onNext(err.errorDescription)
+                        }
+                        return Observable.never()
+                    }
+            }
+        
+//        let unFollower = input.userID
+//             .flatMap { userID in
+//                 APIManager.shared.requestFollowStatus(api: Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+//                     .catch { err in
+//                         if let err = err as? DeleteFollowerError {
+//                             print("🙏🏻- 언팔로우 에러 : \(err.errorDescription)")
+//                             errorMessage.onNext(err.errorDescription)
+//                         }
+//                         return Observable.never()
+//                     }
+//             }
+//
             
         
-        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage, unFollower: unFollower)
+        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage, unFollower: unFollower, followingStatus: followingStatus)
     }
 }

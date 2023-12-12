@@ -27,7 +27,7 @@ class FollowingViewController : BaseViewController {
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
     let userID = PublishSubject<String>()
-    
+    var toggleFollowing = BehaviorSubject(value: true)
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
@@ -74,7 +74,7 @@ class FollowingViewController : BaseViewController {
     
     func bind() {
         
-        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID)
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, toggleFollowing: toggleFollowing)
         
         let output = viewModel.transform(input: input)
         
@@ -139,7 +139,7 @@ class FollowingViewController : BaseViewController {
         /// 에러 문구 Alert
         output.errorMessage
             .bind(with: self) { owner, err in
-                owner.setEmailValidAlet(text: err, completionHandler: nil)
+//                owner.setEmailValidAlet(text: err, completionHandler: nil)
             }
             .disposed(by: disposeBag)
         

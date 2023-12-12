@@ -206,11 +206,23 @@ final class MainTableViewCell : UITableViewCell {
         }
     }
     
-    func configureUI(data: ElementReadPostResponse) {
+    func configureUI(data: ElementReadPostResponse, followings: [String]) {
         
         routinTitle.text = data.title
         nickname.text = data.creator.nick
         releaseDate.text = data.time
+        
+        print("넘오온 followings : \(followings)")
+        if followings.contains(data.creator._id) {
+            self.followerBtn.configurationUpdateHandler = { button in
+                button.configuration = self.followOption(text: "팔로잉")
+            }
+        } else {
+            self.followerBtn.configurationUpdateHandler = { button in
+                button.configuration = self.followOption(text: "팔로우")
+            }
+        }
+        
         
         let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         likeBtn.setImage(image, for: .normal)
@@ -263,6 +275,13 @@ final class MainTableViewCell : UITableViewCell {
         self.profileImage.layer.borderColor = UIColor.white.cgColor
         self.profileImage.layer.borderWidth = 1
         self.profileImage.clipsToBounds = true
+    }
+    
+    func followOption(text: String) -> UIButton.Configuration {
+        var config = UIButton.Configuration.tinted()
+        config.attributedTitle = AttributedString(text, attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .medium)]))
+        config.baseForegroundColor = .systemBlue
+        return config
     }
     
 }
