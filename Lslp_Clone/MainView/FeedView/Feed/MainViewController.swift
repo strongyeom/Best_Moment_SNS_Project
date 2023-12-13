@@ -32,6 +32,7 @@ class MainViewController : BaseViewController {
     let userID = PublishSubject<String>()
     let profileUserID = PublishSubject<String>()
     let toggleFollowing = BehaviorSubject(value: false)
+   
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
@@ -39,6 +40,7 @@ class MainViewController : BaseViewController {
     var likeRow: Int = 0
     var followings: [String] = []
     let viewModel = MainViewModel()
+    var example: GetAnotherProfileResponse = GetAnotherProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", nick: "", profile: "")
     
     override func configure() {
         super.configure()
@@ -123,7 +125,7 @@ class MainViewController : BaseViewController {
                 // 프로필 클릭
                 cell.profileCompletion = {
                     self.profileUserID.onNext(element.creator._id)
-                   
+                    
                 }
                 
                 cell.followerBtn.rx.tap
@@ -210,7 +212,7 @@ class MainViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        
+        // 프로필 사진 클릭 했을때
         output.profileTapped
             .bind(with: self) { owner, response in
                 print("다른 사람 프로필 조회 - \(response)")

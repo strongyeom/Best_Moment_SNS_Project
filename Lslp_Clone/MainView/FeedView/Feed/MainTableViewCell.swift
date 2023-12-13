@@ -231,6 +231,7 @@ final class MainTableViewCell : UITableViewCell {
         bubbleView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(10)
             make.horizontalEdges.equalToSuperview()
+            
         }
     }
     
@@ -276,7 +277,7 @@ final class MainTableViewCell : UITableViewCell {
         
     }
     
-    func bubbleChatData(data: GetProfileResponse) {
+    func bubbleChatData(data: GetAnotherProfileResponse) {
         bubbleView.configureUI(data: data)
     }
    

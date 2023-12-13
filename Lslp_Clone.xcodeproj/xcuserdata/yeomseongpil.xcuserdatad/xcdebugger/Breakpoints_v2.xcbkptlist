@@ -14,13 +14,13 @@
             filePath = "Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "bind()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27 - 8d1ec5d86231f74f"
+                  uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27 - 8d1ec5d86231f72c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -30,27 +30,12 @@
                   urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "216"
-                  endingLineNumber = "216"
-                  offsetFromSymbolStart = "2676">
+                  startingLineNumber = "217"
+                  endingLineNumber = "217"
+                  offsetFromSymbolStart = "2612">
                </Location>
                <Location
-                  uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27 - fcfa47db3bd73dbb"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #6 (Lslp_Clone.MainViewController, Lslp_Clone.GetProfileResponse) -&gt; () in Lslp_Clone.MainViewController.bind() -&gt; ()"
-                  moduleName = "Lslp_Clone"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "216"
-                  endingLineNumber = "216"
-                  offsetFromSymbolStart = "219">
-               </Location>
-               <Location
-                  uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27 - 83c6bc612eef84ff"
+                  uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27 - 83c6bc612eef84bd"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -60,24 +45,9 @@
                   urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "216"
-                  endingLineNumber = "216"
-                  offsetFromSymbolStart = "159">
-               </Location>
-               <Location
-                  uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27 - 83c6bc612eef84ff"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #6 (Lslp_Clone.MainViewController, Lslp_Clone.GetAnotherProfileResponse) -&gt; () in Lslp_Clone.MainViewController.bind() -&gt; ()"
-                  moduleName = "Lslp_Clone"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "216"
-                  endingLineNumber = "216"
-                  offsetFromSymbolStart = "193">
+                  startingLineNumber = "218"
+                  endingLineNumber = "218"
+                  offsetFromSymbolStart = "78">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -92,13 +62,13 @@
             filePath = "Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
             landmarkName = "bind()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "08B0E507-9F6B-496D-BD55-EF301FA8EAE5 - 4e944ed6842a5541"
+                  uuid = "08B0E507-9F6B-496D-BD55-EF301FA8EAE5 - 4e944ed6842a5587"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -108,12 +78,12 @@
                   urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "125"
-                  endingLineNumber = "125"
-                  offsetFromSymbolStart = "38">
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "237">
                </Location>
                <Location
-                  uuid = "08B0E507-9F6B-496D-BD55-EF301FA8EAE5 - 4e944ed6842a5541"
+                  uuid = "08B0E507-9F6B-496D-BD55-EF301FA8EAE5 - 4e944ed6842a5587"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -123,9 +93,9 @@
                   urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "125"
-                  endingLineNumber = "125"
-                  offsetFromSymbolStart = "44">
+                  startingLineNumber = "127"
+                  endingLineNumber = "127"
+                  offsetFromSymbolStart = "88">
                </Location>
             </Locations>
          </BreakpointContent>

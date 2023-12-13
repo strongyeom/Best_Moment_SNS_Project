@@ -124,7 +124,7 @@ class BubbleView : UIView {
         
     }
     
-    func configureUI(data: GetProfileResponse) {
+    func configureUI(data: GetAnotherProfileResponse) {
         self.postCount.text = "\(data.posts.count)"
         self.followersCount.text = "\(data.followers.count)"
         self.followingCount.text = "\(data.following.count)"
