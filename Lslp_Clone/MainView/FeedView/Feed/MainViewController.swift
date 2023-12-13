@@ -18,8 +18,8 @@ class MainViewController : BaseViewController {
         tableView.separatorStyle = .none
         return tableView
     }()
-
-
+    
+    
     lazy var addPostBtn = {
         let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPostBtnTapped))
         return button
@@ -56,7 +56,7 @@ class MainViewController : BaseViewController {
         getPost(next: "", limit: "10")
         routinArray = []
     }
- 
+    
     func setNavigationBar() {
         self.navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = addPostBtn
@@ -82,7 +82,7 @@ class MainViewController : BaseViewController {
         self.tableView.scrollToRow(at: index, at: .top, animated: true)
     }
     
-
+    
     
     func bind() {
         
@@ -125,6 +125,11 @@ class MainViewController : BaseViewController {
                         print("팔로우 버튼 눌림")
                         
                         
+                        guard element.creator._id == owner.myID else {
+                            owner.messageAlert(text: "돌아가 자네가 올 곳이 아니야(같은 ID는 팔로우 할 수 없음)", completionHandler: nil)
+                            return
+                        }
+                        
                         if cell.followerBtn.titleLabel?.text == "팔로우" {
                             cell.followerBtn.configurationUpdateHandler = { button in
                                 button.configuration = cell.followOption(text: "팔로잉")
@@ -140,10 +145,11 @@ class MainViewController : BaseViewController {
                             }
                         }
                         
+                        
                     }
                     .disposed(by: cell.disposeBag)
                 
-    
+                
                 cell.postCommentBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         let commentView = CommentViewController()
@@ -207,7 +213,7 @@ class MainViewController : BaseViewController {
         // setDelegate : delegate와 같이 쓸 수 있음
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
- 
+        
     }
 }
 
@@ -248,8 +254,8 @@ extension MainViewController {
                 owner.followings = response.following.map { $0._id }
             }
             .disposed(by: disposeBag)
-      
-     
+        
+        
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
             .catch { err in
                 if let err = err as? ReadPostError {
@@ -259,7 +265,7 @@ extension MainViewController {
             }
             .bind(with: self) { owner, response in
                 print("MainVC GET- next_cursor: \(response.next_cursor)")
-               
+                
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)
