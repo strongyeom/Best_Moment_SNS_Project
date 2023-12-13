@@ -283,10 +283,12 @@ final class MainTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.profileImage.layer.cornerRadius = self.profileImage.frame.width / 2
-        self.profileImage.layer.borderColor = UIColor.white.cgColor
-        self.profileImage.layer.borderWidth = 1
-        self.profileImage.clipsToBounds = true
+        DispatchQueue.main.async {
+            self.profileImage.layer.cornerRadius = self.profileImage.frame.width / 2
+            self.profileImage.layer.borderColor = UIColor.black.cgColor
+            self.profileImage.layer.borderWidth = 1
+            self.profileImage.clipsToBounds = true
+        }
     }
     
     func followOption(text: String) -> UIButton.Configuration {

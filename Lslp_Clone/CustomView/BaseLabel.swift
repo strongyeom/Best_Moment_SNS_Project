@@ -9,11 +9,10 @@ import UIKit
 
 class BaseLabel: UILabel {
     
-    init(text: String, fontSize: CGFloat) {
+    init(text: String, fontSize: CGFloat, weight: UIFont.Weight) {
         super.init(frame: .zero)
         self.text = text
-        self.font = UIFont.systemFont(ofSize: fontSize, weight: .medium)
-        
+        self.font = UIFont.systemFont(ofSize: fontSize, weight: weight)
     }
     
     required init?(coder: NSCoder) {

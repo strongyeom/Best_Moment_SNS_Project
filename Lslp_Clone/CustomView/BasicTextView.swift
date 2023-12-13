@@ -11,7 +11,7 @@ class BasicTextView: UITextView {
    
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: .zero, textContainer: nil)
-        self.textViewLayout()
+        self.textViewLayout(textColor: <#UIColor?#>)
     }
     
     

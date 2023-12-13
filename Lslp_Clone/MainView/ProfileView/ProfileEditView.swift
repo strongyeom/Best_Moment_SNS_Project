@@ -7,7 +7,7 @@ import Kingfisher
 class ProfileEditView : BaseViewController {
     
     lazy var profileImage = PostImage("person.circle.fill", color: .lightGray)
-    let nicknameTitle = BaseLabel(text: "닉네임 수정", fontSize: 22)
+    let nicknameTitle = BaseLabel(text: "닉네임 수정", fontSize: 22, weight: .medium)
     let nicknameTextField = SignInTextField(placeHolder: "닉네임을 설정해주세요.", brandColor: .blue, alignment: .left)
     let saveButton = SignInButton(text: "저장하기", brandColor: .blue)
     
