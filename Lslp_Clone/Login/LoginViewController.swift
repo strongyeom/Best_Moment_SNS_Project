@@ -47,7 +47,7 @@ class LoginViewController : BaseViewController {
         // 에러 문구 Alert
         output.errorMessage
             .bind(with: self) { owner, error in
-                owner.setEmailValidAlet(text: error, completionHandler: nil)
+                owner.messageAlert(text: error, completionHandler: nil)
             }
             .disposed(by: disposeBag)
            

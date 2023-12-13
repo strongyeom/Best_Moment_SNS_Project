@@ -106,6 +106,7 @@ class MainViewController : BaseViewController {
                 cell.editCompletion = {
                     let editVC = EditViewController()
                     editVC.data = element
+                    editVC.postID = element._id
                     self.navigationController?.pushViewController(editVC, animated: true)
                 }
                 // 삭제
@@ -185,7 +186,7 @@ class MainViewController : BaseViewController {
         /// 에러 문구 Alert
         output.errorMessage
             .bind(with: self) { owner, err in
-                owner.setEmailValidAlet(text: err, completionHandler: nil)
+                owner.messageAlert(text: err, completionHandler: nil)
             }
             .disposed(by: disposeBag)
         

@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIViewController {
-    func setEmailValidAlet(text: String, completionHandler: (() -> Void)?) {
+    func messageAlert(text: String, completionHandler: (() -> Void)?) {
         let alert = UIAlertController(title: "알림", message: text, preferredStyle: .alert)
         let ok = UIAlertAction(title: "확인", style: .default) { _ in
             completionHandler?()

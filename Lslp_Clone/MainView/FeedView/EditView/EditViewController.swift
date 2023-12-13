@@ -8,22 +8,27 @@
 import UIKit
 import PhotosUI
 import RxSwift
+import RxCocoa
 
 class EditViewController : BaseViewController {
     
-    let editView = EditView()
+    lazy var editButton = {
+        let button = UIBarButtonItem(title: "편집완료", style: .plain, target: self, action: nil)
+        return button
+    }()
     
+    let editView = EditView()
+  
     override func loadView() {
         self.view = editView
     }
     
-    lazy var editButton = {
-        let button = UIBarButtonItem(title: "편집완료", style: .plain, target: self, action: #selector(editBtnClicked))
-        return button
-    }()
+ 
                                      
+    let vieewModel = EditViewModel()
     let selectedImageData = PublishSubject<Data>()
     var data: ElementReadPostResponse?
+    var postID: String?
     let disposeBag = DisposeBag()
     
     override func configure() {
@@ -34,7 +39,28 @@ class EditViewController : BaseViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTaaped))
         editView.postImage.addGestureRecognizer(tapGesture)
+        bind()
+    }
+    
+    func bind() {
+        let input = EditViewModel.Input(titleText: editView.postTitleTextField.rx.text.orEmpty, contentText: editView.contentTextView.rx.text.orEmpty, imageData: selectedImageData, editBtn: editButton.rx.tap, postID: postID ?? "")
         
+        let output = vieewModel.transform(input: input)
+        
+        output.errorMessage
+            .bind(with: self) { owner, errorText in
+                owner.messageAlert(text: errorText, completionHandler: nil)
+            }
+            .disposed(by: disposeBag)
+        
+    
+        // TODO: - 연결해기
+        output.editBtnClicked
+            .bind(with: self) { owner, response in
+                print("수정 결과 -\(response)")
+                owner.navigationController?.popViewController(animated: true)
+            }
+            .disposed(by: disposeBag)
     }
     
     func navigationBar() {
@@ -61,10 +87,6 @@ class EditViewController : BaseViewController {
         actionSheet.addAction(photoLibray)
         actionSheet.addAction(cancel)
         present(actionSheet, animated: true)
-    }
-    
-    @objc func editBtnClicked() {
-        print("편집 완료 버튼 눌림")
     }
 }
 

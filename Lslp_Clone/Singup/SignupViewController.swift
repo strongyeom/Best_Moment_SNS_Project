@@ -52,7 +52,7 @@ class SignupViewController: BaseViewController {
         /// 에러 문구 Alert
         output.errorMessage
             .bind(with: self) { owner, err in
-                owner.setEmailValidAlet(text: err, completionHandler: nil)
+                owner.messageAlert(text: err, completionHandler: nil)
             }
             .disposed(by: disposeBag)
         
@@ -68,7 +68,7 @@ class SignupViewController: BaseViewController {
         /// 이메일 중복 체크
         output.dulicateTapped
             .bind(with: self, onNext: { owner, response in
-                owner.setEmailValidAlet(text: response.message, completionHandler: nil)
+                owner.messageAlert(text: response.message, completionHandler: nil)
                 output.isEmailValid.onNext(true)
             })
             .disposed(by: disposeBag)

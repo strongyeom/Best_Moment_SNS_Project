@@ -38,6 +38,7 @@
 		2657F3E42B023C4000E3A22E /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2657F3E32B023C4000E3A22E /* Router.swift */; };
 		2657F3E72B023CA500E3A22E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2657F3E62B023CA500E3A22E /* Alamofire */; };
 		266906922B299DD200CFBAAA /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266906912B299DD200CFBAAA /* EditView.swift */; };
+		266906942B29AE4200CFBAAA /* EditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266906932B29AE4200CFBAAA /* EditViewModel.swift */; };
 		266C11452B2736AB002929B6 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C11442B2736AB002929B6 /* MainViewController.swift */; };
 		266C11472B275FFD002929B6 /* FollowingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266C11462B275FFD002929B6 /* FollowingCell.swift */; };
 		2686E19D2B20527D00C9DF76 /* MyPostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2686E19C2B20527D00C9DF76 /* MyPostCell.swift */; };
@@ -96,6 +97,7 @@
 		2657F3E12B02377500E3A22E /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 		2657F3E32B023C4000E3A22E /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		266906912B299DD200CFBAAA /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		266906932B29AE4200CFBAAA /* EditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewModel.swift; sourceTree = "<group>"; };
 		266C11442B2736AB002929B6 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		266C11462B275FFD002929B6 /* FollowingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingCell.swift; sourceTree = "<group>"; };
 		2686E19C2B20527D00C9DF76 /* MyPostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostCell.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 			children = (
 				2695F9E12B28BDC00014F19B /* EditViewController.swift */,
 				266906912B299DD200CFBAAA /* EditView.swift */,
+				266906932B29AE4200CFBAAA /* EditViewModel.swift */,
 			);
 			path = EditView;
 			sourceTree = "<group>";
@@ -483,6 +486,7 @@
 				269CEE5F2B1113D900477D04 /* CommentViewController.swift in Sources */,
 				26EB41092B19F9450080E5D8 /* PostImage.swift in Sources */,
 				26EB410C2B1A30A70080E5D8 /* TabViewController.swift in Sources */,
+				266906942B29AE4200CFBAAA /* EditViewModel.swift in Sources */,
 				2657F3E42B023C4000E3A22E /* Router.swift in Sources */,
 				268E47592B186ED9008BECD3 /* AuthManager.swift in Sources */,
 				26E699B02B0DE66400DA90C0 /* AddRoutinViewModel.swift in Sources */,

@@ -10,14 +10,14 @@ import Kingfisher
 
 final class EditView : BaseView {
     
-    private let postTitle = BaseLabel(text: "제목", fontSize: 22, weight: .semibold)
-    private let postTitleTextField = SignInTextField(placeHolder: "제목을 수정해주세요.", brandColor: .lightGray, alignment: .left)
-    private let profileImage = PostImage("person.circle.fill", color: .lightGray)
-    private let nickname = BaseLabel(text: "닉네임", fontSize: 13, weight: .medium)
+    let postTitle = BaseLabel(text: "제목", fontSize: 22, weight: .semibold)
+    let postTitleTextField = SignInTextField(placeHolder: "제목을 수정해주세요.", brandColor: .lightGray, alignment: .left)
+    let profileImage = PostImage("person.circle.fill", color: .lightGray)
+    let nickname = BaseLabel(text: "닉네임", fontSize: 13, weight: .medium)
     let postImage = PostImage("person.circle.fill", color: .lightGray)
-    private let guideText = BaseLabel(text: "사진을 클릭하여 이미지 변경", fontSize: 13, weight: .light)
-    private let contentLabel = BaseLabel(text: "본문", fontSize: 22, weight: .semibold)
-    private let contentTextView = BasicTextView()
+    let guideText = BaseLabel(text: "사진을 클릭하여 이미지 변경", fontSize: 13, weight: .light)
+    let contentLabel = BaseLabel(text: "본문", fontSize: 22, weight: .semibold)
+    let contentTextView = BasicTextView()
     
     override func configure() {
         [postTitle, postTitleTextField, profileImage, nickname, postImage, guideText, contentLabel, contentTextView].forEach {
