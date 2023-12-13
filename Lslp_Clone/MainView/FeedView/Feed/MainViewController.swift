@@ -34,6 +34,7 @@ class MainViewController : BaseViewController {
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
+    var myID: String = ""
     var likeRow: Int = 0
     var followings: [String] = []
     let viewModel = MainViewModel()
@@ -104,6 +105,10 @@ class MainViewController : BaseViewController {
                 
                 // 편집
                 cell.editCompletion = {
+                    guard element.creator._id == self.myID else {
+                        self.messageAlert(text: "돌아가 자네가 올 곳이 아니야", completionHandler: nil)
+                        return
+                    }
                     let editVC = EditViewController()
                     editVC.data = element
                     editVC.postID = element._id
@@ -238,6 +243,7 @@ extension MainViewController {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
+                owner.myID = response._id
                 print("팔로잉 된 ID : \(response.following.map { $0._id })")
                 owner.followings = response.following.map { $0._id }
             }
