@@ -12,6 +12,8 @@ class MainViewModel: BaseInOutPut {
     
     let disposeBag = DisposeBag()
     
+    var exampleProfile: [GetAnotherProfileResponse] = []
+    
     struct Input {
         let tableViewIndex:  ControlEvent<IndexPath>
         let tableViewElement:  ControlEvent<ElementReadPostResponse>
@@ -31,10 +33,13 @@ class MainViewModel: BaseInOutPut {
         let errorMessage: PublishSubject<String>
         let unFollower: Observable<FollowerStatusResponse>
         let followingStatus : Observable<FollowerStatusResponse>
-        let profileTapped: Observable<GetAnotherProfileResponse>
+//        let profileTapped: Observable<GetAnotherProfileResponse>
     }
     
     func transform(input: Input) -> Output {
+        
+        
+        
         
         let errorMessage = PublishSubject<String>()
         
@@ -102,17 +107,36 @@ class MainViewModel: BaseInOutPut {
                     }
             }
         
-        let profileImageTapped = input.profileUserID
-            .flatMap { userID in
-                APIManager.shared.requestAnotherGerProfile(api: Router.anotherGetProfile(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
-                    .catch { err in
-                        if let err = err as? GetProfileError {
-                            
+            input.profileUserID
+                .flatMap { userID in
+                    APIManager.shared.requestAnotherGerProfile(api: Router.anotherGetProfile(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+                        .catch { err in
+                            if let err = err as? GetProfileError {
+                                
+                            }
+                            return Observable.never()
                         }
-                        return Observable.never()
-                    }
-            }
+                }
+                .bind(with: self) { owner, response in
+                    print("response")
+                    owner.exampleProfile.append(response)
+                }
+                .disposed(by: disposeBag)
         
-        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage, unFollower: unFollower, followingStatus: followingStatus, profileTapped: profileImageTapped)
+        
+      
+        
+//        let profileImageTapped = input.profileUserID
+//            .flatMap { userID in
+//                APIManager.shared.requestAnotherGerProfile(api: Router.anotherGetProfile(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+//                    .catch { err in
+//                        if let err = err as? GetProfileError {
+//
+//                        }
+//                        return Observable.never()
+//                    }
+//            }
+        
+        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage, unFollower: unFollower, followingStatus: followingStatus)
     }
 }

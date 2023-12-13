@@ -95,6 +95,8 @@ class MainViewController : BaseViewController {
         routins
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
                 
+                // Cell이 시작할 때 userID를 통해 프로필 API 통신하기
+                self.profileUserID.onNext(element.creator._id)
                 self.likeRow = row
                 print("likeRow : \(self.likeRow)")
                 cell.configureUI(data: element, followings: self.followings)
@@ -124,8 +126,10 @@ class MainViewController : BaseViewController {
                 
                 // 프로필 클릭
                 cell.profileCompletion = {
-                    self.profileUserID.onNext(element.creator._id)
+                    print(self.viewModel.exampleProfile.count)
+                    let filter = self.viewModel.exampleProfile[row]
                     
+                    cell.bubbleView.configureUI(data: filter)
                 }
                 
                 cell.followerBtn.rx.tap
@@ -211,14 +215,6 @@ class MainViewController : BaseViewController {
                 owner.messageAlert(text: err, completionHandler: nil)
             }
             .disposed(by: disposeBag)
-        
-        // 프로필 사진 클릭 했을때
-        output.profileTapped
-            .bind(with: self) { owner, response in
-                print("다른 사람 프로필 조회 - \(response)")
-            }
-            .disposed(by: disposeBag)
-        
         
         output.zip
             .bind(with: self) { owner, response in
