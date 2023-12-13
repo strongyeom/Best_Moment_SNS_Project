@@ -135,6 +135,25 @@ struct GetProfileResponse: Decodable {
     let profile: String
 }
 
+struct GetAnotherProfileResponse: Decodable {
+    let posts: [String]
+    let followers: [Creator]
+    let following: [Creator]
+    let _id: String
+    let nick: String
+    let profile: String?
+}
+/*
+ posts": [],
+   "followers": [],
+   "following": [],
+   "_id": "6558be0e1d043a1c4219bcbb",
+   "nick": "      "
+ }
+ */
+
+
+
 struct PutProfileResponse: Decodable {
     let posts: [String]
     let followers: [Creator]

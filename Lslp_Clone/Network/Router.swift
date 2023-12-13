@@ -30,6 +30,7 @@ enum Router : URLRequestConvertible {
     case follow(accessToken: String, userID: String)
     case unFollower(accessToken: String, userID: String)
     case searchUserPost(accessToken: String, userID: String, next: String, limit: String, product_id: String)
+    case anotherGetProfile(accessToken: String, userID: String)
     
     
     var baseURL: URL {
@@ -72,6 +73,8 @@ enum Router : URLRequestConvertible {
             return "follow/\(userID)"
         case .searchUserPost(accessToken: _, userID: let userID, next: _, limit: _, product_id: _):
             return "post/user/\(userID)"
+        case .anotherGetProfile(accessToken: _, userID: let userID):
+            return "profile/\(userID)"
         }
     }
     
@@ -105,7 +108,8 @@ enum Router : URLRequestConvertible {
                 .getProfile(accessToken: let token),
                 .unFollower(accessToken: let token, userID: _),
                 .searchUserPost(accessToken: let token, userID: _, next: _, limit: _, product_id: _),
-                .follow(accessToken: let token, userID: _):
+                .follow(accessToken: let token, userID: _),
+                .anotherGetProfile(accessToken: let token, userID: _):
             return [
                 "Authorization" : token,
                 "SesacKey" : APIKey.secretKey
@@ -130,7 +134,7 @@ enum Router : URLRequestConvertible {
                 .commentPost,
                 .follow:
             return .post
-        case .refresh, .readPost, .getLikes, .getProfile, .searchUserPost:
+        case .refresh, .readPost, .getLikes, .getProfile, .searchUserPost, .anotherGetProfile:
             return .get
         case .removePost, .commentRemove, .unFollower:
             return .delete
@@ -183,7 +187,8 @@ enum Router : URLRequestConvertible {
                 .commentRemove,
                 .getProfile,
                 .follow,
-                .unFollower:
+                .unFollower,
+                .anotherGetProfile:
             return nil
         case .commentPost(access: _, postID: _, comment: let content):
             return [
@@ -212,7 +217,7 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
 
         switch self {
-        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes, .getProfile, .putProfile, .follow, .unFollower, .searchUserPost, .modifyPost:
+        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes, .getProfile, .putProfile, .follow, .unFollower, .searchUserPost, .modifyPost, .anotherGetProfile:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)

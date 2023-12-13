@@ -30,6 +30,7 @@ class MainViewController : BaseViewController {
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
     let userID = PublishSubject<String>()
+    let profileUserID = PublishSubject<String>()
     let toggleFollowing = BehaviorSubject(value: false)
     let disposeBag = DisposeBag()
     // 다음 Cursor
@@ -85,7 +86,7 @@ class MainViewController : BaseViewController {
     
     func bind() {
         
-        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, toggleFollowing: toggleFollowing)
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, profileUserID: profileUserID, toggleFollowing: toggleFollowing)
         
         let output = viewModel.transform(input: input)
         
@@ -117,6 +118,12 @@ class MainViewController : BaseViewController {
                 cell.deleteCompletion = {
                     print("\(row) - \(element.title)")
                     self.postID.onNext(element._id)
+                }
+                
+                // 프로필 클릭
+                cell.profileCompletion = {
+                    self.profileUserID.onNext(element.creator._id)
+                   
                 }
                 
                 cell.followerBtn.rx.tap
@@ -188,6 +195,7 @@ class MainViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        // 팔로우 상태
         output.followingStatus
             .bind(with: self) { owner, response in
                 print("팔로잉 상태 ", response.following_status)
@@ -199,6 +207,13 @@ class MainViewController : BaseViewController {
         output.errorMessage
             .bind(with: self) { owner, err in
                 owner.messageAlert(text: err, completionHandler: nil)
+            }
+            .disposed(by: disposeBag)
+        
+        
+        output.profileTapped
+            .bind(with: self) { owner, response in
+                print("다른 사람 프로필 조회 - \(response)")
             }
             .disposed(by: disposeBag)
         

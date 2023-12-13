@@ -7,63 +7,173 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DB08543F-95E4-4654-925E-0D13352F80E6"
+            uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
+            landmarkName = "bind()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27 - 8d1ec5d86231f74f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Lslp_Clone.MainViewController.bind() -&gt; ()"
+                  moduleName = "Lslp_Clone"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "216"
+                  endingLineNumber = "216"
+                  offsetFromSymbolStart = "2676">
+               </Location>
+               <Location
+                  uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27 - fcfa47db3bd73dbb"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #6 (Lslp_Clone.MainViewController, Lslp_Clone.GetProfileResponse) -&gt; () in Lslp_Clone.MainViewController.bind() -&gt; ()"
+                  moduleName = "Lslp_Clone"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "216"
+                  endingLineNumber = "216"
+                  offsetFromSymbolStart = "219">
+               </Location>
+               <Location
+                  uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27 - 83c6bc612eef84ff"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #6 (Lslp_Clone.MainViewController, Lslp_Clone.GetAnotherProfileResponse) -&gt; () in Lslp_Clone.MainViewController.bind() -&gt; ()"
+                  moduleName = "Lslp_Clone"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "216"
+                  endingLineNumber = "216"
+                  offsetFromSymbolStart = "159">
+               </Location>
+               <Location
+                  uuid = "558E6F8D-5BA5-4552-8B93-855FC788FA27 - 83c6bc612eef84ff"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #6 (Lslp_Clone.MainViewController, Lslp_Clone.GetAnotherProfileResponse) -&gt; () in Lslp_Clone.MainViewController.bind() -&gt; ()"
+                  moduleName = "Lslp_Clone"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "216"
+                  endingLineNumber = "216"
+                  offsetFromSymbolStart = "193">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "08B0E507-9F6B-496D-BD55-EF301FA8EAE5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "bind()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "08B0E507-9F6B-496D-BD55-EF301FA8EAE5 - 4e944ed6842a5541"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 () -&gt; () in closure #1 (Swift.Int, Lslp_Clone.ElementReadPostResponse, Lslp_Clone.MainTableViewCell) -&gt; () in Lslp_Clone.MainViewController.bind() -&gt; ()"
+                  moduleName = "Lslp_Clone"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "38">
+               </Location>
+               <Location
+                  uuid = "08B0E507-9F6B-496D-BD55-EF301FA8EAE5 - 4e944ed6842a5541"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 () -&gt; () in closure #1 (Swift.Int, Lslp_Clone.ElementReadPostResponse, Lslp_Clone.MainTableViewCell) -&gt; () in Lslp_Clone.MainViewController.bind() -&gt; ()"
+                  moduleName = "Lslp_Clone"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "125"
+                  endingLineNumber = "125"
+                  offsetFromSymbolStart = "44">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2309484E-923D-4694-88A7-6B9F7EF049B3"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lslp_Clone/MainView/FeedView/Feed/MainViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "transform(input:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A78A2B53-6D88-48FC-A547-F728D2BAF7C2"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Lslp_Clone/Network/APIManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "487"
-            endingLineNumber = "487"
-            landmarkName = "requestFollowStatus(api:)"
-            landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "A78A2B53-6D88-48FC-A547-F728D2BAF7C2 - eb6b24408bc752c8"
+                  uuid = "2309484E-923D-4694-88A7-6B9F7EF049B3 - 6b298c06f0ac2a4f"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Lslp_Clone.ElementReadPostResponse, Alamofire.AFError&gt;) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.ElementReadPostResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestSearchUserPost(api: Lslp_Clone.Router) -&gt; RxSwift.Observable&lt;Lslp_Clone.ElementReadPostResponse&gt;"
+                  symbolName = "closure #5 (Swift.String) -&gt; RxSwift.Observable&lt;Lslp_Clone.GetProfileResponse&gt; in Lslp_Clone.MainViewModel.transform(input: Lslp_Clone.MainViewModel.Input) -&gt; Lslp_Clone.MainViewModel.Output"
                   moduleName = "Lslp_Clone"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/Network/APIManager.swift"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "487"
-                  endingLineNumber = "487"
-                  offsetFromSymbolStart = "2569">
+                  startingLineNumber = "107"
+                  endingLineNumber = "107"
+                  offsetFromSymbolStart = "71">
                </Location>
                <Location
-                  uuid = "A78A2B53-6D88-48FC-A547-F728D2BAF7C2 - 517d85bb08ab0e61"
+                  uuid = "2309484E-923D-4694-88A7-6B9F7EF049B3 - 1b14dd7a15952c77"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Lslp_Clone.FollowerStatusResponse, Alamofire.AFError&gt;) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.FollowerStatusResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestFollowStatus(api: Lslp_Clone.Router) -&gt; RxSwift.Observable&lt;Lslp_Clone.FollowerStatusResponse&gt;"
+                  symbolName = "closure #5 (Swift.String) -&gt; RxSwift.Observable&lt;Lslp_Clone.GetAnotherProfileResponse&gt; in Lslp_Clone.MainViewModel.transform(input: Lslp_Clone.MainViewModel.Input) -&gt; Lslp_Clone.MainViewModel.Output"
                   moduleName = "Lslp_Clone"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/Network/APIManager.swift"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/MainView/FeedView/Feed/MainViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "487"
-                  endingLineNumber = "487"
-                  offsetFromSymbolStart = "416">
+                  startingLineNumber = "107"
+                  endingLineNumber = "107"
+                  offsetFromSymbolStart = "71">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -71,174 +181,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CF8FC85F-0F92-41EE-8CFD-11DFFDCE5A18"
+            uuid = "C8D7B994-53F1-4F09-A37B-E6ACD3FAC6E6"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Lslp_Clone/Network/APIManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "490"
-            endingLineNumber = "490"
-            landmarkName = "requestFollowStatus(api:)"
+            startingLineNumber = "549"
+            endingLineNumber = "549"
+            landmarkName = "requestAnotherGerProfile(api:)"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "CF8FC85F-0F92-41EE-8CFD-11DFFDCE5A18 - eb6b24408bc75225"
+                  uuid = "C8D7B994-53F1-4F09-A37B-E6ACD3FAC6E6 - 33630cf070909c03"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Lslp_Clone.ElementReadPostResponse, Alamofire.AFError&gt;) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.ElementReadPostResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestSearchUserPost(api: Lslp_Clone.Router) -&gt; RxSwift.Observable&lt;Lslp_Clone.ElementReadPostResponse&gt;"
+                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Lslp_Clone.GetAnotherProfileResponse, Alamofire.AFError&gt;) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.GetAnotherProfileResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestAnotherGerProfile(api: Lslp_Clone.Router) -&gt; RxSwift.Observable&lt;Lslp_Clone.GetAnotherProfileResponse&gt;"
                   moduleName = "Lslp_Clone"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/Network/APIManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "490"
-                  endingLineNumber = "490"
-                  offsetFromSymbolStart = "2586">
+                  startingLineNumber = "549"
+                  endingLineNumber = "549"
+                  offsetFromSymbolStart = "1035">
                </Location>
                <Location
-                  uuid = "CF8FC85F-0F92-41EE-8CFD-11DFFDCE5A18 - 517d85bb08ab0e8c"
+                  uuid = "C8D7B994-53F1-4F09-A37B-E6ACD3FAC6E6 - 33630cf070909c03"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Lslp_Clone.FollowerStatusResponse, Alamofire.AFError&gt;) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.FollowerStatusResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestFollowStatus(api: Lslp_Clone.Router) -&gt; RxSwift.Observable&lt;Lslp_Clone.FollowerStatusResponse&gt;"
+                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Lslp_Clone.GetAnotherProfileResponse, Alamofire.AFError&gt;) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.GetAnotherProfileResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestAnotherGerProfile(api: Lslp_Clone.Router) -&gt; RxSwift.Observable&lt;Lslp_Clone.GetAnotherProfileResponse&gt;"
                   moduleName = "Lslp_Clone"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/Network/APIManager.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "490"
-                  endingLineNumber = "490"
-                  offsetFromSymbolStart = "995">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8E57BE87-FACF-4326-95F1-FA3D2DDB4001"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Lslp_Clone/Network/APIManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "494"
-            endingLineNumber = "494"
-            landmarkName = "requestFollowStatus(api:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A98E624B-3112-47FD-B315-0C9946513B58"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Lslp_Clone/Network/APIManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "448"
-            endingLineNumber = "448"
-            landmarkName = "requestPutProfile(api:imageData:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "A98E624B-3112-47FD-B315-0C9946513B58 - 517d85bb08ab0b1a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Lslp_Clone.FollowerStatusResponse, Alamofire.AFError&gt;) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.FollowerStatusResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestFollowStatus(api: Lslp_Clone.Router) -&gt; RxSwift.Observable&lt;Lslp_Clone.FollowerStatusResponse&gt;"
-                  moduleName = "Lslp_Clone"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/Network/APIManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "448"
-                  endingLineNumber = "448"
-                  offsetFromSymbolStart = "1148">
-               </Location>
-               <Location
-                  uuid = "A98E624B-3112-47FD-B315-0C9946513B58 - 517d85bb08ab0b1a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Lslp_Clone.FollowerStatusResponse, Alamofire.AFError&gt;) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.FollowerStatusResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestFollowStatus(api: Lslp_Clone.Router) -&gt; RxSwift.Observable&lt;Lslp_Clone.FollowerStatusResponse&gt;"
-                  moduleName = "Lslp_Clone"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/Network/APIManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "448"
-                  endingLineNumber = "448"
-                  offsetFromSymbolStart = "1177">
-               </Location>
-               <Location
-                  uuid = "A98E624B-3112-47FD-B315-0C9946513B58 - 7ed43ca7b1f0c9b7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Alamofire.MultipartFormData) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.PutProfileResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestPutProfile(api: Lslp_Clone.Router, imageData: Swift.Optional&lt;Foundation.Data&gt;) -&gt; RxSwift.Observable&lt;Lslp_Clone.PutProfileResponse&gt;"
-                  moduleName = "Lslp_Clone"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/Network/APIManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "448"
-                  endingLineNumber = "448"
-                  offsetFromSymbolStart = "1581">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "190F93D7-4312-4E4B-9511-C01DD197EDA9"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Lslp_Clone/Network/APIManager.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "459"
-            endingLineNumber = "459"
-            landmarkName = "requestPutProfile(api:imageData:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "190F93D7-4312-4E4B-9511-C01DD197EDA9 - 517d85bb08ab0a8d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Alamofire.DataResponse&lt;Lslp_Clone.FollowerStatusResponse, Alamofire.AFError&gt;) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.FollowerStatusResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestFollowStatus(api: Lslp_Clone.Router) -&gt; RxSwift.Observable&lt;Lslp_Clone.FollowerStatusResponse&gt;"
-                  moduleName = "Lslp_Clone"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/Network/APIManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "459"
-                  endingLineNumber = "459"
-                  offsetFromSymbolStart = "2386">
-               </Location>
-               <Location
-                  uuid = "190F93D7-4312-4E4B-9511-C01DD197EDA9 - 8744afcfa0c55bbd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Alamofire.DataResponse&lt;Lslp_Clone.PutProfileResponse, Alamofire.AFError&gt;) -&gt; () in closure #1 (RxSwift.AnyObserver&lt;Lslp_Clone.PutProfileResponse&gt;) -&gt; RxSwift.Disposable in Lslp_Clone.APIManager.requestPutProfile(api: Lslp_Clone.Router, imageData: Swift.Optional&lt;Foundation.Data&gt;) -&gt; RxSwift.Observable&lt;Lslp_Clone.PutProfileResponse&gt;"
-                  moduleName = "Lslp_Clone"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/Lslp_Clone/Lslp_Clone/Network/APIManager.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "459"
-                  endingLineNumber = "459"
-                  offsetFromSymbolStart = "1582">
+                  startingLineNumber = "549"
+                  endingLineNumber = "549"
+                  offsetFromSymbolStart = "653">
                </Location>
             </Locations>
          </BreakpointContent>

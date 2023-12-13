@@ -534,7 +534,35 @@ class APIManager {
                 }
             return Disposables.create()
         }
-      
+    }
+    
+    /// 다른 유저 프로필 조회
+    func requestAnotherGerProfile(api: Router) -> Observable<GetAnotherProfileResponse> {
+        return Observable<GetAnotherProfileResponse>.create { observer in
+            
+            AF.request(api, interceptor: AuthManager())
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: GetAnotherProfileResponse.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    switch response.result {
+                    case .success(let data):
+                        observer.onNext(data)
+                        
+                    case .failure(_):
+                        if let commonError = CommonError(rawValue: status) {
+                            print("CommonError - \(commonError)")
+                            observer.onError(commonError)
+                        }
+                        
+                        if let getProfileError = GetProfileError(rawValue: status) {
+                            print("getProfileError - \(getProfileError)")
+                            observer.onError(getProfileError)
+                        }
+                    }
+                    
+                }
+            return Disposables.create()
+        }
     }
   
 }

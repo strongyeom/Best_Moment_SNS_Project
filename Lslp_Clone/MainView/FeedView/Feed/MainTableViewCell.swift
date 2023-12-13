@@ -14,6 +14,7 @@ final class MainTableViewCell : UITableViewCell {
     var disposeBag = DisposeBag()
     var deleteCompletion: (() -> Void)?
     var editCompletion: (() -> Void)?
+    var profileCompletion: (() -> Void)?
     
     let routinTitle = {
         let view = UILabel()
@@ -148,6 +149,7 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     @objc func profileImagaTapped() {
+        profileCompletion?()
         print("프로필 이미지 눌림")
     }
     

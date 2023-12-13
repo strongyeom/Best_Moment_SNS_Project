@@ -18,7 +18,9 @@ class MainViewModel: BaseInOutPut {
         let likeID: PublishSubject<String>
         let postID: PublishSubject<String>
         let userID: PublishSubject<String>
+        let profileUserID: PublishSubject<String>
         let toggleFollowing: BehaviorSubject<Bool>
+        
     }
     
     struct Output {
@@ -29,6 +31,7 @@ class MainViewModel: BaseInOutPut {
         let errorMessage: PublishSubject<String>
         let unFollower: Observable<FollowerStatusResponse>
         let followingStatus : Observable<FollowerStatusResponse>
+        let profileTapped: Observable<GetAnotherProfileResponse>
     }
     
     func transform(input: Input) -> Output {
@@ -99,20 +102,17 @@ class MainViewModel: BaseInOutPut {
                     }
             }
         
-//        let unFollower = input.userID
-//             .flatMap { userID in
-//                 APIManager.shared.requestFollowStatus(api: Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
-//                     .catch { err in
-//                         if let err = err as? DeleteFollowerError {
-//                             print("🙏🏻- 언팔로우 에러 : \(err.errorDescription)")
-//                             errorMessage.onNext(err.errorDescription)
-//                         }
-//                         return Observable.never()
-//                     }
-//             }
-//
-            
+        let profileImageTapped = input.profileUserID
+            .flatMap { userID in
+                APIManager.shared.requestAnotherGerProfile(api: Router.anotherGetProfile(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+                    .catch { err in
+                        if let err = err as? GetProfileError {
+                            
+                        }
+                        return Observable.never()
+                    }
+            }
         
-        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage, unFollower: unFollower, followingStatus: followingStatus)
+        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage, unFollower: unFollower, followingStatus: followingStatus, profileTapped: profileImageTapped)
     }
 }
