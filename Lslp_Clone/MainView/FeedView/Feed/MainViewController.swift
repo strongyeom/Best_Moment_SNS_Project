@@ -83,7 +83,6 @@ class MainViewController : BaseViewController {
     }
     
     
-    
     func bind() {
         
         let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, toggleFollowing: toggleFollowing)
@@ -149,6 +148,8 @@ class MainViewController : BaseViewController {
                     }
                     .disposed(by: cell.disposeBag)
                 
+                
+         
                 
                 cell.postCommentBtn.rx.tap
                     .bind(with: self) { owner, _ in

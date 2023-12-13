@@ -53,6 +53,7 @@ final class MainTableViewCell : UITableViewCell {
     let profileImage = {
         let image = UIImageView()
         image.backgroundColor = .yellow
+        image.isUserInteractionEnabled = true
         return image
     }()
     
@@ -114,6 +115,17 @@ final class MainTableViewCell : UITableViewCell {
         view.clipsToBounds = true
         return view
     }()
+    
+    lazy var tapGesture = {
+        let tapGesutre = UITapGestureRecognizer(target: self, action: #selector(profileImagaTapped))
+        return tapGesutre
+    }()
+    
+    
+    let bubbleView = BubbleView(viewColor: .systemOrange,
+                                tipStartX: 70.5,
+                                tipWidth: 11.0,
+                                tipHeight: 6.0)
    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -131,9 +143,16 @@ final class MainTableViewCell : UITableViewCell {
         [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage, pullDownButton, followerBtn].forEach {
             contentView.addSubview($0)
         }
+        postImage.addSubview(bubbleView)
+        profileImage.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func profileImagaTapped() {
+        print("프로필 이미지 눌림")
     }
     
     private func setConstraints() {
+        
         routinTitle.setContentHuggingPriority(.defaultHigh, for: .vertical)
         routinTitle.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(10)
@@ -206,6 +225,11 @@ final class MainTableViewCell : UITableViewCell {
             make.leading.equalTo(likeCountLabel)
             make.bottom.equalToSuperview().inset(10)
         }
+        
+        bubbleView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(10)
+            make.horizontalEdges.equalToSuperview()
+        }
     }
     
     func configureUI(data: ElementReadPostResponse, followings: [String]) {
@@ -248,6 +272,10 @@ final class MainTableViewCell : UITableViewCell {
         cofigurePostImage(data: data)
         
         
+    }
+    
+    func bubbleChatData(data: GetProfileResponse) {
+        bubbleView.configureUI(data: data)
     }
    
     // Data 형식의 이미지 변환하여 UIImage에 뿌려주기
