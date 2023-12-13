@@ -64,16 +64,16 @@ class ProfileViewController : BaseViewController {
         return btn
     }()
     
-    let profileShare = {
+    let logOut = {
         let btn = UIButton()
-        btn.setCornerButton(text: "프로필 공유", brandColor: .lightGray)
+        btn.setCornerButton(text: "로그아웃", brandColor: .lightGray)
         return btn
     }()
     
     
     // MARK: - StackView
     lazy var buttonStackView = {
-        let stack = UIStackView(arrangedSubviews: [profileEdit, profileShare])
+        let stack = UIStackView(arrangedSubviews: [profileEdit, logOut])
         stack.axis = .horizontal
         stack.spacing = 10
         stack.alignment = .fill
@@ -191,6 +191,17 @@ class ProfileViewController : BaseViewController {
                 nav.modalPresentationStyle = .fullScreen
                 owner.present(nav, animated: true)
                 
+            }
+            .disposed(by: disposeBag)
+        
+        logOut.rx.tap
+            .bind(with: self) { owner, _ in
+                owner.logOutAlert {
+                    // 로그인 화면으로 이동
+                    UserDefaultsManager.shared.backToRoot(isRoot: false)
+                    let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                     windowScene?.windows.first?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+                }
             }
             .disposed(by: disposeBag)
     }
