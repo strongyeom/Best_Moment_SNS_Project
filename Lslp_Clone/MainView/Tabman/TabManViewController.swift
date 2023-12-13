@@ -22,7 +22,7 @@ class TabManViewController : TabmanViewController {
         viewControllers.append(MyPostViewController())
         viewControllers.append(MyFavoritePostViewController())
         self.dataSource = self
-//
+        
         view.addSubview(baseView)
         baseView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
