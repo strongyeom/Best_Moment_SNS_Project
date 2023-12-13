@@ -17,6 +17,7 @@ enum Router : URLRequestConvertible {
     case valid(email: String)
     case addPost(accessToken: String, title: String, content: String, product_id: String)
     case readPost(accessToken: String, next: String, limit: String, product_id: String)
+    case modifyPost(asccessToken: String, postID: String, title: String, content: String, product_id: String)
     case refresh(access: String, refresh: String)
     case logOut(access: String)
     case like(access: String, postID: String)
@@ -47,6 +48,8 @@ enum Router : URLRequestConvertible {
             return "validation/email"
         case .addPost, .readPost:
             return "post"
+        case .modifyPost(asccessToken: _, postID: let postID, title: _, content: _, product_id: _):
+            return "post/\(postID)"
         case .refresh:
             return "refresh"
         case .logOut:
@@ -80,7 +83,8 @@ enum Router : URLRequestConvertible {
             "SesacKey" : APIKey.secretKey
            ]
         case .addPost(accessToken: let token, title: _, content: _, product_id: _),
-                .putProfile(accessToken: let token, nick: _):
+                .putProfile(accessToken: let token, nick: _),
+                .modifyPost(asccessToken: let token, postID: _, title: _, content: _, product_id: _):
             return [
                 "Authorization" : token,
                 "Content-Type": "multipart/form-data",
@@ -130,7 +134,7 @@ enum Router : URLRequestConvertible {
             return .get
         case .removePost, .commentRemove, .unFollower:
             return .delete
-        case .putProfile:
+        case .putProfile, .modifyPost:
             return .put
         }
     }
@@ -152,7 +156,8 @@ enum Router : URLRequestConvertible {
             return [
                 "email" : email
             ]
-        case .addPost(accessToken: _, title: let title, content: let content, product_id: let product_id):
+        case .addPost(accessToken: _, title: let title, content: let content, product_id: let product_id),
+                .modifyPost(asccessToken: _, postID: _, title: let title, content: let content, product_id: let product_id):
             return [
                 "title" : title,
                 "content" : content,
@@ -207,7 +212,7 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
 
         switch self {
-        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes, .getProfile, .putProfile, .follow, .unFollower, .searchUserPost:
+        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes, .getProfile, .putProfile, .follow, .unFollower, .searchUserPost, .modifyPost:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)

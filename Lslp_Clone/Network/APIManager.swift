@@ -195,6 +195,50 @@ class APIManager {
             return Disposables.create()
         }
     }
+    
+    ///게시글 수정하기
+    func requestModifyPost(api: Router, imageData: Data?) -> Observable<ElementReadPostResponse> {
+            return Observable<ElementReadPostResponse>.create { observer in
+                AF.upload(multipartFormData: { multiPartForm in
+                    
+                    for (key, value) in api.query! {
+                        multiPartForm.append("\(value)".data(using: .utf8)!, withName: key, mimeType: "text/plain")
+                    }
+                    
+                    if let imageData {
+                        multiPartForm.append(imageData, withName: "file", fileName: "\(api.path).jpg", mimeType: "image/jpg")
+                        print("imageData 크기 - \(imageData)")
+                    }
+                    
+                    
+                }, with: api, interceptor: AuthManager())
+                .validate(statusCode: 200...300)
+                .responseDecodable(of: ElementReadPostResponse.self) { response in
+                    guard let status = response.response?.statusCode else { return }
+                    print("컨텐츠 상태 코드 ", status)
+                    
+                    switch response.result {
+                    case .success(let data):
+                        observer.onNext(data)
+                        observer.onCompleted()
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        if let commonError = CommonError(rawValue: status) {
+                            print("CommonError - \(commonError)")
+                            observer.onError(commonError)
+                        }
+                        
+                        if let modifyError = error as? ModifyError {
+                            print("modifyError - \(modifyError)")
+                            observer.onError(modifyError)
+                        }
+                }
+            }
+                return Disposables.create()
+        }
+    }
+    
+    
     /// 게시글 삭제하기
     func requestRemovePost(api: Router) -> Observable<RemovePostResponse> {
         return Observable.create { observer in

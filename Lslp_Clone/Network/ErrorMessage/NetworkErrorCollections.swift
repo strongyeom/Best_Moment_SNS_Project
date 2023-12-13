@@ -325,3 +325,28 @@ enum DeleteFollowerError: Int, Error {
     }
 }
 
+enum ModifyError: Int, Error {
+    case isNotRequired = 400
+    case isNotAccess = 401
+    case forbidden = 403
+    case isNotFind = 410
+    case isExpiration = 419
+    case isNotAuth = 445
+    
+    var errorDescription: String {
+        switch self {
+        case .isNotRequired:
+            return "파일 형식 맞지 않습니다."
+        case .isNotAccess:
+            return "인증 할 수 없는 엑세스 토큰입니다."
+        case .forbidden:
+            return "Forbidden"
+        case .isNotFind:
+            return "수정할 게시글을 찾을 수 없습니다."
+        case .isExpiration:
+            return "엑세스 토큰이 만료되었습니다."
+        case .isNotAuth:
+            return "게시글 수정 권한이 없습니다."
+        }
+    }
+}
