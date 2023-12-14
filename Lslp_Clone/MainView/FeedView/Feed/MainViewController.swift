@@ -144,7 +144,7 @@ class MainViewController : BaseViewController {
                         print("팔로우 버튼 눌림")
                         
                         
-                        guard element.creator._id == owner.myID else {
+                        guard element.creator._id != owner.myID else {
                             owner.messageAlert(text: "돌아가 자네가 올 곳이 아니야(같은 ID는 팔로우 할 수 없음)", completionHandler: nil)
                             return
                         }

@@ -11,9 +11,7 @@ import RxCocoa
 class MainViewModel: BaseInOutPut {
     
     let disposeBag = DisposeBag()
-    
-//    var exampleProfile = Set<GetAnotherProfileResponse>()
-    
+        
     struct Input {
         let tableViewIndex:  ControlEvent<IndexPath>
         let tableViewElement:  ControlEvent<ElementReadPostResponse>
@@ -32,7 +30,6 @@ class MainViewModel: BaseInOutPut {
         let errorMessage: PublishSubject<String>
         let unFollower: Observable<FollowerStatusResponse>
         let followingStatus : Observable<FollowerStatusResponse>
-//        let profileTapped: Observable<GetAnotherProfileResponse>
     }
     
     func transform(input: Input) -> Output {
@@ -68,17 +65,14 @@ class MainViewModel: BaseInOutPut {
                 return APIManager.shared.requestRemovePost(api: Router.removePost(access: UserDefaultsManager.shared.accessToken, postID: postID))
                     .catch { err in
                         if let err = err as? RemovePostError {
-                            print("🙏🏻- 게시글 에러 : \(err.errorDescription)")
+                            print("🙏🏻- 게시글 삭제 에러 : \(err.errorDescription)")
                             errorMessage.onNext(err.errorDescription)
                         }
                         return Observable.never()
                     }
             }
         
-      
-        
-        
-        
+        // FollowingVC
         let unFollower = input.userID
             .flatMap { userID in
                 APIManager.shared.requestFollowStatus(api: Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
@@ -99,7 +93,7 @@ class MainViewModel: BaseInOutPut {
                 APIManager.shared.requestFollowStatus(api: response ? Router.follow(accessToken: UserDefaultsManager.shared.accessToken, userID: userID) : Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
                     .catch { err in
                         if let err = err as? DeleteFollowerError {
-                            print("🙏🏻- 언팔로우 에러 : \(err.errorDescription)")
+                            print("🙏🏻- 팔로우 상태 에러 : \(err.errorDescription)")
                             errorMessage.onNext(err.errorDescription)
                         }
                         return Observable.never()

@@ -123,7 +123,7 @@ final class MainTableViewCell : UITableViewCell {
     }()
     
     
-    let bubbleView = BubbleView(viewColor: .systemOrange,
+    let bubbleView = BubbleView(viewColor: .systemGray5,
                                 tipStartX: 70.5,
                                 tipWidth: 11.0,
                                 tipHeight: 6.0)
