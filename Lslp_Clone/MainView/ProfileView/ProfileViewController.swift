@@ -12,15 +12,8 @@ import Kingfisher
 
 class ProfileViewController : BaseViewController {
     
-//    lazy var tabmainVC = TabManViewController()
-    
     lazy var profileImage = PostImage("person.fill", color: .blue)
-    let nickname = {
-        let view = UILabel()
-        view.text = "닉네임 입니다."
-        view.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-        return view
-    }()
+    let nickname = BaseLabel(text: "닉네임 입니다.", fontSize: 13, weight: .medium)
     
     var postCount = {
         let view = UILabel()
@@ -120,13 +113,14 @@ class ProfileViewController : BaseViewController {
     var tabman = TabManViewController()
     let disposeBag = DisposeBag()
     var imageData: String?
+    var myNickname: String?
     let firstVC = MyPostViewController()
     let secondVC = MyFavoritePostViewController()
-    
+    let tabManVC = TabManViewController()
     
     
     var containerView: UIView!
-    let tabManVC = TabManViewController()
+    
     
     override func configure() {
         super.configure()
@@ -154,40 +148,30 @@ class ProfileViewController : BaseViewController {
         APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
             .catch { err in
                 if let err = err as? PutProfileError {
-                   
+                   print("🙏🏻 ProfileVC - 게시물 조회 에러 ")
                 }
                 return Observable.never()
             }
             .bind(with: self, onNext: { owner, response in
 //                dump(response)
-                self.nickname.text = response.nick
-                self.postCount.text = "\(response.posts.count)"
-                self.followersCount.text = "\(response.followers.count)"
-                self.followingCount.text = "\(response.following.count)"
-                
+                owner.nickname.text = response.nick
+                owner.postCount.text = "\(response.posts.count)"
+                owner.followersCount.text = "\(response.followers.count)"
+                owner.followingCount.text = "\(response.following.count)"
+                owner.myNickname = response.nick
                 print("** response.profile : \(response.profile)")
+                owner.profileImageConfigure(imageUrl: response.profile)
                 
-                let imageDownloadRequest = AnyModifier { request in
-                    var requestBody = request
-                    requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
-                    requestBody.setValue(UserDefaultsManager.shared.accessToken, forHTTPHeaderField: "Authorization")
-                    return requestBody
-                }
-                
-                let url = URL(string: BaseAPI.baseUrl + response.profile)
-                print("*** url : \(url)")
-                self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
                 
             })
             .disposed(by: disposeBag)
-        
-        
-        
+
         
         profileEdit.rx.tap
             .bind(with: self) { owner, _ in
                 let profileEditView = ProfileEditView()
                 let nav = UINavigationController(rootViewController: profileEditView)
+                profileEditView.nickname = owner.myNickname
                 nav.modalPresentationStyle = .fullScreen
                 owner.present(nav, animated: true)
                 
@@ -204,6 +188,20 @@ class ProfileViewController : BaseViewController {
                 }
             }
             .disposed(by: disposeBag)
+    }
+    
+    
+    func profileImageConfigure(imageUrl: String) {
+        let imageDownloadRequest = AnyModifier { request in
+            var requestBody = request
+            requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
+            requestBody.setValue(UserDefaultsManager.shared.accessToken, forHTTPHeaderField: "Authorization")
+            return requestBody
+        }
+        
+        let url = URL(string: BaseAPI.baseUrl + imageUrl)
+        print("*** url : \(url)")
+        self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
     }
     
     override func setConstraints() {

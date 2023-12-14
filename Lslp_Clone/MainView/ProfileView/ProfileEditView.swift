@@ -15,7 +15,7 @@ class ProfileEditView : BaseViewController {
         let view = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelBtnClicked))
         return view
     }()
-    
+    var nickname: String?
     let tapGesture = UITapGestureRecognizer()
     let profileViewModel = ProfileViewModel()
     var selectedImageData = PublishSubject<Data>()
@@ -29,6 +29,7 @@ class ProfileEditView : BaseViewController {
         }
         
         self.profileImage.addGestureRecognizer(tapGesture)
+        nicknameTextField.text = nickname
         bind()
     }
     
@@ -99,7 +100,6 @@ class ProfileEditView : BaseViewController {
         
         
         saveButton.snp.makeConstraints { make in
-//            make.top.equalTo(profileImage.snp.bottom).offset(20)
             make.horizontalEdges.equalToSuperview().inset(10)
             make.top.equalTo(nicknameTitle.snp.bottom).offset(60)
             make.height.equalTo(50)
