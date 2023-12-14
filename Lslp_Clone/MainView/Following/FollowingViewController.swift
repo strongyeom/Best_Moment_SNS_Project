@@ -24,6 +24,7 @@ class FollowingViewController : BaseViewController {
     var routinArray: [ElementReadPostResponse] = []
     var followingFilterArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
+    let followingErrorMessage = PublishSubject<String>()
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
     let userID = PublishSubject<String>()
@@ -84,6 +85,7 @@ class FollowingViewController : BaseViewController {
                 self.likeRow = row
                 print("likeRow : \(self.likeRow)")
                 cell.configureUI(data: element)
+                
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")
@@ -91,7 +93,7 @@ class FollowingViewController : BaseViewController {
                     }
                     .disposed(by: cell.disposeBag)
                 
-                cell.followerBtn.rx.tap
+                cell.unfollowerBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         owner.userID.onNext(element.creator._id)
                     }
@@ -139,10 +141,15 @@ class FollowingViewController : BaseViewController {
         /// 에러 문구 Alert
         output.errorMessage
             .bind(with: self) { owner, err in
-//                owner.setEmailValidAlet(text: err, completionHandler: nil)
+                owner.messageAlert(text: err, completionHandler: nil)
             }
             .disposed(by: disposeBag)
         
+        followingErrorMessage
+            .bind(with: self) { owner, err in
+                owner.messageAlert(text: err, completionHandler: nil)
+            }
+            .disposed(by: disposeBag)
         
         output.zip
             .bind(with: self) { owner, response in
@@ -186,8 +193,9 @@ extension FollowingViewController {
         followeruserIDs = []
         APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
             .catch { err in
-                if let erro = err as? GetProfileError {
-                    
+                if let err = err as? GetProfileError {
+                    print("🙏🏻 - 프로필 조회 에러")
+                    self.followingErrorMessage.onNext(err.errorDescription)
                 }
                 return Observable.never()
             }
@@ -206,7 +214,8 @@ extension FollowingViewController {
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
             .catch { err in
                 if let err = err as? ReadPostError {
-                    print("MainViewController - readPost \(err.errorDescrtion) , \(err.rawValue)")
+                    print("🙏🏻 - 게시글 조회 에러 : Following 프로필 조회 API 확인")
+                    self.followingErrorMessage.onNext(err.errorDescrtion)
                 }
                 return Observable.never()
             }

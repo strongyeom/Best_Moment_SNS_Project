@@ -252,9 +252,9 @@ final class MainTableViewCell : UITableViewCell {
         nickname.text = data.creator.nick
         releaseDate.text = data.time
         
-        print("UTC :\(data.time)")
+//        print("UTC :\(data.time)")
         
-        print("MainTableCell - 넘어온 followings : \(followings)")
+//        print("MainTableCell - 넘어온 followings : \(followings)")
         if followings.contains(data.creator._id) {
             self.followerBtn.configurationUpdateHandler = { button in
                 button.configuration = self.followOption(text: "팔로잉")

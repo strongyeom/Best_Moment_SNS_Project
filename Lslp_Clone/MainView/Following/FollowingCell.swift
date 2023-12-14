@@ -20,7 +20,7 @@ final class FollowingCell : UITableViewCell {
         return view
     }()
    
-    let followerBtn = {
+    let unfollowerBtn = {
         let button = UIButton()
         var config = UIButton.Configuration.tinted()
         config.attributedTitle = AttributedString("팔로우 취소", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .medium)]))
@@ -29,11 +29,13 @@ final class FollowingCell : UITableViewCell {
         return button
     }()
 //
-    let profileImage = {
-        let image = UIImageView()
-        image.backgroundColor = .yellow
-        return image
-    }()
+    
+    let profileImage = PostImage("person.circle.fill", color: .lightGray)
+//    let profileImage = {
+//        let image = UIImageView()
+//        image.backgroundColor = .yellow
+//        return image
+//    }()
     
     let nickname = {
         let view = UILabel()
@@ -56,7 +58,6 @@ final class FollowingCell : UITableViewCell {
         view.font = UIFont.systemFont(ofSize: 13)
         view.numberOfLines = 0
         view.textAlignment = .left
-        view.backgroundColor = .yellow
         return view
     }()
     
@@ -76,7 +77,6 @@ final class FollowingCell : UITableViewCell {
     let likeCountLabel = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 14)
-        view.backgroundColor = .green
         return view
     }()
     
@@ -109,13 +109,13 @@ final class FollowingCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage, followerBtn].forEach {
+        [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage, unfollowerBtn].forEach {
             contentView.addSubview($0)
         }
     }
     
     private func setConstraints() {
-        routinTitle.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
         routinTitle.setContentHuggingPriority(.defaultHigh, for: .vertical)
         routinTitle.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(10)
@@ -123,12 +123,12 @@ final class FollowingCell : UITableViewCell {
        
         
         // setContentHuggingPriority : 뷰가 고유 크기보다 커지는 것을 방지하는 우선 순위를 설정
-        followerBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        unfollowerBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         // setContentCompressionResistancePriority : 뷰가 고유 크기보다 작제 만들어지지 않도록 하는 우선 순위를 설정
-        followerBtn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        followerBtn.snp.makeConstraints { make in
-            make.leading.equalTo(routinTitle.snp.trailing).offset(10)
-            make.centerY.equalTo(routinTitle)
+        unfollowerBtn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        unfollowerBtn.snp.makeConstraints { make in
+            make.leading.equalTo(nickname.snp.trailing).offset(10)
+            make.centerY.equalTo(nickname)
             make.trailing.equalToSuperview().inset(10)
         }
         
@@ -140,10 +140,12 @@ final class FollowingCell : UITableViewCell {
             make.size.equalTo(50)
         }
         
+        nickname.setContentHuggingPriority(.defaultLow, for: .horizontal)
+
         nickname.snp.makeConstraints { make in
             make.centerY.equalTo(profileImage)
             make.leading.equalTo(profileImage.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(10)
+//            make.trailing.equalToSuperview().inset(10)
         }
   
         postImage.snp.makeConstraints { make in
@@ -187,7 +189,7 @@ final class FollowingCell : UITableViewCell {
     
     func configureUI(data: ElementReadPostResponse) {
         
-        routinTitle.text = data.title
+        routinTitle.text = "제목 : \(data.title)"
         nickname.text = data.creator.nick
         releaseDate.text = data.time
         
@@ -195,8 +197,14 @@ final class FollowingCell : UITableViewCell {
         likeBtn.setImage(image, for: .normal)
         
         routinDescription.text = data.content
-        likeCountLabel.text = "좋아요 \(data.likes.count)개"
-        commentCountLabel.text = "댓글 \(data.comments.count)개 모두 보기"
+        
+        if data.likes.count > 0 {
+            likeCountLabel.text = "좋아요 \(data.likes.count)개"
+        }
+        
+        if data.comments.count > 0 {
+            commentCountLabel.text = "댓글 \(data.comments.count)개 모두 보기"
+        }
         
         cofigurePostImage(data: data)
         
@@ -231,7 +239,7 @@ final class FollowingCell : UITableViewCell {
         likeCountLabel.text = nil
         commentCountLabel.text = nil
         postImage.image = nil
-        likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+//        likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
     }
     
     override func layoutSubviews() {
