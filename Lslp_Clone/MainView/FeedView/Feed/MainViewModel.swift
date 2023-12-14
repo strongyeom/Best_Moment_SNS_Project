@@ -12,7 +12,7 @@ class MainViewModel: BaseInOutPut {
     
     let disposeBag = DisposeBag()
     
-    var exampleProfile: [GetAnotherProfileResponse] = []
+//    var exampleProfile = Set<GetAnotherProfileResponse>()
     
     struct Input {
         let tableViewIndex:  ControlEvent<IndexPath>
@@ -20,7 +20,6 @@ class MainViewModel: BaseInOutPut {
         let likeID: PublishSubject<String>
         let postID: PublishSubject<String>
         let userID: PublishSubject<String>
-        let profileUserID: PublishSubject<String>
         let toggleFollowing: BehaviorSubject<Bool>
         
     }
@@ -107,35 +106,6 @@ class MainViewModel: BaseInOutPut {
                     }
             }
         
-            input.profileUserID
-                .flatMap { userID in
-                    APIManager.shared.requestAnotherGerProfile(api: Router.anotherGetProfile(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
-                        .catch { err in
-                            if let err = err as? GetProfileError {
-                                
-                            }
-                            return Observable.never()
-                        }
-                }
-                .bind(with: self) { owner, response in
-                    print("response")
-                    owner.exampleProfile.append(response)
-                }
-                .disposed(by: disposeBag)
-        
-        
-      
-        
-//        let profileImageTapped = input.profileUserID
-//            .flatMap { userID in
-//                APIManager.shared.requestAnotherGerProfile(api: Router.anotherGetProfile(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
-//                    .catch { err in
-//                        if let err = err as? GetProfileError {
-//
-//                        }
-//                        return Observable.never()
-//                    }
-//            }
         
         return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage, unFollower: unFollower, followingStatus: followingStatus)
     }

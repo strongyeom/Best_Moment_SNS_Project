@@ -142,6 +142,7 @@ struct GetAnotherProfileResponse: Decodable {
     let _id: String
     let nick: String
     let profile: String?
+    
 }
 /*
  posts": [],

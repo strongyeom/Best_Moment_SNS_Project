@@ -144,19 +144,23 @@ final class MainTableViewCell : UITableViewCell {
         [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage, pullDownButton, followerBtn].forEach {
             contentView.addSubview($0)
         }
-        postImage.addSubview(bubbleView)
+
         profileImage.addGestureRecognizer(tapGesture)
+        contentView.addSubview(bubbleView)
     }
     
     @objc func profileImagaTapped() {
         profileCompletion?()
         
+        
         // Image 클릭시 bubbleView 보여주기
-        if  self.bubbleView.isHidden == true {
-            self.bubbleView.isHidden = false
-        } else {
-            self.bubbleView.isHidden = true
-        }
+        self.bubbleView.isHidden.toggle()
+        
+//        if  self.bubbleView.isHidden == true {
+//            self.bubbleView.isHidden = false
+//        } else {
+//            self.bubbleView.isHidden = true
+//        }
         
         print("프로필 이미지 눌림")
     }
@@ -236,11 +240,9 @@ final class MainTableViewCell : UITableViewCell {
             make.bottom.equalToSuperview().inset(10)
         }
         
-       
         bubbleView.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(10)
-            make.horizontalEdges.equalToSuperview()
-            
+            make.top.equalTo(profileImage.snp.bottom).offset(10)
+            make.horizontalEdges.equalTo(self.safeAreaLayoutGuide).inset(10)
         }
     }
     

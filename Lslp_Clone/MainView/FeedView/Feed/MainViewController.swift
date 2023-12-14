@@ -30,9 +30,8 @@ class MainViewController : BaseViewController {
     var likeID = PublishSubject<String>()
     let postID = PublishSubject<String>()
     let userID = PublishSubject<String>()
-    let profileUserID = PublishSubject<String>()
     let toggleFollowing = BehaviorSubject(value: false)
-   
+    
     let disposeBag = DisposeBag()
     // 다음 Cursor
     var nextCursor = ""
@@ -88,18 +87,17 @@ class MainViewController : BaseViewController {
     
     func bind() {
         
-        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, profileUserID: profileUserID, toggleFollowing: toggleFollowing)
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, toggleFollowing: toggleFollowing)
         
         let output = viewModel.transform(input: input)
         
         routins
             .bind(to: tableView.rx.items(cellIdentifier: MainTableViewCell.identifier, cellType: MainTableViewCell.self)) { row, element, cell in
                 
-                // Cell이 시작할 때 userID를 통해 프로필 API 통신하기
-                self.profileUserID.onNext(element.creator._id)
                 self.likeRow = row
                 print("likeRow : \(self.likeRow)")
                 cell.configureUI(data: element, followings: self.followings)
+                
                 cell.likeBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("Like Btn -- Clicked Row : \(row)")
@@ -122,18 +120,25 @@ class MainViewController : BaseViewController {
                 cell.deleteCompletion = {
                     print("\(row) - \(element.title)")
                     self.postID.onNext(element._id)
+                    
                 }
                 
                 // 프로필 클릭
                 cell.profileCompletion = {
-                    // 프로필을 눌렀을때 프로필 보여주기
-                    // 프로필 다시 누르면 hidden 처리 하기
-                    print(self.viewModel.exampleProfile.count)
-                    let filter = self.viewModel.exampleProfile[row]
                     
-                    cell.bubbleView.configureUI(data: filter)
+                    APIManager.shared.requestAnotherGerProfile(api: Router.anotherGetProfile(accessToken: UserDefaultsManager.shared.accessToken, userID: element.creator._id))
+                        .catch { err in
+                            if let err = err as? GetProfileError {
+                                
+                            }
+                            return Observable.never()
+                        }
+                        .bind(with: self) { owner, response in
+                            cell.bubbleView.configureUI(data: response)
+                        }
+                        .disposed(by: cell.disposeBag)
+                    
                 }
-                
                 cell.followerBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("팔로우 버튼 눌림")
@@ -164,7 +169,7 @@ class MainViewController : BaseViewController {
                     .disposed(by: cell.disposeBag)
                 
                 
-         
+                
                 
                 cell.postCommentBtn.rx.tap
                     .bind(with: self) { owner, _ in
@@ -232,6 +237,7 @@ class MainViewController : BaseViewController {
         
     }
 }
+
 
 extension MainViewController : UITableViewDelegate {
     // 스크롤 하는 중일때 실시간으로 반영하는 방법은 없을까?
