@@ -22,11 +22,11 @@ class CommentViewController : BaseViewController {
     let commentTextField = BaseTextField(placeHolder: "댓글 달기 ...", brandColor: .systemGray, alignment: .left)
     
     var postID: String?
-    
+
     var refreshGetPost: (() -> Void)?
 
     var comments: [CommentPostResponse]?
-
+    var commentsID = PublishSubject<String>()
     let viewModel = CommentViewModel()
     
     // CommentVC에서 활용되는 실질적인 배열
@@ -73,7 +73,7 @@ class CommentViewController : BaseViewController {
     
     func bind() {
         
-        let input = CommentViewModel.Input(postID: postID, comments: comments, tableViewDeleted: tableView.rx.itemDeleted, addComment: commentTextField)
+        let input = CommentViewModel.Input(postID: postID, comments: comments, removeComment: commentsID, addComment: commentTextField)
         
         let output = viewModel.transform(input: input)
         
@@ -92,18 +92,20 @@ class CommentViewController : BaseViewController {
                 
             }
             .disposed(by: disposeBag)
-  
         
-        output.tableViewDeleted
-            .bind(with: self) { owner, response in
-                print(response)
+        tableView.rx.itemDeleted
+            .bind(with: self) { owner, index in
+                print("index - \(index.row)")
                 
-                let removeArray = owner.commentsTemporaryArrays.filter { !$0._id.contains(response.commentID)}
-                output.commentArray.onNext(removeArray)
+                let removeComment = owner.commentsTemporaryArrays[index.row]._id
+                
+                owner.commentsID.onNext(removeComment)
+                
+                owner.commentsTemporaryArrays.remove(at: index.row)
+                output.commentArray.onNext(owner.commentsTemporaryArrays)
             }
             .disposed(by: disposeBag)
-        
-        
+  
     }
 
     

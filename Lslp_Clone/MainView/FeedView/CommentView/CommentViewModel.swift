@@ -16,7 +16,7 @@ class CommentViewModel: BaseInOutPut {
     struct Input {
         let postID: String?
         var comments: [CommentPostResponse]?
-        let tableViewDeleted: ControlEvent<IndexPath>
+        let removeComment: PublishSubject<String>
         let addComment: BaseTextField
     }
     
@@ -24,14 +24,13 @@ class CommentViewModel: BaseInOutPut {
         
         let commentArray: BehaviorSubject<[CommentPostResponse]>
         let addCommentTapped: Observable<CommentPostResponse>
-        let tableViewDeleted: Observable<CommentRemoveResponse>
     }
     
     func transform(input: Input) -> Output {
- 
+        
         
         let commentArray = BehaviorSubject(value: input.comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
-            
+        
         
         let addCommentTapped = input.addComment.rx.controlEvent(.editingDidEndOnExit)
             .withLatestFrom(input.addComment.rx.text.orEmpty)
@@ -45,9 +44,10 @@ class CommentViewModel: BaseInOutPut {
                     }
                 
             }
-        let tableViewDeleted = input.tableViewDeleted
-            .flatMap { index in
-                return APIManager.shared.requestCommentRemove(api: Router.commentRemove(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", commentID: try! commentArray.value()[index.row]._id))
+        
+        input.removeComment
+            .flatMap { commentID in
+                return APIManager.shared.requestCommentRemove(api: Router.commentRemove(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", commentID: commentID))
                     .catch { err in
                         if let err = err as? CommentRemoveError {
                             print(err.errorDescription)
@@ -55,7 +55,11 @@ class CommentViewModel: BaseInOutPut {
                         return Observable.never()
                     }
             }
+            .bind(with: self) { owner, response in
+                print("삭제된 response: \(response.commentID)")
+            }
+            .disposed(by: disposeBag)
         
-        return Output(commentArray: commentArray, addCommentTapped: addCommentTapped, tableViewDeleted: tableViewDeleted)
+        return Output(commentArray: commentArray, addCommentTapped: addCommentTapped)
     }
 }
