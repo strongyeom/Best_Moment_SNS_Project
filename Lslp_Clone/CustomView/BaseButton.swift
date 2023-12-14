@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignInButton : UIButton {
+class BaseButton : UIButton {
     init(text: String, brandColor: UIColor) {
         super.init(frame: .zero)
         self.setCornerButton(text: text, brandColor: brandColor)

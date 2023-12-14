@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignInTextField : UITextField {
+class BaseTextField : UITextField {
     
     init(placeHolder: String, brandColor: UIColor, alignment: NSTextAlignment) {
         super.init(frame: .zero)
