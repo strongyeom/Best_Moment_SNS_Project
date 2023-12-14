@@ -17,7 +17,7 @@ class CommentViewModel: BaseInOutPut {
         let postID: String?
         var comments: [CommentPostResponse]?
         let tableViewDeleted: ControlEvent<IndexPath>
-        let addComment: SignInTextField
+        let addComment: BaseTextField
     }
     
     struct Output {

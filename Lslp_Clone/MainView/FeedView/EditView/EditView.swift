@@ -11,7 +11,7 @@ import Kingfisher
 final class EditView : BaseView {
     
     let postTitle = BaseLabel(text: "제목", fontSize: 22, weight: .semibold)
-    let postTitleTextField = SignInTextField(placeHolder: "제목을 수정해주세요.", brandColor: .lightGray, alignment: .left)
+    let postTitleTextField = BaseTextField(placeHolder: "제목을 수정해주세요.", brandColor: .lightGray, alignment: .left)
     let profileImage = PostImage("person.circle.fill", color: .lightGray)
     let nickname = BaseLabel(text: "닉네임", fontSize: 13, weight: .medium)
     let postImage = PostImage("person.circle.fill", color: .lightGray)

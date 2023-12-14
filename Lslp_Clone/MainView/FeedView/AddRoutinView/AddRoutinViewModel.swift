@@ -13,7 +13,7 @@ class AddRoutinViewModel: BaseInOutPut {
         
     struct Input {
         let title: ControlProperty<String>
-        let firstRoutrin: ControlProperty<String>
+        let firstRoutin: ControlProperty<String>
         let saveBtn: ControlEvent<Void>
         let imageData: PublishSubject<Data>
     }
@@ -26,10 +26,10 @@ class AddRoutinViewModel: BaseInOutPut {
     func transform(input: Input) -> Output {
                 print("넘어온 imageData - \(input.imageData)")
         
-        let addText = Observable.combineLatest(input.title, input.firstRoutrin, input.imageData)
+        let addText = Observable.combineLatest(input.title, input.firstRoutin, input.imageData)
         
         let saveBtnTapped = input.saveBtn
-            .debug()
+            .debug("저장하기 버튼 눌렸을때 : ")
             .withLatestFrom(addText)
             .flatMap { title, first, imageData in
 
@@ -38,12 +38,12 @@ class AddRoutinViewModel: BaseInOutPut {
                 print("이미지 Data : \(imageData)")
            
                
-                return APIManager.shared.requestAddPost(api: Router.addPost(accessToken: UserDefaultsManager.shared.accessToken, title: String(title), content: String(first), product_id: "yeom"), imageData: imageData)
+                return APIManager.shared.requestAddPost(api: Router.addPost(accessToken: UserDefaultsManager.shared.accessToken, title: title, content: first, product_id: "yeom"), imageData: imageData)
                     .catch { err in
                         if let err = err as? AddPostError {
-                            print("AddRoutinViewModel - transform \(err.errorDescrtion) , \(err.rawValue)")
+                            print("🙏🏻 - 게시글 작성하기 에러 : \(err.errorDescrtion)")
                             if err.rawValue == 419 {
-//
+                                // accessToken 값 확인
                             }
                         }
                         return Observable.never()

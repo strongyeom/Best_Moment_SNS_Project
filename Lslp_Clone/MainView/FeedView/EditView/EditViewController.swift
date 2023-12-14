@@ -33,7 +33,6 @@ class EditViewController : BaseViewController {
     
     override func configure() {
         super.configure()
-        print(data!)
         navigationBar()
         editView.configureUI(data: data)
         
@@ -54,10 +53,8 @@ class EditViewController : BaseViewController {
             .disposed(by: disposeBag)
         
     
-        // TODO: - 연결해기
         output.editBtnClicked
             .bind(with: self) { owner, response in
-                print("수정 결과 -\(response)")
                 owner.navigationController?.popViewController(animated: true)
             }
             .disposed(by: disposeBag)
@@ -69,7 +66,7 @@ class EditViewController : BaseViewController {
     }
     
     @objc func imageTaaped() {
-        print("tap 버튼 눌림 ")
+        print("EditVC - tap 버튼 눌림 ")
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let photoLibray = UIAlertAction(title: "갤러리", style: .default) { [weak self] _ in
@@ -114,7 +111,7 @@ extension EditViewController: PHPickerViewControllerDelegate {
                 }
             }
         } else {
-            // TODO: Handle empty results or item provider not being able load UIImage
+            print("EditVC - PHPickerControllerDelegte: canLoadObject Error")
         }
     }
 }

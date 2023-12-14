@@ -254,7 +254,7 @@ final class MainTableViewCell : UITableViewCell {
         
         print("UTC :\(data.time)")
         
-        print("넘어온 followings : \(followings)")
+        print("MainTableCell - 넘어온 followings : \(followings)")
         if followings.contains(data.creator._id) {
             self.followerBtn.configurationUpdateHandler = { button in
                 button.configuration = self.followOption(text: "팔로잉")

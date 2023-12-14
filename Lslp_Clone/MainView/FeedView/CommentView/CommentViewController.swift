@@ -19,7 +19,7 @@ class CommentViewController : BaseViewController {
         return tableView
     }()
 
-    let commentTextField = SignInTextField(placeHolder: "댓글 달기 ...", brandColor: .systemGray, alignment: .left)
+    let commentTextField = BaseTextField(placeHolder: "댓글 달기 ...", brandColor: .systemGray, alignment: .left)
     
     var postID: String?
     

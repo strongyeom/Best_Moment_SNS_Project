@@ -11,12 +11,11 @@ import PhotosUI
 
 class AddRoutinViewController : BaseViewController {
     
-    let titleTextField = SignInTextField(placeHolder: "제목을 입력해주세요.", brandColor: .blue, alignment: .center)
+    let titleTextField = BaseTextField(placeHolder: "제목을 입력해주세요.", brandColor: .lightGray, alignment: .center)
     let dailyTextView = BasicTextView()
     
-    let saveBtn = SignInButton(text: "저장하기", brandColor: .blue)
+    let saveBtn = BaseButton(text: "저장하기", brandColor: .blue)
     let postImage = PostImage(nil, color: .yellow)
-//    lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageBtnTaaped))
     let viewModel = AddRoutinViewModel()
     let disposeBag = DisposeBag()
     var selectedImageData = PublishSubject<Data>()
@@ -33,17 +32,11 @@ class AddRoutinViewController : BaseViewController {
         dailyTextView.delegate = self
         navigationItem.leftBarButtonItem = cancelBarBtn
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("AddRoutinViewController - viewWillAppear")
-        
-    }
-    
+   
     // 제목 + 루틴 입력후 버튼 누르면 addpost 되게끔 설정
     func bind() {
         
-        let input = AddRoutinViewModel.Input(title: titleTextField.rx.text.orEmpty, firstRoutrin: dailyTextView.rx.text.orEmpty, saveBtn: saveBtn.rx.tap, imageData: selectedImageData)
+        let input = AddRoutinViewModel.Input(title: titleTextField.rx.text.orEmpty, firstRoutin: dailyTextView.rx.text.orEmpty, saveBtn: saveBtn.rx.tap, imageData: selectedImageData)
         
         let output = viewModel.transform(input: input)
         
@@ -156,7 +149,7 @@ extension AddRoutinViewController : UITextViewDelegate {
     // 텍스트가 비어있으면 placeHolder, 회색으로 설정
     func textViewDidEndEditing(_ textView: UITextView) {
         if dailyTextView.text.isEmpty {
-            dailyTextView.text = "우리의 일상을 공유해주세요."
+            dailyTextView.text = "당신의 일상을 공유해주세요."
             dailyTextView.textColor = .lightGray
             
         }
