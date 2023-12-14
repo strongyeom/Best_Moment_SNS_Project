@@ -31,13 +31,15 @@ class MyFavoritePostViewController : BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        myArray = []
         requestGetLikes(next: "")
     }
     
     override func setConstraints() {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(60)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.width.equalTo(UIScreen.main.bounds.size.width)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -46,6 +48,7 @@ class MyFavoritePostViewController : BaseViewController {
         myFavoritesPosts
             .bind(to: collectionView.rx.items(cellIdentifier: MyPostCell.identifier, cellType: MyPostCell.self)) {
                 row, element, cell in
+                print("myArray - \(element.creator.nick)")
                 cell.configureUI(data: element, isHidden: .favorite)
             }
             .disposed(by: disposeBag)
@@ -76,7 +79,8 @@ extension MyFavoritePostViewController {
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
                 owner.myArray = response.data
-                print("myArray \(self.myArray.count)")
+                print("myArray Count\(self.myArray.count)")
+                print("myArray \(self.myArray)")
                 owner.myFavoritesPosts.onNext(owner.myArray)
             }
             .disposed(by: disposeBag)

@@ -232,7 +232,7 @@ class ProfileViewController : BaseViewController {
         containerView.snp.makeConstraints { make in
             make.top.equalTo(buttonStackView.snp.bottom).offset(30)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
 
         }
         

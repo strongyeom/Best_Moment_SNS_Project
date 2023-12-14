@@ -19,6 +19,7 @@ class MyPostViewController : BaseViewController {
     
     
     var nextCursor: String = ""
+    var myID: String = ""
     var myArray: [ElementReadPostResponse] = []
     lazy var myPosts = BehaviorSubject(value: myArray)
     let disposeBag = DisposeBag()
@@ -41,6 +42,7 @@ class MyPostViewController : BaseViewController {
         myPosts
             .bind(to: collectionView.rx.items(cellIdentifier: MyPostCell.identifier, cellType: MyPostCell.self)) {
                 row, element, cell in
+                print("element - \(element.title)")
                 cell.configureUI(data: element, isHidden: .post)
             }
             .disposed(by: disposeBag)
@@ -54,7 +56,8 @@ class MyPostViewController : BaseViewController {
     override func setConstraints() {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(50)
-            make.horizontalEdges.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.width.equalTo(UIScreen.main.bounds.size.width)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -95,6 +98,22 @@ extension MyPostViewController : UICollectionViewDelegate {
 
 extension MyPostViewController {
     func getPost(next: String, limit: String) {
+        
+        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+            .catch { err in
+                if let err = err as? GetProfileError {
+                    
+                }
+                return Observable.never()
+            }
+            .bind(with: self) { owner, response in
+                owner.myID = response._id
+            }
+            .disposed(by: disposeBag)
+        
+        
+        
+        
         APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"))
             .catch { err in
                 if let err = err as? ReadPostError {
@@ -105,7 +124,9 @@ extension MyPostViewController {
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
                 owner.myArray.append(contentsOf: response.data)
-                owner.myPosts.onNext(owner.myArray)
+                
+                let filter = owner.myArray.filter { $0.creator._id == owner.myID}
+                owner.myPosts.onNext(filter)
             }
             .disposed(by: disposeBag)
     }
