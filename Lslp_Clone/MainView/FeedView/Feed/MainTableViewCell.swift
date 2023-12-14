@@ -150,6 +150,14 @@ final class MainTableViewCell : UITableViewCell {
     
     @objc func profileImagaTapped() {
         profileCompletion?()
+        
+        // Image 클릭시 bubbleView 보여주기
+        if  self.bubbleView.isHidden == true {
+            self.bubbleView.isHidden = false
+        } else {
+            self.bubbleView.isHidden = true
+        }
+        
         print("프로필 이미지 눌림")
     }
     
@@ -228,6 +236,7 @@ final class MainTableViewCell : UITableViewCell {
             make.bottom.equalToSuperview().inset(10)
         }
         
+       
         bubbleView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(10)
             make.horizontalEdges.equalToSuperview()
@@ -237,13 +246,13 @@ final class MainTableViewCell : UITableViewCell {
     
     func configureUI(data: ElementReadPostResponse, followings: [String]) {
         
-        routinTitle.text = data.title
+        routinTitle.text = "제목 : \(data.title)"
         nickname.text = data.creator.nick
         releaseDate.text = data.time
         
         print("UTC :\(data.time)")
         
-        print("넘오온 followings : \(followings)")
+        print("넘어온 followings : \(followings)")
         if followings.contains(data.creator._id) {
             self.followerBtn.configurationUpdateHandler = { button in
                 button.configuration = self.followOption(text: "팔로잉")

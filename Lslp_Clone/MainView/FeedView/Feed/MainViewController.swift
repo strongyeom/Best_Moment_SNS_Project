@@ -126,6 +126,8 @@ class MainViewController : BaseViewController {
                 
                 // 프로필 클릭
                 cell.profileCompletion = {
+                    // 프로필을 눌렀을때 프로필 보여주기
+                    // 프로필 다시 누르면 hidden 처리 하기
                     print(self.viewModel.exampleProfile.count)
                     let filter = self.viewModel.exampleProfile[row]
                     

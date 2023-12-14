@@ -116,7 +116,7 @@ class BubbleView : UIView {
     
     private func configure() {
         
-        
+        self.isHidden = true
         self.addSubview(horizonTalStackView)
         horizonTalStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(10)
