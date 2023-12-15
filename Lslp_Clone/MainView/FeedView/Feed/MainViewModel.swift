@@ -44,16 +44,10 @@ class MainViewModel: BaseInOutPut {
         
         let like = input.likeID
             .flatMap { postID in
-                return APIManager.shared.requestLike(api: Router.like(access: UserDefaultsManager.shared.accessToken, postID: postID))
+                return APIManager.shared.requestAPIFunction(type: LikeResponse.self, api: Router.like(access: UserDefaultsManager.shared.accessToken, postID: postID), section: .like)
                     .catch { err in
-                        if let err = err as? LikeError {
-                            print("🙏🏻- 좋아요 에러 : \(err.errorDescripion)")
-                            errorMessage.onNext(err.errorDescripion)
-                            
-                            if err.rawValue == 419 {
-                                
-                            }
-                            
+                        if let err = err as? NetworkAPIError {
+                            print("🙏🏻- 좋아요 에러 : \(err.description)")
                         }
                         return Observable.never()
                     }
@@ -61,40 +55,42 @@ class MainViewModel: BaseInOutPut {
         
         let removePost = input.postID
             .flatMap { postID in
-                print("UserDefaultsManager.shared.loadNickname() - \(UserDefaultsManager.shared.loadNickname())")
-                return APIManager.shared.requestRemovePost(api: Router.removePost(access: UserDefaultsManager.shared.accessToken, postID: postID))
+                return APIManager.shared.requestAPIFunction(type: RemovePostResponse.self, api: Router.removePost(access: UserDefaultsManager.shared.accessToken, postID: postID), section: .removePost)
                     .catch { err in
-                        if let err = err as? RemovePostError {
-                            print("🙏🏻- 게시글 삭제 에러 : \(err.errorDescription)")
-                            errorMessage.onNext(err.errorDescription)
+                        if let err = err as? NetworkAPIError {
+                            print("🙏🏻- 게시물 제거 에러 : \(err.description)")
                         }
                         return Observable.never()
                     }
             }
         
+        
+        
         // FollowingVC
         let unFollower = input.userID
             .flatMap { userID in
-                APIManager.shared.requestFollowStatus(api: Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+                return APIManager.shared.requestAPIFunction(type: FollowerStatusResponse.self, api: Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID), section: .unFollower)
                     .catch { err in
-                        if let err = err as? DeleteFollowerError {
-                            print("🙏🏻- 언팔로우 에러 : \(err.errorDescription)")
-                            errorMessage.onNext(err.errorDescription)
+                        if let err = err as? NetworkAPIError {
+                            print("🙏🏻- 언팔로우 에러 FollowingVC : \(err.description)")
                         }
                         return Observable.never()
                     }
             }
+        
+        
+        
+        
         
         let userIDAndFollowingStatus = Observable.combineLatest(input.userID, input.toggleFollowing)
         
         let followingStatus = input.userID
             .withLatestFrom(userIDAndFollowingStatus)
             .flatMap { userID, response in
-                APIManager.shared.requestFollowStatus(api: response ? Router.follow(accessToken: UserDefaultsManager.shared.accessToken, userID: userID) : Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID))
+                return APIManager.shared.requestAPIFunction(type: FollowerStatusResponse.self, api: response ? Router.follow(accessToken: UserDefaultsManager.shared.accessToken, userID: userID) : Router.unFollower(accessToken: UserDefaultsManager.shared.accessToken, userID: userID), section: .follow)
                     .catch { err in
-                        if let err = err as? DeleteFollowerError {
-                            print("🙏🏻- 팔로우 상태 에러 : \(err.errorDescription)")
-                            errorMessage.onNext(err.errorDescription)
+                        if let err = err as? NetworkAPIError {
+                            print("🙏🏻- 팔로우 에러 : \(err.description)")
                         }
                         return Observable.never()
                     }

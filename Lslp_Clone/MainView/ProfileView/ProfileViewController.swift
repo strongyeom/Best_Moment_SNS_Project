@@ -144,16 +144,14 @@ class ProfileViewController : BaseViewController {
 
     func bind() {
         
-   
-        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+        APIManager.shared.requestAPIFunction(type: GetProfileResponse.self, api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken), section: .getProfile)
             .catch { err in
-                if let err = err as? PutProfileError {
-                   print("🙏🏻 ProfileVC - 게시물 조회 에러 ")
+                if let err = err as? NetworkAPIError {
+                    print("🙏🏻 프로필 조회 에러 - \(err.description)")
                 }
                 return Observable.never()
             }
             .bind(with: self, onNext: { owner, response in
-//                dump(response)
                 owner.nickname.text = response.nick
                 owner.postCount.text = "\(response.posts.count)"
                 owner.followersCount.text = "\(response.followers.count)"
@@ -200,7 +198,6 @@ class ProfileViewController : BaseViewController {
         }
         
         let url = URL(string: BaseAPI.baseUrl + imageUrl)
-        print("*** url : \(url)")
         self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
     }
     

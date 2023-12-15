@@ -55,7 +55,7 @@ class MainViewController : BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         print("MainViewController - viewWillAppear")
-        getPost(next: "", limit: "10")
+        getPost(next: "", limit: "")
         routinArray = []
     }
     
@@ -126,10 +126,10 @@ class MainViewController : BaseViewController {
                 // 프로필 클릭
                 cell.profileCompletion = {
                     
-                    APIManager.shared.requestAnotherGerProfile(api: Router.anotherGetProfile(accessToken: UserDefaultsManager.shared.accessToken, userID: element.creator._id))
+                    APIManager.shared.requestAPIFunction(type: GetAnotherProfileResponse.self, api: Router.anotherGetProfile(accessToken: UserDefaultsManager.shared.accessToken, userID: element.creator._id), section: .anotherGetProfile)
                         .catch { err in
-                            if let err = err as? GetProfileError {
-                                
+                            if let err = err as? NetworkAPIError {
+                                print("🙏🏻 다른 유저 프로필 조회 에러 - \(err.description)")
                             }
                             return Observable.never()
                         }
@@ -138,7 +138,7 @@ class MainViewController : BaseViewController {
                         }
                         .disposed(by: cell.disposeBag)
                     
-                }
+                                    }
                 cell.followerBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("팔로우 버튼 눌림")
@@ -263,10 +263,10 @@ extension MainViewController : UITableViewDelegate {
 extension MainViewController {
     func getPost(next: String, limit: String) {
         
-        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+        APIManager.shared.requestAPIFunction(type: GetProfileResponse.self, api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken), section: .getProfile)
             .catch { err in
-                if let err = err as? GetProfileError {
-                    
+                if let err = err as? NetworkAPIError {
+                    print("NetworkAPIError - \(err.description) ")
                 }
                 return Observable.never()
             }
@@ -276,18 +276,15 @@ extension MainViewController {
                 owner.followings = response.following.map { $0._id }
             }
             .disposed(by: disposeBag)
-        
-        
-        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
+     
+        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"), section: .getPost)
             .catch { err in
-                if let err = err as? ReadPostError {
-                    print("MainViewController - readPost \(err.errorDescrtion) , \(err.rawValue)")
+                if let err = err as? NetworkAPIError {
+                    print("CustomError : \(err.description)")
                 }
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
-                print("MainVC GET- next_cursor: \(response.next_cursor)")
-                
                 owner.nextCursor = response.next_cursor
                 owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)

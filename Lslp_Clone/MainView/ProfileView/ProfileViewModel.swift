@@ -34,7 +34,7 @@ class ProfileViewModel: BaseInOutPut {
                 return APIManager.shared.requestPutProfile(api: Router.putProfile(accessToken: UserDefaultsManager.shared.accessToken, nick: text), imageData: imageData)
                     .catch { err in
                         if let err = err as? PutProfileError {
-                            
+                            print("🙏🏻 프로필 수정 에러 - \(err.errorDescription)")
                         }
                         return Observable.never()
                     }

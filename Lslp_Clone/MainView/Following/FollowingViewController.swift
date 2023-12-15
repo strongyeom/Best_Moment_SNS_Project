@@ -191,11 +191,11 @@ extension FollowingViewController {
     func getPost(next: String, limit: String) {
         followingFilterArray = []
         followeruserIDs = []
-        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+        
+        APIManager.shared.requestAPIFunction(type: GetProfileResponse.self, api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken), section: .getProfile)
             .catch { err in
-                if let err = err as? GetProfileError {
-                    print("🙏🏻 - 프로필 조회 에러")
-                    self.followingErrorMessage.onNext(err.errorDescription)
+                if let err = err as? NetworkAPIError {
+                    print("🙏🏻 프로필 조회 에러 - \(err.description)")
                 }
                 return Observable.never()
             }
@@ -206,16 +206,14 @@ extension FollowingViewController {
                 for following in followings {
                     owner.followeruserIDs.insert(following)
                 }
-                
                 print("팔로잉 한 닉네임 : \(owner.followeruserIDs)")
             }
             .disposed(by: disposeBag)
-     
-        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"))
+        
+        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"), section: .getPost)
             .catch { err in
-                if let err = err as? ReadPostError {
-                    print("🙏🏻 - 게시글 조회 에러 : Following 프로필 조회 API 확인")
-                    self.followingErrorMessage.onNext(err.errorDescrtion)
+                if let err = err as? NetworkAPIError {
+                    print("🙏🏻 게시글 조회 에러 - \(err.description)")
                 }
                 return Observable.never()
             }
@@ -240,7 +238,7 @@ extension FollowingViewController {
                 owner.routins.onNext(owner.followingFilterArray)
             }
             .disposed(by: disposeBag)
-        
+     
     }
  
 }

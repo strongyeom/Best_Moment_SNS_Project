@@ -69,10 +69,11 @@ class MyFavoritePostViewController : BaseViewController {
 
 extension MyFavoritePostViewController {
     func requestGetLikes(next: String) {
-        APIManager.shared.requestReadPost(api: Router.getLikes(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: ""))
+    
+        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.getLikes(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: ""), section: .getLikes)
             .catch { err in
-                if let err = err as? ReadPostError {
-                    print("MainViewController - readPost \(err.errorDescrtion) , \(err.rawValue)")
+                if let err = err as? NetworkAPIError {
+                    print("🙏🏻 내가 좋아요한 포스팅 조회 에러 - \(err.description)")
                 }
                 return Observable.never()
             }

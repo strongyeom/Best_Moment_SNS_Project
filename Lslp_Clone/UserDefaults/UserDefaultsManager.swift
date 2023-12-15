@@ -10,6 +10,14 @@ import Foundation
 class UserDefaultsManager {
     
     static let shared = UserDefaultsManager()
+    
+    func saveUserID(_ id: String) {
+        UserDefaults.standard.set(id, forKey: "userID")
+    }
+    
+    func loadUserID() -> String {
+       return  UserDefaults.standard.string(forKey: "userID") ?? "유저 ID 없음"
+    }
 
     func saveAccessToken(accessToken: String) {
         UserDefaults.standard.set(accessToken, forKey: "accessToken")

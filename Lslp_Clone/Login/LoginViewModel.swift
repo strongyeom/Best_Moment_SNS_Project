@@ -40,16 +40,13 @@ class LoginViewModel: BaseInOutPut {
             .flatMap { email, password in
                 print("email, password", email, password)
                 
-                return APIManager.shared.requestLogin(api: Router.login(email: String(email), password: String(password)))
-                    .catch { err -> Observable<TokenResponse> in
-                        if let err = err as? LoginError {
-                            input.emailText.onNext("")
-                            input.passwordText.onNext("")
-                            errorMessage.onNext(err.errorDescription)
+                return APIManager.shared.requestAPIFunction(type: TokenResponse.self, api: Router.login(email: email, password: password), section: .login)
+                    .catch { err in
+                        if let err = err as? NetworkAPIError {
+                            print("🙏🏻 로그인 에러 - \(err.description)")
                         }
                         return Observable.never()
                     }
-                    
             }
            
            

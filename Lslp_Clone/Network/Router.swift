@@ -19,11 +19,11 @@ enum Router : URLRequestConvertible {
     case readPost(accessToken: String, next: String, limit: String, product_id: String)
     case modifyPost(asccessToken: String, postID: String, title: String, content: String, product_id: String)
     case refresh(access: String, refresh: String)
-    case logOut(access: String)
+    case deleteAccount(access: String)
     case like(access: String, postID: String)
     case removePost(access: String, postID: String)
     case commentPost(access: String, postID: String, comment: String)
-    case commentRemove(access: String, postID: String, commentID: String)
+    case removeComment(access: String, postID: String, commentID: String)
     case getLikes(accessToken: String, next: String, limit: String)
     case getProfile(accessToken: String)
     case putProfile(accessToken: String, nick: String)
@@ -53,7 +53,7 @@ enum Router : URLRequestConvertible {
             return "post/\(postID)"
         case .refresh:
             return "refresh"
-        case .logOut:
+        case .deleteAccount:
             return "withdraw"
         case .like(access: _, postID: let id):
             return "post/like/\(id)"
@@ -61,7 +61,7 @@ enum Router : URLRequestConvertible {
             return "post/\(id)"
         case .commentPost(access: _, postID: let id, comment: _):
             return "post/\(id)/comment"
-        case .commentRemove(access: _, postID: let id, commentID: let commentID):
+        case .removeComment(access: _, postID: let id, commentID: let commentID):
             return "post/\(id)/comment/\(commentID)"
         case .getLikes:
             return "post/like/me"
@@ -99,11 +99,11 @@ enum Router : URLRequestConvertible {
                 "SesacKey" : APIKey.secretKey,
                 "Refresh": refresh
             ]
-        case .logOut(access: let token),
+        case .deleteAccount(access: let token),
                 .readPost(accessToken: let token, next: _, limit: _, product_id: _ ),
                 .like(access: let token, postID: _),
                 .removePost(access: let token, postID: _),
-                .commentRemove(access: let token, postID: _, commentID: _),
+                .removeComment(access: let token, postID: _, commentID: _),
                 .getLikes(accessToken: let token, next: _, limit: _),
                 .getProfile(accessToken: let token),
                 .unFollower(accessToken: let token, userID: _),
@@ -128,7 +128,7 @@ enum Router : URLRequestConvertible {
         case .signup,
                 .login,
                 .valid,
-                .logOut,
+                .deleteAccount,
                 .addPost,
                 .like,
                 .commentPost,
@@ -136,7 +136,7 @@ enum Router : URLRequestConvertible {
             return .post
         case .refresh, .readPost, .getLikes, .getProfile, .searchUserPost, .anotherGetProfile:
             return .get
-        case .removePost, .commentRemove, .unFollower:
+        case .removePost, .removeComment, .unFollower:
             return .delete
         case .putProfile, .modifyPost:
             return .put
@@ -181,10 +181,10 @@ enum Router : URLRequestConvertible {
                 "limit": limit
             ]
         case .refresh,
-                .logOut,
+                .deleteAccount,
                 .like,
                 .removePost,
-                .commentRemove,
+                .removeComment,
                 .getProfile,
                 .follow,
                 .unFollower,
@@ -217,7 +217,7 @@ enum Router : URLRequestConvertible {
         // => ❗️타임 아웃 에러 발생
 
         switch self {
-        case .addPost, .refresh, .like, .removePost, .readPost, .commentRemove, .getLikes, .getProfile, .putProfile, .follow, .unFollower, .searchUserPost, .modifyPost, .anotherGetProfile:
+        case .addPost, .refresh, .like, .removePost, .readPost, .removeComment, .getLikes, .getProfile, .putProfile, .follow, .unFollower, .searchUserPost, .modifyPost, .anotherGetProfile:
             request = try URLEncodedFormParameterEncoder(destination: .methodDependent).encode(query, into: request)
         default:
             request = try JSONParameterEncoder(encoder: JSONEncoder()).encode(query, into: request)

@@ -265,7 +265,7 @@ final class MainTableViewCell : UITableViewCell {
             }
         }
         
-        
+
         let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         likeBtn.setImage(image, for: .normal)
         

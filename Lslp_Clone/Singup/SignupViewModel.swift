@@ -34,13 +34,11 @@ class SignupViewModel: BaseInOutPut {
         
         let duplicateTapped = input.duplicateTapped
             .withLatestFrom(input.emailText)
-            .map { String($0)}
             .flatMap { emailText in
-                APIManager.shared.requestIsValidateEmail(api: Router.valid(email: emailText))
-                    .catch { err -> Observable<ValidateEmailResponse> in
-                        if let err = err as? ValidateEmailError {
-                            print(err.errorDescription)
-                            errorMessage.onNext(err.errorDescription)
+                return APIManager.shared.requestAPIFunction(type: ValidateEmailResponse.self, api: Router.valid(email: emailText), section: .valid)
+                    .catch { err in
+                        if let err = err as? NetworkAPIError {
+                            print("🙏🏻 이메일 인증 에러 - \(err.description)")
                         }
                         return Observable.never()
                     }
@@ -53,16 +51,14 @@ class SignupViewModel: BaseInOutPut {
         let signBtnTapped = input.signupBtnTapped
             .withLatestFrom(pairOfThreeInfo)
             .flatMap { email, password, nick in
-                print("회원가입 email, password, nick", email, password, nick)
-                return APIManager.shared.requestSignup(api: Router.signup(email: String(email), password: String(password), nickname: String(nick)))
+                
+                return APIManager.shared.requestAPIFunction(type: JoinResponse.self, api: Router.signup(email: email, password: password, nickname: nick), section: .signup)
                     .catch { err in
-                        if let err = err as? SignupError {
-                            errorMessage.onNext(err.errorDescription)
-                            isEmailValid.onNext(false)
+                        if let err = err as? NetworkAPIError {
+                            print("🙏🏻 회원 가입 에러 - \(err.description)")
                         }
                         return Observable.never()
                     }
-                
             }
             .debug()
         

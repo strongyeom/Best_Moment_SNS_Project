@@ -99,10 +99,10 @@ extension MyPostViewController : UICollectionViewDelegate {
 extension MyPostViewController {
     func getPost(next: String, limit: String) {
         
-        APIManager.shared.requestGetProfile(api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken))
+        APIManager.shared.requestAPIFunction(type: GetProfileResponse.self, api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken), section: .getProfile)
             .catch { err in
-                if let err = err as? GetProfileError {
-                    
+                if let err = err as? NetworkAPIError {
+                    print("🙏🏻 프로필 조회 에러 - \(err.description)")
                 }
                 return Observable.never()
             }
@@ -114,10 +114,10 @@ extension MyPostViewController {
         
         
         
-        APIManager.shared.requestReadPost(api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"))
+        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"), section: .getPost)
             .catch { err in
-                if let err = err as? ReadPostError {
-                    
+                if let err = err as? NetworkAPIError {
+                    print("CustomError : \(err.description)")
                 }
                 return Observable.never()
             }

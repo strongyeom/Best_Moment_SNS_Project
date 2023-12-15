@@ -31,26 +31,24 @@ class CommentViewModel: BaseInOutPut {
         
         let commentArray = BehaviorSubject(value: input.comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
         
-        
         let addCommentTapped = input.addComment.rx.controlEvent(.editingDidEndOnExit)
             .withLatestFrom(input.addComment.rx.text.orEmpty)
             .flatMap { text in
-                APIManager.shared.requestCommentPost(api: Router.commentPost(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", comment: text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)) // 한글 인코딩 작업
+                return APIManager.shared.requestAPIFunction(type: CommentPostResponse.self, api: Router.commentPost(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", comment: text.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!), section: .commentPost)
                     .catch { err in
-                        if let err = err as? CommentPostError {
-                            print(err.errorDescription)
+                        if let err = err as? NetworkAPIError {
+                            print(" 🙏🏻 댓글 추가 하기 에러 - \(err.description)")
                         }
                         return Observable.never()
                     }
-                
             }
         
         input.removeComment
-            .flatMap { commentID in
-                return APIManager.shared.requestCommentRemove(api: Router.commentRemove(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", commentID: commentID))
+            .flatMap { commnetID in
+                return APIManager.shared.requestAPIFunction(type: CommentRemoveResponse.self, api: Router.removeComment(access: UserDefaultsManager.shared.accessToken, postID: input.postID ?? "", commentID: commnetID), section: .removeComment)
                     .catch { err in
-                        if let err = err as? CommentRemoveError {
-                            print(err.errorDescription)
+                        if let err = err as? NetworkAPIError {
+                            print("🙏🏻 - 댓글 제거 에러 \(err.description)")
                         }
                         return Observable.never()
                     }
