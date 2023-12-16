@@ -95,7 +95,7 @@ class APIManager {
                             observer.onError(commonError)
                         }
                         
-                        if let modifyError = error as? ModifyError {
+                        if let modifyError = ModifyError(rawValue: status) {
                             print("modifyError - \(modifyError)")
                             observer.onError(modifyError)
                         }
