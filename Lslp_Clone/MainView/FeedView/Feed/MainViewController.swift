@@ -39,8 +39,7 @@ class MainViewController : BaseViewController {
     var likeRow: Int = 0
     var followings: [String] = []
     let viewModel = MainViewModel()
-    var example: GetAnotherProfileResponse = GetAnotherProfileResponse(posts: [], followers: [Creator(_id: "", nick: "")], following: [Creator(_id: "", nick: "")], _id: "", nick: "", profile: "")
-    
+
     override func configure() {
         super.configure()
         self.view.backgroundColor = .green

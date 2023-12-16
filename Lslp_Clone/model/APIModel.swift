@@ -81,11 +81,6 @@ struct ElementReadPostResponse: Decodable, Hashable {
     var time: String
     var title: String
     var content: String
-    //    var content1: String
-    //    var content2: String
-    //    var content3: String
-    //    var content4: String
-    //    var content5: String
     var product_id: String
 }
 
@@ -144,16 +139,6 @@ struct GetAnotherProfileResponse: Decodable {
     let profile: String?
     
 }
-/*
- posts": [],
-   "followers": [],
-   "following": [],
-   "_id": "6558be0e1d043a1c4219bcbb",
-   "nick": "      "
- }
- */
-
-
 
 struct PutProfileResponse: Decodable {
     let posts: [String]

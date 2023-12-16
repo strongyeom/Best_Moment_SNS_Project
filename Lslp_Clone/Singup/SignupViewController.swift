@@ -72,15 +72,7 @@ class SignupViewController: BaseViewController {
                 output.isEmailValid.onNext(true)
             })
             .disposed(by: disposeBag)
-        
-        
-        // nick: yeom, email: yeom@12, pass: 12
-        // yeom123 12yeom@12 12  숫자 들어김
-        // bebeen bebeen@12 12
-        // m123 m123 12
-        // n123 n123 12
-        
-        
+
         /// 회원 가입
         output.signupBtnTapped
             .bind(with: self, onNext: { owner, response in

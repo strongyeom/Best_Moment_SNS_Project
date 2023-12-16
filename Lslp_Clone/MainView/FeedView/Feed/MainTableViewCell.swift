@@ -50,7 +50,7 @@ final class MainTableViewCell : UITableViewCell {
         button.configuration = config
         return button
     }()
-//
+
     let profileImage = {
         let image = UIImageView()
         image.backgroundColor = .yellow
@@ -216,7 +216,6 @@ final class MainTableViewCell : UITableViewCell {
         }
         
         likeBtn.snp.makeConstraints { make in
-            //make.size.equalTo(40)
             make.top.equalTo(routinDescription.snp.bottom).offset(10)
             make.leading.equalTo(routinTitle)
         }
@@ -251,10 +250,7 @@ final class MainTableViewCell : UITableViewCell {
         routinTitle.text = "제목 : \(data.title)"
         nickname.text = data.creator.nick
         releaseDate.text = data.time
-        
-//        print("UTC :\(data.time)")
-        
-//        print("MainTableCell - 넘어온 followings : \(followings)")
+
         if followings.contains(data.creator._id) {
             self.followerBtn.configurationUpdateHandler = { button in
                 button.configuration = self.followOption(text: "팔로잉")
