@@ -113,11 +113,13 @@ final class MainViewController : BaseViewController {
                     let editVC = EditViewController()
                     editVC.data = element
                     editVC.postID = element._id
-                    self.navigationController?.pushViewController(editVC, animated: true)
+                    
+                    let nav = UINavigationController(rootViewController: editVC)
+                    nav.modalPresentationStyle = .fullScreen
+                    self.present(nav, animated: true)
                 }
                 // 삭제
                 cell.deleteCompletion = {
-                    print("\(row) - \(element.title)")
                     self.postID.onNext(element._id)
                     
                 }

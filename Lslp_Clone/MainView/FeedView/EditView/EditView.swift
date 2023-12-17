@@ -10,8 +10,6 @@ import Kingfisher
 
 final class EditView : BaseView {
     
-    let postTitle = BaseLabel(text: "제목", fontSize: 22, weight: .semibold)
-    let postTitleTextField = BaseTextField(placeHolder: "제목을 수정해주세요.", brandColor: .lightGray, alignment: .left)
     let profileImage = PostImage("person.circle.fill", color: .lightGray)
     let nickname = BaseLabel(text: "닉네임", fontSize: 13, weight: .medium)
     let postImage = PostImage("person.circle.fill", color: .lightGray)
@@ -20,28 +18,16 @@ final class EditView : BaseView {
     let contentTextView = BasicTextView()
     
     override func configure() {
-        [postTitle, postTitleTextField, profileImage, nickname, postImage, guideText, contentLabel, contentTextView].forEach {
+        [profileImage, nickname, postImage, guideText, contentLabel, contentTextView].forEach {
             self.addSubview($0)
         }
     }
     
     override func setConstraints() {
-        postTitle.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        postTitle.snp.makeConstraints { make in
-            make.top.leading.equalTo(self.safeAreaLayoutGuide).inset(15)
-        }
-        
-        postTitleTextField.snp.makeConstraints { make in
-            make.leading.equalTo(postTitle.snp.trailing).offset(10)
-            make.trailing.equalTo(self.safeAreaLayoutGuide).inset(15)
-            make.centerY.equalTo(postTitle)
-            make.height.equalTo(40)
-        }
-        
+      
         profileImage.snp.makeConstraints { make in
             make.size.equalTo(50)
-            make.leading.equalTo(postTitle)
-            make.top.equalTo(postTitle.snp.bottom).offset(15)
+            make.top.leading.equalTo(self.safeAreaLayoutGuide).inset(15)
         }
         
         nickname.snp.makeConstraints { make in
@@ -60,7 +46,7 @@ final class EditView : BaseView {
             make.centerX.equalTo(self.safeAreaLayoutGuide)
         }
         contentLabel.snp.makeConstraints { make in
-            make.leading.equalTo(postTitle)
+            make.leading.equalTo(profileImage)
             make.top.equalTo(guideText.snp.bottom).offset(10)
         }
         contentTextView.snp.makeConstraints { make in
@@ -73,7 +59,7 @@ final class EditView : BaseView {
     func configureUI(data: ElementReadPostResponse?) {
         
         guard let data else { return }
-        postTitleTextField.text = data.title
+//        postTitleTextField.text = data.title
         nickname.text = data.creator.nick
         contentTextView.text = data.content
         

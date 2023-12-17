@@ -11,7 +11,6 @@ import RxCocoa
 
 class EditViewModel : BaseInOutPut {
     struct Input {
-        let titleText: ControlProperty<String>
         let contentText: ControlProperty<String>
         let imageData: PublishSubject<Data>
         let editBtn: ControlEvent<Void>
@@ -27,11 +26,11 @@ class EditViewModel : BaseInOutPut {
         
         let errorMessage = PublishSubject<String>()
         
-        let rowData = Observable.combineLatest(input.titleText, input.contentText, input.imageData)
+        let rowData = Observable.combineLatest(input.contentText, input.imageData)
         
         let editBtnClicked = rowData
-            .flatMap { title, content, imageData in
-                APIManager.shared.requestModifyPost(api: Router.modifyPost(asccessToken: UserDefaultsManager.shared.accessToken, postID: input.postID, title: title, content: content, product_id: "yeom"), imageData: imageData)
+            .flatMap { content, imageData in
+                APIManager.shared.requestModifyPost(api: Router.modifyPost(asccessToken: UserDefaultsManager.shared.accessToken, postID: input.postID, content: content, product_id: "yeom"), imageData: imageData)
                     .catch { err in
                         if let err = err as? ModifyError {
                             

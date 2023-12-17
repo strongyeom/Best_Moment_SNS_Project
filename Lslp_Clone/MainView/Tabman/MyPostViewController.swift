@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class MyPostViewController : BaseViewController {
+class MyPostViewController : BaseViewController {
     
     private lazy var collectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout())
@@ -21,7 +21,7 @@ final class MyPostViewController : BaseViewController {
     private var nextCursor: String = ""
     private var myID: String = ""
     private var myArray: [ElementReadPostResponse] = []
-    let errorMessage: PublishSubject<String>
+    let errorMessage = PublishSubject<String>()
     private lazy var myPosts = BehaviorSubject(value: myArray)
     private let disposeBag = DisposeBag()
     
@@ -43,7 +43,6 @@ final class MyPostViewController : BaseViewController {
         myPosts
             .bind(to: collectionView.rx.items(cellIdentifier: MyPostCell.identifier, cellType: MyPostCell.self)) {
                 row, element, cell in
-                print("element - \(element.title)")
                 cell.configureUI(data: element, isHidden: .post)
             }
             .disposed(by: disposeBag)

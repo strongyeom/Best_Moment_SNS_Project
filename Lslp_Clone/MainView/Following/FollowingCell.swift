@@ -184,7 +184,7 @@ final class FollowingCell : UITableViewCell {
     
     func configureUI(data: ElementReadPostResponse) {
         
-        routinTitle.text = "제목 : \(data.title)"
+//        routinTitle.text = "제목 : \(data.title)"
         nickname.text = data.creator.nick
         releaseDate.text = data.time
         

@@ -11,7 +11,7 @@ import PhotosUI
 
 final class AddRoutinViewController : BaseViewController {
     
-    let titleTextField = BaseTextField(placeHolder: "제목을 입력해주세요.", brandColor: .lightGray, alignment: .center)
+//    let titleTextField = BaseTextField(placeHolder: "제목을 입력해주세요.", brandColor: .lightGray, alignment: .center)
     let dailyTextView = BasicTextView()
     
     let saveBtn = BaseButton(text: "저장하기", brandColor: .blue)
@@ -31,12 +31,22 @@ final class AddRoutinViewController : BaseViewController {
         title = "일상 추가"
         dailyTextView.delegate = self
         navigationItem.leftBarButtonItem = cancelBarBtn
+        addKeyboardNotifications()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeKeyboardNotificiations()
     }
    
     // 제목 + 루틴 입력후 버튼 누르면 addpost 되게끔 설정
     func bind() {
         
-        let input = AddRoutinViewModel.Input(title: titleTextField.rx.text.orEmpty, firstRoutin: dailyTextView.rx.text.orEmpty, saveBtn: saveBtn.rx.tap, imageData: selectedImageData)
+        let input = AddRoutinViewModel.Input(firstRoutin: dailyTextView.rx.text.orEmpty, saveBtn: saveBtn.rx.tap, imageData: selectedImageData)
         
         let output = viewModel.transform(input: input)
         
@@ -84,7 +94,7 @@ final class AddRoutinViewController : BaseViewController {
     }
     
     override func setConstraints() {
-        [titleTextField, dailyTextView, saveBtn, postImage].forEach {
+        [dailyTextView, saveBtn, postImage].forEach {
             view.addSubview($0)
         }
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageBtnTaaped))
@@ -93,15 +103,10 @@ final class AddRoutinViewController : BaseViewController {
             make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
             make.height.equalTo(self.postImage.snp.width).multipliedBy(0.8)
         }
-        titleTextField.snp.makeConstraints { make in
+       
+        dailyTextView.snp.makeConstraints { make in
             make.top.equalTo(postImage.snp.bottom).offset(20)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
-            make.height.equalTo(50)
-        }
-        
-        dailyTextView.snp.makeConstraints { make in
-            make.top.equalTo(titleTextField.snp.bottom).offset(20)
-            make.horizontalEdges.equalTo(titleTextField)
             make.height.equalTo(100)
         }
         

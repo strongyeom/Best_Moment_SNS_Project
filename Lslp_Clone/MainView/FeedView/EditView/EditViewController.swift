@@ -35,14 +35,20 @@ final class EditViewController : BaseViewController {
         super.configure()
         navigationBar()
         editView.configureUI(data: data)
-        
+        addKeyboardNotifications()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTaaped))
         editView.postImage.addGestureRecognizer(tapGesture)
         bind()
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeKeyboardNotificiations()
     }
     
     func bind() {
-        let input = EditViewModel.Input(titleText: editView.postTitleTextField.rx.text.orEmpty, contentText: editView.contentTextView.rx.text.orEmpty, imageData: selectedImageData, editBtn: editButton.rx.tap, postID: postID ?? "")
+        let input = EditViewModel.Input(contentText: editView.contentTextView.rx.text.orEmpty, imageData: selectedImageData, editBtn: editButton.rx.tap, postID: postID ?? "")
         
         let output = vieewModel.transform(input: input)
         
@@ -60,9 +66,18 @@ final class EditViewController : BaseViewController {
             .disposed(by: disposeBag)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     func navigationBar() {
         navigationItem.title = "편집"
         navigationItem.rightBarButtonItem = editButton
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelBtnClicked))
+    }
+    
+    @objc func cancelBtnClicked() {
+        self.dismiss(animated: true)
     }
     
     @objc func imageTaaped() {

@@ -233,7 +233,7 @@ final class MainTableViewCell : UITableViewCell {
     
     func configureUI(data: ElementReadPostResponse, followings: [String]) {
         
-        routinTitle.text = "제목 : \(data.title)"
+//        routinTitle.text = "제목 : \(data.title)"
         nickname.text = data.creator.nick
         releaseDate.text = data.time
         

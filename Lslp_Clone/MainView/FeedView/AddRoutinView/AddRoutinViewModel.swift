@@ -12,7 +12,6 @@ import Foundation
 class AddRoutinViewModel: BaseInOutPut {
         
     struct Input {
-        let title: ControlProperty<String>
         let firstRoutin: ControlProperty<String>
         let saveBtn: ControlEvent<Void>
         let imageData: PublishSubject<Data>
@@ -29,19 +28,18 @@ class AddRoutinViewModel: BaseInOutPut {
         
         let errorMessage = PublishSubject<String>()
         
-        let addText = Observable.combineLatest(input.title, input.firstRoutin, input.imageData)
+        let addText = Observable.combineLatest(input.firstRoutin, input.imageData)
         
         let saveBtnTapped = input.saveBtn
             .debug("저장하기 버튼 눌렸을때 : ")
             .withLatestFrom(addText)
-            .flatMap { title, first, imageData in
+            .flatMap { first, imageData in
 
-                print("제목 : \(title)")
                 print("루틴 1 : \(first)")
                 print("이미지 Data : \(imageData)")
            
                
-                return APIManager.shared.requestAddPost(api: Router.addPost(accessToken: UserDefaultsManager.shared.accessToken, title: title, content: first, product_id: "yeom"), imageData: imageData)
+                return APIManager.shared.requestAddPost(api: Router.addPost(accessToken: UserDefaultsManager.shared.accessToken, content: first, product_id: "yeom"), imageData: imageData)
                     .catch { err in
                         if let err = err as? AddPostError {
                             print("🙏🏻 - 게시글 작성하기 에러 : \(err.errorDescrtion)")

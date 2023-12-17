@@ -30,6 +30,16 @@ class ProfileEditView : BaseViewController {
         self.profileImage.addGestureRecognizer(tapGesture)
         nicknameTextField.text = nickname
         bind()
+        addKeyboardNotifications()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeKeyboardNotificiations()
     }
     
     

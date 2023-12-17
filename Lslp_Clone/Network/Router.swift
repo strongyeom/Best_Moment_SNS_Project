@@ -15,9 +15,9 @@ enum Router : URLRequestConvertible {
     case signup(email: String, password: String, nickname: String)
     case login(email: String, password: String)
     case valid(email: String)
-    case addPost(accessToken: String, title: String, content: String, product_id: String)
+    case addPost(accessToken: String, content: String, product_id: String)
     case readPost(accessToken: String, next: String, limit: String, product_id: String)
-    case modifyPost(asccessToken: String, postID: String, title: String, content: String, product_id: String)
+    case modifyPost(asccessToken: String, postID: String, content: String, product_id: String)
     case refresh(access: String, refresh: String)
     case deleteAccount(access: String)
     case like(access: String, postID: String)
@@ -48,7 +48,7 @@ enum Router : URLRequestConvertible {
             return "validation/email"
         case .addPost, .readPost:
             return "post"
-        case .modifyPost(asccessToken: _, postID: let postID, title: _, content: _, product_id: _):
+        case .modifyPost(asccessToken: _, postID: let postID, content: _, product_id: _):
             return "post/\(postID)"
         case .refresh:
             return "refresh"
@@ -82,9 +82,9 @@ enum Router : URLRequestConvertible {
             "Content-Type": "application/json",
             "SesacKey" : APIKey.secretKey
            ]
-        case .addPost(accessToken: let token, title: _, content: _, product_id: _),
+        case .addPost(accessToken: let token, content: _, product_id: _),
                 .putProfile(accessToken: let token, nick: _),
-                .modifyPost(asccessToken: let token, postID: _, title: _, content: _, product_id: _):
+                .modifyPost(asccessToken: let token, postID: _, content: _, product_id: _):
             return [
                 "Authorization" : token,
                 "Content-Type": "multipart/form-data",
@@ -156,10 +156,9 @@ enum Router : URLRequestConvertible {
             return [
                 "email" : email
             ]
-        case .addPost(accessToken: _, title: let title, content: let content, product_id: let product_id),
-                .modifyPost(asccessToken: _, postID: _, title: let title, content: let content, product_id: let product_id):
+        case .addPost(accessToken: _, content: let content, product_id: let product_id),
+                .modifyPost(asccessToken: _, postID: _, content: let content, product_id: let product_id):
             return [
-                "title" : title,
                 "content" : content,
                 "product_id" : product_id
             ]

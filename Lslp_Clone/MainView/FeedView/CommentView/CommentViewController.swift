@@ -41,9 +41,13 @@ final class CommentViewController : BaseViewController {
         sheetPresent()
         bind()
         guard let comments = self.comments else { return }
-        
+        addKeyboardNotifications()
         // 초기값 MainVC에서 넘어온 데이터 담아주기
         self.commentsTemporaryArrays = comments
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
     override func setConstraints() {
@@ -68,6 +72,7 @@ final class CommentViewController : BaseViewController {
         super.viewWillDisappear(animated)
         print("CommentViewController - viewWillDisappear")
         refreshGetPost?()
+        removeKeyboardNotificiations()
     }
 
     
