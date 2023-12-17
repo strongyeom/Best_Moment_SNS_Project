@@ -40,6 +40,11 @@ class SignupViewController: BaseViewController {
         super.configure()
         print("SigupViewController - configure")
         bind()
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
     func bind() {

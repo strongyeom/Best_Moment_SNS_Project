@@ -30,6 +30,9 @@ final class LoginViewController : BaseViewController {
         bind()
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 로그인 뷰 떳을때 빈값으로 설정
