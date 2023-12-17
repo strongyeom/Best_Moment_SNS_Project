@@ -113,7 +113,7 @@ class APIManager {
                 .responseDecodable(of: T.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("상태 코드 ", status)
-                    
+//                    print("에러 상세 : \(response.description)")
                     switch response.result {
                     case .success(let data):
                         observer.onNext(data)

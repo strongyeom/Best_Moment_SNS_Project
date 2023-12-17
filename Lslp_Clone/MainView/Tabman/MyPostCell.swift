@@ -9,17 +9,16 @@ import UIKit
 import RxSwift
 import Kingfisher
 
-class MyPostCell: BaseCollectionViewCell {
+final class MyPostCell: BaseCollectionViewCell {
     
     enum Section {
         case post
         case favorite
     }
     
-    var disposeBag = DisposeBag()
-    let postImage = PostImage(nil, color: .yellow)
-
-    let likeBtn = {
+    private var disposeBag = DisposeBag()
+    private let postImage = PostImage(nil, color: .yellow)
+    private let likeBtn = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "heart"), for: .normal)
         view.tintColor = .red
@@ -57,7 +56,7 @@ class MyPostCell: BaseCollectionViewCell {
     }
     
     // Data 형식의 이미지 변환하여 UIImage에 뿌려주기
-    func cofigurePostImage(data: String) {
+    fileprivate func cofigurePostImage(data: String) {
         let imageDownloadRequest = AnyModifier { request in
             var requestBody = request
             requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")

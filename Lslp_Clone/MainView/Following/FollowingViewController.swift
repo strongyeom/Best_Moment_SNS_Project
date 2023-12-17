@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class FollowingViewController : BaseViewController {
+final class FollowingViewController : BaseViewController {
     
     var tableView = {
         let tableView = UITableView()

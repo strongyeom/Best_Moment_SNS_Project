@@ -152,6 +152,7 @@ class ProfileViewController : BaseViewController {
                 return Observable.never()
             }
             .bind(with: self, onNext: { owner, response in
+                print("ProfileVC - \(response)")
                 owner.nickname.text = response.nick
                 owner.postCount.text = "\(response.posts.count)"
                 owner.followersCount.text = "\(response.followers.count)"
@@ -189,7 +190,7 @@ class ProfileViewController : BaseViewController {
     }
     
     
-    func profileImageConfigure(imageUrl: String) {
+    func profileImageConfigure(imageUrl: String?) {
         let imageDownloadRequest = AnyModifier { request in
             var requestBody = request
             requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
@@ -197,8 +198,14 @@ class ProfileViewController : BaseViewController {
             return requestBody
         }
         
-        let url = URL(string: BaseAPI.baseUrl + imageUrl)
-        self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
+        if let imageUrl {
+            let url = URL(string: BaseAPI.baseUrl + imageUrl)
+            self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
+        } else {
+            self.profileImage.image = UIImage(systemName: "person.circle.fill")
+        }
+        
+
     }
     
     override func setConstraints() {

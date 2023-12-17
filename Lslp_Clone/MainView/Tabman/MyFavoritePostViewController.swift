@@ -9,18 +9,18 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class MyFavoritePostViewController : BaseViewController {
+final class MyFavoritePostViewController : BaseViewController {
     
-    lazy var collectionView = {
+    private lazy var collectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout())
         collection.register(MyPostCell.self, forCellWithReuseIdentifier: MyPostCell.identifier)
         return collection
     }()
     
-    var nextCursor: String = ""
-    var myArray: [ElementReadPostResponse] = []
-    lazy var myFavoritesPosts = BehaviorSubject(value: myArray)
-    let disposeBag = DisposeBag()
+    private var nextCursor: String = ""
+    private var myArray: [ElementReadPostResponse] = []
+    private lazy var myFavoritesPosts = BehaviorSubject(value: myArray)
+    private let disposeBag = DisposeBag()
     
     override func configure() {
         super.configure()
@@ -43,7 +43,7 @@ class MyFavoritePostViewController : BaseViewController {
         }
     }
     
-    func bind() {
+    fileprivate func bind() {
         
         myFavoritesPosts
             .bind(to: collectionView.rx.items(cellIdentifier: MyPostCell.identifier, cellType: MyPostCell.self)) {
@@ -54,7 +54,7 @@ class MyFavoritePostViewController : BaseViewController {
             .disposed(by: disposeBag)
     }
     
-    func layout() -> UICollectionViewLayout {
+    fileprivate func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let spacing: CGFloat = 10
@@ -68,7 +68,7 @@ class MyFavoritePostViewController : BaseViewController {
 }
 
 extension MyFavoritePostViewController {
-    func requestGetLikes(next: String) {
+    fileprivate func requestGetLikes(next: String) {
     
         APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.getLikes(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: ""), section: .getLikes)
             .catch { err in

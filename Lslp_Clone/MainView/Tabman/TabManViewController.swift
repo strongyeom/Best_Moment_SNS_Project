@@ -10,7 +10,7 @@ import Tabman
 import Pageboy
 
 
-class TabManViewController : TabmanViewController {
+final class TabManViewController : TabmanViewController {
     
     let baseView = UIView()
     

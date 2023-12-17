@@ -9,20 +9,20 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class MyPostViewController : BaseViewController {
+final class MyPostViewController : BaseViewController {
     
-    lazy var collectionView = {
+    private lazy var collectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout())
         collection.register(MyPostCell.self, forCellWithReuseIdentifier: MyPostCell.identifier)
         return collection
     }()
     
     
-    var nextCursor: String = ""
-    var myID: String = ""
-    var myArray: [ElementReadPostResponse] = []
-    lazy var myPosts = BehaviorSubject(value: myArray)
-    let disposeBag = DisposeBag()
+    private var nextCursor: String = ""
+    private var myID: String = ""
+    private var myArray: [ElementReadPostResponse] = []
+    private lazy var myPosts = BehaviorSubject(value: myArray)
+    private let disposeBag = DisposeBag()
     
     override func configure() {
         super.configure()
@@ -38,7 +38,7 @@ class MyPostViewController : BaseViewController {
         getPost(next: "", limit: "")
     }
     
-    func bind() {
+   fileprivate func bind() {
         myPosts
             .bind(to: collectionView.rx.items(cellIdentifier: MyPostCell.identifier, cellType: MyPostCell.self)) {
                 row, element, cell in
@@ -61,7 +61,7 @@ class MyPostViewController : BaseViewController {
         }
     }
     
-    func layout() -> UICollectionViewLayout {
+    fileprivate func layout() -> UICollectionViewLayout {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let spacing: CGFloat = 10
@@ -97,7 +97,7 @@ extension MyPostViewController : UICollectionViewDelegate {
 }
 
 extension MyPostViewController {
-    func getPost(next: String, limit: String) {
+    fileprivate func getPost(next: String, limit: String) {
         
         APIManager.shared.requestAPIFunction(type: GetProfileResponse.self, api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken), section: .getProfile)
             .catch { err in
