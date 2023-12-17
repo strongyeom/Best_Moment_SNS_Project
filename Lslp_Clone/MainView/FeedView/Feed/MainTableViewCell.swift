@@ -53,7 +53,6 @@ final class MainTableViewCell : UITableViewCell {
 
     let profileImage = {
         let image = UIImageView()
-        image.backgroundColor = .yellow
         image.isUserInteractionEnabled = true
         return image
     }()

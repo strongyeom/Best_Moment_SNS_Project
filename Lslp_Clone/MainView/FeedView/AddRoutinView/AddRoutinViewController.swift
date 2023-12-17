@@ -15,7 +15,7 @@ class AddRoutinViewController : BaseViewController {
     let dailyTextView = BasicTextView()
     
     let saveBtn = BaseButton(text: "저장하기", brandColor: .blue)
-    let postImage = PostImage(nil, color: .yellow)
+    let postImage = PostImage(nil, color: .lightGray)
     let viewModel = AddRoutinViewModel()
     let disposeBag = DisposeBag()
     var selectedImageData = PublishSubject<Data>()

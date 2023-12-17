@@ -31,12 +31,7 @@ final class FollowingCell : UITableViewCell {
 //
     
     let profileImage = PostImage("person.circle.fill", color: .lightGray)
-//    let profileImage = {
-//        let image = UIImageView()
-//        image.backgroundColor = .yellow
-//        return image
-//    }()
-    
+
     let nickname = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 11, weight: .medium)

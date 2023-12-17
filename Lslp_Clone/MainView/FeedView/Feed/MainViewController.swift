@@ -178,7 +178,7 @@ class MainViewController : BaseViewController {
                         commentView.refreshGetPost = {
                             //                            print("넘어온 데이터")
                             owner.routinArray = []
-                            owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
+                            owner.getPost(next: "", limit: "")
                             
                         }
                         let nav = UINavigationController(rootViewController: commentView)
@@ -252,7 +252,7 @@ extension MainViewController : UITableViewDelegate {
             
             if nextCursor != "0" {
                 print("MainVC - 바닥 찍었음 append 네트워크 통신 시작")
-                getPost(next: nextCursor, limit: "")
+                getPost(next: nextCursor, limit: self.likeRow >= 5 ? "\(self.likeRow + 1)" : "")
                 
             }
         }
@@ -276,7 +276,7 @@ extension MainViewController {
             }
             .disposed(by: disposeBag)
      
-        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"), section: .getPost)
+        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: "", product_id: "yeom"), section: .getPost)
             .catch { err in
                 if let err = err as? NetworkAPIError {
                     print("CustomError : \(err.description)")
@@ -284,7 +284,9 @@ extension MainViewController {
                 return Observable.never()
             }
             .bind(with: self) { owner, response in
+                
                 owner.nextCursor = response.next_cursor
+                print("nextCursor - \(self.nextCursor)")
                 owner.routinArray.append(contentsOf: response.data)
                 owner.routins.onNext(owner.routinArray)
             }

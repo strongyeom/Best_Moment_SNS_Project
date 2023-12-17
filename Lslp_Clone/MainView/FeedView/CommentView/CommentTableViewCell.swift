@@ -74,12 +74,12 @@ class CommentTableViewCell: UITableViewCell {
         comment.text = data.content.removingPercentEncoding
         self.selectionStyle = .none
         exampleDate.text = data.time
-        cofigurePostImage(data: data)
+        cofigurePostImage(data: data.creator.profile)
         
     }
     
     // Data 형식의 이미지 변환하여 UIImage에 뿌려주기
-    func cofigurePostImage(data: CommentPostResponse) {
+    func cofigurePostImage(data: String?) {
         let imageDownloadRequest = AnyModifier { request in
             var requestBody = request
             requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
@@ -87,9 +87,13 @@ class CommentTableViewCell: UITableViewCell {
             return requestBody
         }
         
-        let postUrl = URL(string: BaseAPI.baseUrl + (data.creator.profile ?? ""))
-        self.profileImage.kf.setImage(with: postUrl, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
-        
+        if let data {
+            let url = URL(string: BaseAPI.baseUrl + data)
+            self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
+        } else {
+            self.profileImage.image = UIImage(systemName: "person.circle.fill")
+        }
+       
     }
     
     override func prepareForReuse() {

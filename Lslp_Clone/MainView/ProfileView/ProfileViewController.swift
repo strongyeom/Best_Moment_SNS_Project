@@ -12,7 +12,7 @@ import Kingfisher
 
 class ProfileViewController : BaseViewController {
     
-    lazy var profileImage = PostImage("person.fill", color: .blue)
+    lazy var profileImage = PostImage("person.fill", color: .lightGray)
     let nickname = BaseLabel(text: "닉네임 입니다.", fontSize: 13, weight: .medium)
     
     var postCount = {
@@ -53,13 +53,13 @@ class ProfileViewController : BaseViewController {
     
     let profileEdit = {
         let btn = UIButton()
-        btn.setCornerButton(text: "프로필 편집", brandColor: .lightGray)
+        btn.setCornerButton(text: "프로필 편집", brandColor: .systemGreen)
         return btn
     }()
     
     let logOut = {
         let btn = UIButton()
-        btn.setCornerButton(text: "로그아웃", brandColor: .lightGray)
+        btn.setCornerButton(text: "로그아웃", brandColor: .systemOrange)
         return btn
     }()
     
