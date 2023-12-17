@@ -9,9 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class MainViewController : BaseViewController {
+final class MainViewController : BaseViewController {
     
-    var tableView = {
+    private var tableView = {
         let tableView = UITableView()
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
@@ -34,10 +34,10 @@ class MainViewController : BaseViewController {
     
     let disposeBag = DisposeBag()
     // 다음 Cursor
-    var nextCursor = ""
-    var myID: String = ""
-    var likeRow: Int = 0
-    var followings: [String] = []
+    private var nextCursor = ""
+    private var myID: String = ""
+    private var likeRow: Int = 0
+    private var followings: [String] = []
     let viewModel = MainViewModel()
 
     override func configure() {
@@ -58,7 +58,7 @@ class MainViewController : BaseViewController {
         routinArray = []
     }
     
-    func setNavigationBar() {
+   fileprivate func setNavigationBar() {
         self.navigationItem.hidesBackButton = true
         navigationItem.rightBarButtonItem = addPostBtn
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "위로", style: .plain, target: self, action: #selector(uptoBtn))
@@ -84,7 +84,7 @@ class MainViewController : BaseViewController {
     }
     
     
-    func bind() {
+    fileprivate func bind() {
         
         let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, toggleFollowing: toggleFollowing)
         
@@ -260,7 +260,7 @@ extension MainViewController : UITableViewDelegate {
 }
 
 extension MainViewController {
-    func getPost(next: String, limit: String) {
+   fileprivate func getPost(next: String, limit: String) {
         
         APIManager.shared.requestAPIFunction(type: GetProfileResponse.self, api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken), section: .getProfile)
             .catch { err in

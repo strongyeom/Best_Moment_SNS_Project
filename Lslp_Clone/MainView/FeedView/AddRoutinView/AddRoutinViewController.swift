@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import PhotosUI
 
-class AddRoutinViewController : BaseViewController {
+final class AddRoutinViewController : BaseViewController {
     
     let titleTextField = BaseTextField(placeHolder: "제목을 입력해주세요.", brandColor: .lightGray, alignment: .center)
     let dailyTextView = BasicTextView()

@@ -6,19 +6,18 @@ import Kingfisher
 
 class ProfileEditView : BaseViewController {
     
-    lazy var profileImage = PostImage("person.circle.fill", color: .lightGray)
-    let nicknameTitle = BaseLabel(text: "닉네임 수정", fontSize: 22, weight: .medium)
-    let nicknameTextField = BaseTextField(placeHolder: "닉네임을 설정해주세요.", brandColor: .blue, alignment: .left)
-    let saveButton = BaseButton(text: "저장하기", brandColor: .blue)
-    
-    lazy var cancelBtn = {
+    private lazy var profileImage = PostImage("person.circle.fill", color: .lightGray)
+    private let nicknameTitle = BaseLabel(text: "닉네임 수정", fontSize: 22, weight: .medium)
+    private let nicknameTextField = BaseTextField(placeHolder: "닉네임을 설정해주세요.", brandColor: .blue, alignment: .left)
+    private let saveButton = BaseButton(text: "저장하기", brandColor: .blue)
+    private lazy var cancelBtn = {
         let view = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelBtnClicked))
         return view
     }()
     var nickname: String?
-    let tapGesture = UITapGestureRecognizer()
-    let profileViewModel = ProfileViewModel()
-    var selectedImageData = PublishSubject<Data>()
+    private let tapGesture = UITapGestureRecognizer()
+    private let profileViewModel = ProfileViewModel()
+    private var selectedImageData = PublishSubject<Data>()
     let disposeBag = DisposeBag()
     
     override func configure() {
@@ -35,7 +34,7 @@ class ProfileEditView : BaseViewController {
     
     
     
-    func bind() {
+    fileprivate func bind() {
         
         let input = ProfileViewModel.Input(imageData: selectedImageData, saveBtn: saveButton.rx.tap, imageTap: tapGesture.rx.event, nickText: nicknameTextField.rx.text.orEmpty)
         

@@ -14,50 +14,42 @@ class ProfileViewController : BaseViewController {
     
     lazy var profileImage = PostImage("person.fill", color: .lightGray)
     let nickname = BaseLabel(text: "닉네임 입니다.", fontSize: 13, weight: .medium)
-    
-    var postCount = {
+    private var postCount = {
         let view = UILabel()
         view.aggregateStatusCount()
         return view
     }()
-    
-    let post = {
+    private let post = {
         let view = UILabel()
         view.aggregateStatus(text: "게시물")
         return view
     }()
-    
-    var followersCount = {
+    private var followersCount = {
         let view = UILabel()
         view.aggregateStatusCount()
         return view
     }()
-    
-    let followers = {
+    private let followers = {
         let view = UILabel()
         view.aggregateStatus(text: "팔로워")
         return view
     }()
-    
-    var followingCount = {
+    private var followingCount = {
         let view = UILabel()
         view.aggregateStatusCount()
         return view
     }()
-    
-    let following = {
+    private let following = {
         let view = UILabel()
         view.aggregateStatus(text: "팔로잉")
         return view
     }()
-    
-    let profileEdit = {
+    private let profileEdit = {
         let btn = UIButton()
         btn.setCornerButton(text: "프로필 편집", brandColor: .systemGreen)
         return btn
     }()
-    
-    let logOut = {
+    private let logOut = {
         let btn = UIButton()
         btn.setCornerButton(text: "로그아웃", brandColor: .systemOrange)
         return btn
@@ -97,7 +89,6 @@ class ProfileViewController : BaseViewController {
         stack.distribution = .fill
         return stack
     }()
-    
     lazy var horizonTalStackView = {
         let stack = UIStackView(arrangedSubviews: [postStackView, followersStackView, followingStackView])
         stack.axis = .horizontal
@@ -111,15 +102,14 @@ class ProfileViewController : BaseViewController {
     // MARK: - Subject And Properties
     var selectedImageData = PublishSubject<Data>()
     var tabman = TabManViewController()
-    let disposeBag = DisposeBag()
-    var imageData: String?
-    var myNickname: String?
+    private let disposeBag = DisposeBag()
+    private var myNickname: String?
     let firstVC = MyPostViewController()
     let secondVC = MyFavoritePostViewController()
     let tabManVC = TabManViewController()
     
     
-    var containerView: UIView!
+    private var containerView: UIView!
     
     
     override func configure() {
@@ -133,7 +123,7 @@ class ProfileViewController : BaseViewController {
         containerView = UIView()
         view.addSubview(containerView)
         containerView.addSubview(tabManVC.view)
- 
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -141,8 +131,8 @@ class ProfileViewController : BaseViewController {
         print("ProfileViewController - viewWillAppear")
         bind()
     }
-
-    func bind() {
+    
+    fileprivate func bind() {
         
         APIManager.shared.requestAPIFunction(type: GetProfileResponse.self, api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken), section: .getProfile)
             .catch { err in
@@ -158,13 +148,10 @@ class ProfileViewController : BaseViewController {
                 owner.followersCount.text = "\(response.followers.count)"
                 owner.followingCount.text = "\(response.following.count)"
                 owner.myNickname = response.nick
-                print("** response.profile : \(response.profile)")
                 owner.profileImageConfigure(imageUrl: response.profile)
-                
-                
             })
             .disposed(by: disposeBag)
-
+        
         
         profileEdit.rx.tap
             .bind(with: self) { owner, _ in
@@ -183,14 +170,14 @@ class ProfileViewController : BaseViewController {
                     // 로그인 화면으로 이동
                     UserDefaultsManager.shared.backToRoot(isRoot: false)
                     let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                     windowScene?.windows.first?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+                    windowScene?.windows.first?.rootViewController = UINavigationController(rootViewController: LoginViewController())
                 }
             }
             .disposed(by: disposeBag)
     }
     
     
-    func profileImageConfigure(imageUrl: String?) {
+    fileprivate func profileImageConfigure(imageUrl: String?) {
         let imageDownloadRequest = AnyModifier { request in
             var requestBody = request
             requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
@@ -205,7 +192,7 @@ class ProfileViewController : BaseViewController {
             self.profileImage.image = UIImage(systemName: "person.circle.fill")
         }
         
-
+        
     }
     
     override func setConstraints() {
@@ -232,12 +219,12 @@ class ProfileViewController : BaseViewController {
             make.height.equalTo(40)
         }
         
-//
+        //
         containerView.snp.makeConstraints { make in
             make.top.equalTo(buttonStackView.snp.bottom).offset(30)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
-
+            
         }
         
         

@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class CommentViewController : BaseViewController {
+final class CommentViewController : BaseViewController {
     
     var tableView = {
         let tableView = UITableView()

@@ -10,7 +10,7 @@ import PhotosUI
 import RxSwift
 import RxCocoa
 
-class EditViewController : BaseViewController {
+final class EditViewController : BaseViewController {
     
     lazy var editButton = {
         let button = UIBarButtonItem(title: "편집완료", style: .plain, target: self, action: nil)

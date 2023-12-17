@@ -10,7 +10,7 @@ import RxSwift
 import Kingfisher
 
 final class MainTableViewCell : UITableViewCell {
-   
+    
     var disposeBag = DisposeBag()
     var deleteCompletion: (() -> Void)?
     var editCompletion: (() -> Void)?
@@ -23,12 +23,11 @@ final class MainTableViewCell : UITableViewCell {
         view.textAlignment = .left
         return view
     }()
-    
-   lazy var pullDownButton = {
-       let button = UIButton()
+    lazy var pullDownButton = {
+        let button = UIButton()
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         button.showsMenuAsPrimaryAction = true
-       
+        
         let edit = UIAction(title: "편집", handler: { _ in
             self.editCompletion?()
             print("편집")
@@ -41,7 +40,6 @@ final class MainTableViewCell : UITableViewCell {
         button.menu = buttonMenu
         return button
     }()
-
     let followerBtn = {
         let button = UIButton()
         var config = UIButton.Configuration.tinted()
@@ -50,13 +48,12 @@ final class MainTableViewCell : UITableViewCell {
         button.configuration = config
         return button
     }()
-
     let profileImage = {
         let image = UIImageView()
         image.isUserInteractionEnabled = true
+        image.tintColor = .lightGray
         return image
     }()
-    
     let nickname = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 11, weight: .medium)
@@ -64,7 +61,6 @@ final class MainTableViewCell : UITableViewCell {
         view.textAlignment = .left
         return view
     }()
-    
     let releaseDate = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 11, weight: .medium)
@@ -72,7 +68,6 @@ final class MainTableViewCell : UITableViewCell {
         view.textAlignment = .left
         return view
     }()
-    
     let routinDescription = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 13)
@@ -80,26 +75,22 @@ final class MainTableViewCell : UITableViewCell {
         view.textAlignment = .left
         return view
     }()
-    
     let likeBtn = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "heart"), for: .normal)
         view.tintColor = .red
         return view
     }()
-    
     let postCommentBtn = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "message"), for: .normal)
         return button
     }()
-    
     let likeCountLabel = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 14)
         return view
     }()
-    
     let commentCountLabel = {
         let view = UILabel()
         view.textColor = .systemGray
@@ -107,7 +98,6 @@ final class MainTableViewCell : UITableViewCell {
         
         return view
     }()
-    
     let postImage = {
         let view = UIImageView()
         view.layer.cornerRadius = 16
@@ -115,18 +105,15 @@ final class MainTableViewCell : UITableViewCell {
         view.clipsToBounds = true
         return view
     }()
-    
     lazy var tapGesture = {
         let tapGesutre = UITapGestureRecognizer(target: self, action: #selector(profileImagaTapped))
         return tapGesutre
     }()
-    
-    
     let bubbleView = BubbleView(viewColor: .systemGray5,
                                 tipStartX: 70.5,
                                 tipWidth: 11.0,
                                 tipHeight: 6.0)
-   
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
@@ -143,7 +130,7 @@ final class MainTableViewCell : UITableViewCell {
         [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage, pullDownButton, followerBtn].forEach {
             contentView.addSubview($0)
         }
-
+        
         profileImage.addGestureRecognizer(tapGesture)
         contentView.addSubview(bubbleView)
     }
@@ -155,11 +142,11 @@ final class MainTableViewCell : UITableViewCell {
         // Image 클릭시 bubbleView 보여주기
         self.bubbleView.isHidden.toggle()
         
-//        if  self.bubbleView.isHidden == true {
-//            self.bubbleView.isHidden = false
-//        } else {
-//            self.bubbleView.isHidden = true
-//        }
+        //        if  self.bubbleView.isHidden == true {
+        //            self.bubbleView.isHidden = false
+        //        } else {
+        //            self.bubbleView.isHidden = true
+        //        }
         
         print("프로필 이미지 눌림")
     }
@@ -188,7 +175,7 @@ final class MainTableViewCell : UITableViewCell {
             make.trailing.equalToSuperview().inset(10)
         }
         
-
+        
         profileImage.snp.makeConstraints { make in
             make.top.equalTo(routinTitle.snp.bottom).offset(5)
             make.leading.equalTo(routinTitle)
@@ -200,7 +187,7 @@ final class MainTableViewCell : UITableViewCell {
             make.leading.equalTo(profileImage.snp.trailing).offset(10)
             
         }
-  
+        
         postImage.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.bottom).offset(10)
             make.horizontalEdges.equalToSuperview().inset(10)
@@ -249,7 +236,7 @@ final class MainTableViewCell : UITableViewCell {
         routinTitle.text = "제목 : \(data.title)"
         nickname.text = data.creator.nick
         releaseDate.text = data.time
-
+        
         if followings.contains(data.creator._id) {
             self.followerBtn.configurationUpdateHandler = { button in
                 button.configuration = self.followOption(text: "팔로잉")
@@ -260,7 +247,7 @@ final class MainTableViewCell : UITableViewCell {
             }
         }
         
-
+        
         let image = data.likes.contains(UserDefaultsManager.shared.loadUserID()) ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
         likeBtn.setImage(image, for: .normal)
         
@@ -276,7 +263,7 @@ final class MainTableViewCell : UITableViewCell {
         if data.comments.count > 0 {
             commentCountLabel.text = "댓글 \(data.comments.count)개 모두 보기"
         }
-       
+        
         
         cofigurePostImage(data: data)
         
@@ -286,9 +273,9 @@ final class MainTableViewCell : UITableViewCell {
     func bubbleChatData(data: GetAnotherProfileResponse) {
         bubbleView.configureUI(data: data)
     }
-   
+    
     // Data 형식의 이미지 변환하여 UIImage에 뿌려주기
-    func cofigurePostImage(data: ElementReadPostResponse) {
+    fileprivate func cofigurePostImage(data: ElementReadPostResponse) {
         let imageDownloadRequest = AnyModifier { request in
             var requestBody = request
             requestBody.setValue(APIKey.secretKey, forHTTPHeaderField: "SesacKey")
@@ -298,10 +285,16 @@ final class MainTableViewCell : UITableViewCell {
         
         let postUrl = URL(string: BaseAPI.baseUrl + (data.image.first ?? ""))
         self.postImage.kf.setImage(with: postUrl, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
-
+        
         // 여기에 프로필 데이터 넣으면 됨
-        let profileUrl = URL(string: BaseAPI.baseUrl + (data.creator.profile ?? ""))
-        self.profileImage.kf.setImage(with: profileUrl, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
+        
+        if let creatorImageUrl = data.creator.profile {
+            let profileUrl = URL(string: BaseAPI.baseUrl + creatorImageUrl)
+            self.profileImage.kf.setImage(with: profileUrl, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
+        } else {
+            self.profileImage.image = UIImage(systemName: "person.circle.fill")
+        }
+        
         
     }
     
