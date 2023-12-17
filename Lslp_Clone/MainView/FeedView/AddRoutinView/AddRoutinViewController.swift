@@ -49,6 +49,12 @@ final class AddRoutinViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.errorMessage
+            .bind(with: self) { owner, errMessage in
+                owner.messageAlert(text: errMessage, completionHandler: nil)
+            }
+            .disposed(by: disposeBag)
+        
     }
     
     @objc func cancelBtnClicked() {

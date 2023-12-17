@@ -21,6 +21,7 @@ final class MyPostViewController : BaseViewController {
     private var nextCursor: String = ""
     private var myID: String = ""
     private var myArray: [ElementReadPostResponse] = []
+    let errorMessage: PublishSubject<String>
     private lazy var myPosts = BehaviorSubject(value: myArray)
     private let disposeBag = DisposeBag()
     
@@ -46,6 +47,12 @@ final class MyPostViewController : BaseViewController {
                 cell.configureUI(data: element, isHidden: .post)
             }
             .disposed(by: disposeBag)
+       
+       errorMessage
+           .bind(with: self) { owner, errMessage in
+               owner.messageAlert(text: errMessage, completionHandler: nil)
+           }
+           .disposed(by: disposeBag)
         
         
         collectionView.rx.setDelegate(self)
@@ -103,6 +110,7 @@ extension MyPostViewController {
             .catch { err in
                 if let err = err as? NetworkAPIError {
                     print("🙏🏻 프로필 조회 에러 - \(err.description)")
+                    self.errorMessage.onNext("🙏🏻 프로필 조회 에러 - \(err.description)")
                 }
                 return Observable.never()
             }
@@ -117,7 +125,8 @@ extension MyPostViewController {
         APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"), section: .getPost)
             .catch { err in
                 if let err = err as? NetworkAPIError {
-                    print("CustomError : \(err.description)")
+                    print("🙏🏻 - 게시글 조회하기 에러 : \(err.description)")
+                    self.errorMessage.onNext("🙏🏻 - 게시글 조회하기 에러 : \(err.description)")
                 }
                 return Observable.never()
             }

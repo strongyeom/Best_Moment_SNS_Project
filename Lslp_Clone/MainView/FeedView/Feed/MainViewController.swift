@@ -217,8 +217,8 @@ final class MainViewController : BaseViewController {
         
         /// 에러 문구 Alert
         output.errorMessage
-            .bind(with: self) { owner, err in
-                owner.messageAlert(text: err, completionHandler: nil)
+            .bind(with: self) { owner, errMessage in
+                owner.messageAlert(text: errMessage, completionHandler: nil)
             }
             .disposed(by: disposeBag)
         

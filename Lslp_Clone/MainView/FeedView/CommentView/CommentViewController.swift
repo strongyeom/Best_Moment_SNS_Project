@@ -93,6 +93,12 @@ final class CommentViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
+        output.errorMessage
+            .bind(with: self) { owner, errMessage in
+                owner.messageAlert(text: errMessage, completionHandler: nil)
+            }
+            .disposed(by: disposeBag)
+        
         tableView.rx.itemDeleted
             .bind(with: self) { owner, index in
                 print("index - \(index.row)")

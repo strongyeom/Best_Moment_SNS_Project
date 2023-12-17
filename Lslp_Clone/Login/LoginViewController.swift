@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class LoginViewController : BaseViewController {
+final class LoginViewController : BaseViewController {
     
     let emailTextField = BaseTextField(placeHolder: "이메일을 입력해주세요.", brandColor: .blue, alignment: .center)
     let passwordTextField = BaseTextField(placeHolder: "비밀번호를 입력해줏요", isSecure: true, brandColor: .blue)

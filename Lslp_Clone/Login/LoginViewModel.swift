@@ -8,7 +8,7 @@
 import RxSwift
 import RxCocoa
 
-class LoginViewModel: BaseInOutPut {
+final class LoginViewModel: BaseInOutPut {
     
     struct Input {
         let emailText: ControlProperty<String>
@@ -44,6 +44,7 @@ class LoginViewModel: BaseInOutPut {
                     .catch { err in
                         if let err = err as? NetworkAPIError {
                             print("🙏🏻 로그인 에러 - \(err.description)")
+                            errorMessage.onNext("🙏🏻 로그인 에러 - \(err.description)")
                         }
                         return Observable.never()
                     }

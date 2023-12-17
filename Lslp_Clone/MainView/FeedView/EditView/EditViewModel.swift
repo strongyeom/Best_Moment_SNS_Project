@@ -34,7 +34,10 @@ class EditViewModel : BaseInOutPut {
                 APIManager.shared.requestModifyPost(api: Router.modifyPost(asccessToken: UserDefaultsManager.shared.accessToken, postID: input.postID, title: title, content: content, product_id: "yeom"), imageData: imageData)
                     .catch { err in
                         if let err = err as? ModifyError {
-                            errorMessage.onNext(err.errorDescription)
+                            
+                            print("🙏🏻 - 게시글 편집 에러 : \(err.errorDescription)")
+                            
+                            errorMessage.onNext("🙏🏻 - 게시글 편집 에러 : \(err.errorDescription)")
                         }
                         return Observable.never()
                     }

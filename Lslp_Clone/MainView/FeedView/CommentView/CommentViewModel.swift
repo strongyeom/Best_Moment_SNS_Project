@@ -24,9 +24,12 @@ class CommentViewModel: BaseInOutPut {
         
         let commentArray: BehaviorSubject<[CommentPostResponse]>
         let addCommentTapped: Observable<CommentPostResponse>
+        let errorMessage: PublishSubject<String>
     }
     
     func transform(input: Input) -> Output {
+        
+        let errorMessage = PublishSubject<String>()
         
         
         let commentArray = BehaviorSubject(value: input.comments ?? [CommentPostResponse(_id: "", content: "", time: "", creator: Creator(_id: "", nick: ""))])
@@ -49,6 +52,7 @@ class CommentViewModel: BaseInOutPut {
                     .catch { err in
                         if let err = err as? NetworkAPIError {
                             print("🙏🏻 - 댓글 제거 에러 \(err.description)")
+                            errorMessage.onNext("🙏🏻 - 댓글 제거 에러 \(err.description)")
                         }
                         return Observable.never()
                     }
@@ -58,6 +62,6 @@ class CommentViewModel: BaseInOutPut {
             }
             .disposed(by: disposeBag)
         
-        return Output(commentArray: commentArray, addCommentTapped: addCommentTapped)
+        return Output(commentArray: commentArray, addCommentTapped: addCommentTapped, errorMessage: errorMessage)
     }
 }

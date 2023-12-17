@@ -39,6 +39,7 @@ class SignupViewModel: BaseInOutPut {
                     .catch { err in
                         if let err = err as? NetworkAPIError {
                             print("🙏🏻 이메일 인증 에러 - \(err.description)")
+                            errorMessage.onNext("🙏🏻 이메일 인증 에러 - \(err.description)")
                         }
                         return Observable.never()
                     }

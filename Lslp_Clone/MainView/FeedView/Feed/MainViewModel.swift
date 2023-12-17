@@ -48,6 +48,7 @@ class MainViewModel: BaseInOutPut {
                     .catch { err in
                         if let err = err as? NetworkAPIError {
                             print("🙏🏻- 좋아요 에러 : \(err.description)")
+                            errorMessage.onNext("🙏🏻- 좋아요 에러 : \(err.description)")
                         }
                         return Observable.never()
                     }
@@ -59,6 +60,7 @@ class MainViewModel: BaseInOutPut {
                     .catch { err in
                         if let err = err as? NetworkAPIError {
                             print("🙏🏻- 게시물 제거 에러 : \(err.description)")
+                            errorMessage.onNext("🙏🏻- 게시물 제거 에러 : \(err.description)")
                         }
                         return Observable.never()
                     }
@@ -73,6 +75,7 @@ class MainViewModel: BaseInOutPut {
                     .catch { err in
                         if let err = err as? NetworkAPIError {
                             print("🙏🏻- 언팔로우 에러 FollowingVC : \(err.description)")
+                            errorMessage.onNext("🙏🏻- 언팔로우 에러 FollowingVC : \(err.description)")
                         }
                         return Observable.never()
                     }

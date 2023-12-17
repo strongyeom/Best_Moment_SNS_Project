@@ -20,9 +20,12 @@ class ProfileViewModel: BaseInOutPut {
     
     struct Output {
         let saveProfile: Observable<PutProfileResponse>
+        let errorMessage: PublishSubject<String>
     }
     
     func transform(input: Input) -> Output {
+        
+        let errorMessage = PublishSubject<String>()
      
         let imageAndNickname = Observable.combineLatest(input.imageData, input.nickText)
         
@@ -35,6 +38,7 @@ class ProfileViewModel: BaseInOutPut {
                     .catch { err in
                         if let err = err as? PutProfileError {
                             print("🙏🏻 프로필 수정 에러 - \(err.errorDescription)")
+                            errorMessage.onNext("🙏🏻 프로필 수정 에러 - \(err.errorDescription)")
                         }
                         return Observable.never()
                     }
@@ -42,6 +46,6 @@ class ProfileViewModel: BaseInOutPut {
         
         
         
-        return Output(saveProfile: imageTap)
+        return Output(saveProfile: imageTap, errorMessage: errorMessage)
     }
 }

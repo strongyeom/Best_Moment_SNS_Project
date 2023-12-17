@@ -21,10 +21,13 @@ class AddRoutinViewModel: BaseInOutPut {
     struct Output {
         
         let saveBtnTapped: Observable<AddPostResponse>
+        let errorMessage: PublishSubject<String>
     }
     
     func transform(input: Input) -> Output {
                 print("넘어온 imageData - \(input.imageData)")
+        
+        let errorMessage = PublishSubject<String>()
         
         let addText = Observable.combineLatest(input.title, input.firstRoutin, input.imageData)
         
@@ -42,14 +45,12 @@ class AddRoutinViewModel: BaseInOutPut {
                     .catch { err in
                         if let err = err as? AddPostError {
                             print("🙏🏻 - 게시글 작성하기 에러 : \(err.errorDescrtion)")
-                            if err.rawValue == 419 {
-                                // accessToken 값 확인
-                            }
+                            errorMessage.onNext("🙏🏻 - 게시글 작성하기 에러 : \(err.errorDescrtion)")
                         }
                         return Observable.never()
                     }
             }
 
-        return Output(saveBtnTapped: saveBtnTapped)
+        return Output(saveBtnTapped: saveBtnTapped, errorMessage: errorMessage)
     }
 }
