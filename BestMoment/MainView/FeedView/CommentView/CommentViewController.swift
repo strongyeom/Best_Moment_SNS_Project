@@ -22,7 +22,7 @@ final class CommentViewController : BaseViewController {
     let commentTextField = BaseTextField(placeHolder: "댓글 달기 ...", brandColor: .systemGray, alignment: .left)
     
     var postID: String?
-
+    private var myID: String = ""
     var refreshGetPost: (() -> Void)?
 
     var comments: [CommentPostResponse]?
@@ -48,6 +48,11 @@ final class CommentViewController : BaseViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getProfile()
     }
     
     override func setConstraints() {
@@ -108,12 +113,17 @@ final class CommentViewController : BaseViewController {
             .bind(with: self) { owner, index in
                 print("index - \(index.row)")
                 
-                let removeComment = owner.commentsTemporaryArrays[index.row]._id
-                
-                owner.commentsID.onNext(removeComment)
-                
-                owner.commentsTemporaryArrays.remove(at: index.row)
-                output.commentArray.onNext(owner.commentsTemporaryArrays)
+                // 배열에서 내 아이디와 같은 것은 삭제 하지 못하도록 설정
+                if owner.commentsTemporaryArrays[index.row].creator._id == owner.myID {
+                    let removeComment = owner.commentsTemporaryArrays[index.row]._id
+                    
+                    owner.commentsID.onNext(removeComment)
+                    
+                    owner.commentsTemporaryArrays.remove(at: index.row)
+                    output.commentArray.onNext(owner.commentsTemporaryArrays)
+                } else {
+                    self.messageAlert(text: "🙏🏻 - 해당 댓글을 제거 할 수 없습니다.", completionHandler: nil)
+                }
             }
             .disposed(by: disposeBag)
   
@@ -136,5 +146,19 @@ extension CommentViewController {
         }
         // grabber에서 네비게이션 타이틀 위치 간격 띄우기
         navigationController?.navigationBar.setTitleVerticalPositionAdjustment(CGFloat(10), for: UIBarMetrics.default)
+    }
+    
+    func getProfile() {
+        APIManager.shared.requestAPIFunction(type: GetProfileResponse.self, api: Router.getProfile(accessToken: UserDefaultsManager.shared.accessToken), section: .getProfile)
+            .catch { err in
+                if let err = err as? NetworkAPIError {
+                    print("🙏🏻 프로필 조회 에러 - \(err.description)")
+                }
+                return Observable.never()
+            }
+            .bind(with: self) { owner, response in
+                owner.myID = response._id
+            }
+            .disposed(by: disposeBag)
     }
 }

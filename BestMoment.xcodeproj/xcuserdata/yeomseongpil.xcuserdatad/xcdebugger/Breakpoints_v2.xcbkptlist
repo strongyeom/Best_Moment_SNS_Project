@@ -52,5 +52,131 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "79EE77B2-2C92-47B4-9CC8-9113A9453ED2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestMoment/MainView/FeedView/CommentView/CommentViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "bind()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "79EE77B2-2C92-47B4-9CC8-9113A9453ED2 - 1ac7726807b85848"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (BestMoment.CommentViewController, Foundation.IndexPath) -&gt; () in BestMoment.CommentViewController.bind() -&gt; ()"
+                  moduleName = "BestMoment"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/BestMoment/BestMoment/MainView/FeedView/CommentView/CommentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "118"
+                  endingLineNumber = "118"
+                  offsetFromSymbolStart = "1399">
+               </Location>
+               <Location
+                  uuid = "79EE77B2-2C92-47B4-9CC8-9113A9453ED2 - 1ac7726807b85848"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (BestMoment.CommentViewController, Foundation.IndexPath) -&gt; () in BestMoment.CommentViewController.bind() -&gt; ()"
+                  moduleName = "BestMoment"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/BestMoment/BestMoment/MainView/FeedView/CommentView/CommentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "118"
+                  endingLineNumber = "118"
+                  offsetFromSymbolStart = "1337">
+               </Location>
+               <Location
+                  uuid = "79EE77B2-2C92-47B4-9CC8-9113A9453ED2 - 1ac7726807b85848"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (BestMoment.CommentViewController, Foundation.IndexPath) -&gt; () in BestMoment.CommentViewController.bind() -&gt; ()"
+                  moduleName = "BestMoment"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/BestMoment/BestMoment/MainView/FeedView/CommentView/CommentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "118"
+                  endingLineNumber = "118"
+                  offsetFromSymbolStart = "1366">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "49D4EE19-B2C4-43D4-A3FD-FE7F08DC668A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BestMoment/MainView/FeedView/CommentView/CommentViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "bind()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "49D4EE19-B2C4-43D4-A3FD-FE7F08DC668A - 1ac7726807b8588e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (BestMoment.CommentViewController, Foundation.IndexPath) -&gt; () in BestMoment.CommentViewController.bind() -&gt; ()"
+                  moduleName = "BestMoment"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/BestMoment/BestMoment/MainView/FeedView/CommentView/CommentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "1760">
+               </Location>
+               <Location
+                  uuid = "49D4EE19-B2C4-43D4-A3FD-FE7F08DC668A - 1ac7726807b8588e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (BestMoment.CommentViewController, Foundation.IndexPath) -&gt; () in BestMoment.CommentViewController.bind() -&gt; ()"
+                  moduleName = "BestMoment"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/BestMoment/BestMoment/MainView/FeedView/CommentView/CommentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "1698">
+               </Location>
+               <Location
+                  uuid = "49D4EE19-B2C4-43D4-A3FD-FE7F08DC668A - 1ac7726807b8588e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 (BestMoment.CommentViewController, Foundation.IndexPath) -&gt; () in BestMoment.CommentViewController.bind() -&gt; ()"
+                  moduleName = "BestMoment"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yeomseongpil/Desktop/%E1%84%89%E1%85%A2%E1%84%8A%E1%85%A1%E1%86%A8/11%E1%84%8B%E1%85%AF%E1%86%AF/11.9%20lslp-Mini/BestMoment/BestMoment/MainView/FeedView/CommentView/CommentViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "1727">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

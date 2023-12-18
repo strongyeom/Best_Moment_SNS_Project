@@ -218,9 +218,15 @@ final class FollowingCell : UITableViewCell {
         let postUrl = URL(string: BaseAPI.baseUrl + (data.image.first ?? ""))
         self.postImage.kf.setImage(with: postUrl, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
 
-        // 여기에 프로필 데이터 넣으면 됨
-        let profileUrl = URL(string: BaseAPI.baseUrl + (data.creator.profile ?? ""))
-        self.profileImage.kf.setImage(with: profileUrl, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
+        if let profileImageUrl = data.creator.profile {
+            // 여기에 프로필 데이터 넣으면 됨
+            let profileUrl = URL(string: BaseAPI.baseUrl + profileImageUrl)
+            self.profileImage.kf.setImage(with: profileUrl, options: [ .requestModifier(imageDownloadRequest), .cacheOriginalImage])
+        } else {
+            self.profileImage.image = UIImage(systemName: "person.circle.fill")
+        }
+        
+
         
     }
     
