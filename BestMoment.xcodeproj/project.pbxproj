@@ -15,9 +15,9 @@
 		261DAE1E2B222ED8000C89E9 /* MyFavoritePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261DAE1D2B222ED8000C89E9 /* MyFavoritePostViewController.swift */; };
 		2630C3502B21ABD5008D62CC /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2630C34F2B21ABD5008D62CC /* ProfileViewModel.swift */; };
 		2649E1B12B04AD9A003CA70C /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B02B04AD9A003CA70C /* BaseView.swift */; };
-		2649E1B42B04AE43003CA70C /* SignInTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B32B04AE43003CA70C /* SignInTextField.swift */; };
+		2649E1B42B04AE43003CA70C /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B32B04AE43003CA70C /* BaseTextField.swift */; };
 		2649E1B72B04AEB6003CA70C /* Ext+UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B62B04AEB6003CA70C /* Ext+UITextField.swift */; };
-		2649E1B92B04B073003CA70C /* SignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B82B04B073003CA70C /* SignInButton.swift */; };
+		2649E1B92B04B073003CA70C /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1B82B04B073003CA70C /* BaseButton.swift */; };
 		2649E1BB2B04B0B4003CA70C /* Ext+UIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1BA2B04B0B4003CA70C /* Ext+UIButton.swift */; };
 		2649E1BD2B04B872003CA70C /* Ext+UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1BC2B04B872003CA70C /* Ext+UIViewController.swift */; };
 		2649E1C12B04C677003CA70C /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2649E1C02B04C677003CA70C /* SignupViewModel.swift */; };
@@ -60,6 +60,7 @@
 		26EB410C2B1A30A70080E5D8 /* TabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB410B2B1A30A70080E5D8 /* TabViewController.swift */; };
 		26EB41152B1A31A80080E5D8 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EB41142B1A31A80080E5D8 /* ProfileViewController.swift */; };
 		26EC02BA2B16FF8C00EB1D06 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 26EC02B92B16FF8C00EB1D06 /* Kingfisher */; };
+		26EDFB0D2B2C1FC9003AED10 /* NetworkAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26EDFB0C2B2C1FC9003AED10 /* NetworkAPIError.swift */; };
 		26F03BCF2B0B2D7400BC5E68 /* FollowingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F03BCE2B0B2D7400BC5E68 /* FollowingViewController.swift */; };
 		26F2A7CC2B074DE100033C93 /* NetworkErrorCollections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */; };
 		26F2A7CE2B07648200033C93 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F2A7CD2B07648200033C93 /* LoginViewModel.swift */; };
@@ -77,14 +78,14 @@
 		261DAE1D2B222ED8000C89E9 /* MyFavoritePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFavoritePostViewController.swift; sourceTree = "<group>"; };
 		2630C34F2B21ABD5008D62CC /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		2649E1B02B04AD9A003CA70C /* BaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
-		2649E1B32B04AE43003CA70C /* SignInTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTextField.swift; sourceTree = "<group>"; };
+		2649E1B32B04AE43003CA70C /* BaseTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTextField.swift; sourceTree = "<group>"; };
 		2649E1B62B04AEB6003CA70C /* Ext+UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UITextField.swift"; sourceTree = "<group>"; };
-		2649E1B82B04B073003CA70C /* SignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInButton.swift; sourceTree = "<group>"; };
+		2649E1B82B04B073003CA70C /* BaseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
 		2649E1BA2B04B0B4003CA70C /* Ext+UIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIButton.swift"; sourceTree = "<group>"; };
 		2649E1BC2B04B872003CA70C /* Ext+UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext+UIViewController.swift"; sourceTree = "<group>"; };
 		2649E1C02B04C677003CA70C /* SignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewModel.swift; sourceTree = "<group>"; };
 		2649E1C32B04C69D003CA70C /* BaseInOutPut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseInOutPut.swift; sourceTree = "<group>"; };
-		2657F3B42B02324000E3A22E /* Lslp_Clone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lslp_Clone.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2657F3B42B02324000E3A22E /* BestMoment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BestMoment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2657F3B72B02324000E3A22E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2657F3B92B02324000E3A22E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		2657F3BB2B02324000E3A22E /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
@@ -119,6 +120,7 @@
 		26EB41082B19F9450080E5D8 /* PostImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImage.swift; sourceTree = "<group>"; };
 		26EB410B2B1A30A70080E5D8 /* TabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViewController.swift; sourceTree = "<group>"; };
 		26EB41142B1A31A80080E5D8 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		26EDFB0C2B2C1FC9003AED10 /* NetworkAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAPIError.swift; sourceTree = "<group>"; };
 		26F03BCE2B0B2D7400BC5E68 /* FollowingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingViewController.swift; sourceTree = "<group>"; };
 		26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorCollections.swift; sourceTree = "<group>"; };
 		26F2A7CD2B07648200033C93 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -159,8 +161,8 @@
 		2649E1B22B04AE33003CA70C /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				2649E1B32B04AE43003CA70C /* SignInTextField.swift */,
-				2649E1B82B04B073003CA70C /* SignInButton.swift */,
+				2649E1B32B04AE43003CA70C /* BaseTextField.swift */,
+				2649E1B82B04B073003CA70C /* BaseButton.swift */,
 				26EB41082B19F9450080E5D8 /* PostImage.swift */,
 				26E5F2FE2B1F72FE00955A5D /* BasicTextView.swift */,
 				2695F9DE2B2845B50014F19B /* BaseLabel.swift */,
@@ -193,7 +195,7 @@
 		2657F3AB2B02324000E3A22E = {
 			isa = PBXGroup;
 			children = (
-				2657F3B62B02324000E3A22E /* Lslp_Clone */,
+				2657F3B62B02324000E3A22E /* BestMoment */,
 				2657F3B52B02324000E3A22E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -201,12 +203,12 @@
 		2657F3B52B02324000E3A22E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2657F3B42B02324000E3A22E /* Lslp_Clone.app */,
+				2657F3B42B02324000E3A22E /* BestMoment.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2657F3B62B02324000E3A22E /* Lslp_Clone */ = {
+		2657F3B62B02324000E3A22E /* BestMoment */ = {
 			isa = PBXGroup;
 			children = (
 				2649E1C22B04C687003CA70C /* Protocol */,
@@ -227,7 +229,7 @@
 				2657F3C22B02324200E3A22E /* LaunchScreen.storyboard */,
 				2657F3C52B02324200E3A22E /* Info.plist */,
 			);
-			path = Lslp_Clone;
+			path = BestMoment;
 			sourceTree = "<group>";
 		};
 		2657F3CB2B02328200E3A22E /* Base */ = {
@@ -362,6 +364,7 @@
 			isa = PBXGroup;
 			children = (
 				26F2A7CB2B074DE100033C93 /* NetworkErrorCollections.swift */,
+				26EDFB0C2B2C1FC9003AED10 /* NetworkAPIError.swift */,
 			);
 			path = ErrorMessage;
 			sourceTree = "<group>";
@@ -386,9 +389,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2657F3B32B02324000E3A22E /* Lslp_Clone */ = {
+		2657F3B32B02324000E3A22E /* BestMoment */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2657F3C82B02324200E3A22E /* Build configuration list for PBXNativeTarget "Lslp_Clone" */;
+			buildConfigurationList = 2657F3C82B02324200E3A22E /* Build configuration list for PBXNativeTarget "BestMoment" */;
 			buildPhases = (
 				2657F3B02B02324000E3A22E /* Sources */,
 				2657F3B12B02324000E3A22E /* Frameworks */,
@@ -398,7 +401,7 @@
 			);
 			dependencies = (
 			);
-			name = Lslp_Clone;
+			name = BestMoment;
 			packageProductDependencies = (
 				2657F3D02B02350F00E3A22E /* SnapKit */,
 				2657F3D32B02352600E3A22E /* RxCocoa */,
@@ -408,7 +411,7 @@
 				261DAE162B222BD3000C89E9 /* Tabman */,
 			);
 			productName = Lslp_Clone;
-			productReference = 2657F3B42B02324000E3A22E /* Lslp_Clone.app */;
+			productReference = 2657F3B42B02324000E3A22E /* BestMoment.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -426,7 +429,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2657F3AF2B02324000E3A22E /* Build configuration list for PBXProject "Lslp_Clone" */;
+			buildConfigurationList = 2657F3AF2B02324000E3A22E /* Build configuration list for PBXProject "BestMoment" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -446,7 +449,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2657F3B32B02324000E3A22E /* Lslp_Clone */,
+				2657F3B32B02324000E3A22E /* BestMoment */,
 			);
 		};
 /* End PBXProject section */
@@ -479,7 +482,7 @@
 				26F4937F2B036A5400AA68E7 /* LoginViewController.swift in Sources */,
 				2695F9E22B28BDC00014F19B /* EditViewController.swift in Sources */,
 				2695F9DF2B2845B50014F19B /* BaseLabel.swift in Sources */,
-				2649E1B42B04AE43003CA70C /* SignInTextField.swift in Sources */,
+				2649E1B42B04AE43003CA70C /* BaseTextField.swift in Sources */,
 				26F2A7CC2B074DE100033C93 /* NetworkErrorCollections.swift in Sources */,
 				26E699B42B0E05FA00DA90C0 /* MainViewModel.swift in Sources */,
 				261DAE1C2B222EB7000C89E9 /* MyPostViewController.swift in Sources */,
@@ -507,7 +510,7 @@
 				2649E1BB2B04B0B4003CA70C /* Ext+UIButton.swift in Sources */,
 				260DF1482B254A2300E06C74 /* ReuseableIdentifier.swift in Sources */,
 				2649E1B72B04AEB6003CA70C /* Ext+UITextField.swift in Sources */,
-				2649E1B92B04B073003CA70C /* SignInButton.swift in Sources */,
+				2649E1B92B04B073003CA70C /* BaseButton.swift in Sources */,
 				2657F3E02B02374B00E3A22E /* APIKeyAndBaseURL.swift in Sources */,
 				2686E19D2B20527D00C9DF76 /* MyPostCell.swift in Sources */,
 				2657F3CD2B02328D00E3A22E /* BaseViewController.swift in Sources */,
@@ -519,6 +522,7 @@
 				26EB41152B1A31A80080E5D8 /* ProfileViewController.swift in Sources */,
 				26E5F2FD2B1F721200955A5D /* Ext+UITextView.swift in Sources */,
 				2649E1BD2B04B872003CA70C /* Ext+UIViewController.swift in Sources */,
+				26EDFB0D2B2C1FC9003AED10 /* NetworkAPIError.swift in Sources */,
 				2657F3E22B02377500E3A22E /* APIManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -660,7 +664,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D3U7XS5ZX2;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Lslp_Clone/Info.plist;
+				INFOPLIST_FILE = BestMoment/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -687,7 +691,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D3U7XS5ZX2;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Lslp_Clone/Info.plist;
+				INFOPLIST_FILE = BestMoment/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -708,7 +712,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2657F3AF2B02324000E3A22E /* Build configuration list for PBXProject "Lslp_Clone" */ = {
+		2657F3AF2B02324000E3A22E /* Build configuration list for PBXProject "BestMoment" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2657F3C62B02324200E3A22E /* Debug */,
@@ -717,7 +721,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2657F3C82B02324200E3A22E /* Build configuration list for PBXNativeTarget "Lslp_Clone" */ = {
+		2657F3C82B02324200E3A22E /* Build configuration list for PBXNativeTarget "BestMoment" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2657F3C92B02324200E3A22E /* Debug */,

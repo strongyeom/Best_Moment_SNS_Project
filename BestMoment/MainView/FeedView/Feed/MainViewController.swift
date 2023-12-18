@@ -195,6 +195,7 @@ final class MainViewController : BaseViewController {
         output.like
             .bind(with: self) { owner, response in
                 owner.routinArray = []
+                
                 owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
                 print("** MainVC - 서버 Likes 배열에 추가 : \(response.like_status)")
             }
