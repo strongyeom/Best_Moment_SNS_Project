@@ -78,7 +78,7 @@ struct ElementReadPostResponse: Decodable, Hashable {
     var _id: String
     var creator: Creator
     var time: String
-    var title: String
+    var title: String?
     var content: String
     var product_id: String
 }

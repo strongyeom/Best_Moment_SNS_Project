@@ -13,7 +13,7 @@ import Kingfisher
 class ProfileViewController : BaseViewController {
     
     lazy var profileImage = PostImage("person.fill", color: .lightGray)
-    let nickname = BaseLabel(text: "닉네임 입니다.", fontSize: 13, weight: .medium)
+    let nickname = BaseLabel(text: "", fontSize: 23, weight: .medium)
     private var postCount = {
         let view = UILabel()
         view.aggregateStatusCount()
@@ -46,25 +46,14 @@ class ProfileViewController : BaseViewController {
     }()
     private let profileEdit = {
         let btn = UIButton()
-        btn.setCornerButton(text: "프로필 편집", brandColor: .systemGreen)
+        btn.profileButton(text: "프로필 편집", brandColor: .systemGreen)
         return btn
     }()
-    private let logOut = {
-        let btn = UIButton()
-        btn.setCornerButton(text: "로그아웃", brandColor: .systemOrange)
-        return btn
-    }()
+
     
     
     // MARK: - StackView
-    lazy var buttonStackView = {
-        let stack = UIStackView(arrangedSubviews: [profileEdit, logOut])
-        stack.axis = .horizontal
-        stack.spacing = 10
-        stack.alignment = .fill
-        stack.distribution = .fillEqually
-        return stack
-    }()
+    
     lazy var postStackView = {
         let stack = UIStackView(arrangedSubviews: [postCount, post])
         stack.axis = .vertical
@@ -116,7 +105,7 @@ class ProfileViewController : BaseViewController {
         super.configure()
         navigationItem.title = "마이페이지"
         print("ProfileViewController - configure")
-        [profileImage, nickname, buttonStackView, horizonTalStackView].forEach {
+        [profileImage, nickname, profileEdit, horizonTalStackView].forEach {
             view.addSubview($0)
         }
         
@@ -164,16 +153,6 @@ class ProfileViewController : BaseViewController {
             }
             .disposed(by: disposeBag)
         
-        logOut.rx.tap
-            .bind(with: self) { owner, _ in
-                owner.logOutAlert {
-                    // 로그인 화면으로 이동
-                    UserDefaultsManager.shared.backToRoot(isRoot: false)
-                    let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                    windowScene?.windows.first?.rootViewController = UINavigationController(rootViewController: LoginViewController())
-                }
-            }
-            .disposed(by: disposeBag)
     }
     
     
@@ -210,18 +189,24 @@ class ProfileViewController : BaseViewController {
         
         nickname.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.bottom).offset(5)
-            make.leading.equalTo(profileImage)
+            make.leading.equalTo(profileImage).offset(5)
         }
         
-        buttonStackView.snp.makeConstraints { make in
+        profileEdit.snp.makeConstraints { make in
+            make.height.equalTo(40)
             make.top.equalTo(nickname.snp.bottom).offset(10)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
-            make.height.equalTo(40)
         }
         
+//        buttonStackView.snp.makeConstraints { make in
+//            make.top.equalTo(nickname.snp.bottom).offset(10)
+//            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+//            make.height.equalTo(40)
+//        }
+//
         //
         containerView.snp.makeConstraints { make in
-            make.top.equalTo(buttonStackView.snp.bottom).offset(30)
+            make.top.equalTo(profileEdit.snp.bottom).offset(30)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             

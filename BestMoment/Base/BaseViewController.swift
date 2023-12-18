@@ -14,6 +14,7 @@ class BaseViewController : UIViewController {
         
         configure()
         setConstraints()
+        navigationBarSettingColor()
     }
     
     func configure() {
@@ -23,4 +24,15 @@ class BaseViewController : UIViewController {
     func setConstraints() {
         
     }
+}
+
+extension BaseViewController {
+    
+    func navigationBarSettingColor() {
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor(named: "brandColor")
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
 }

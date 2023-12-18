@@ -10,13 +10,24 @@ import UIKit
 extension UIButton {
     func setCornerButton(text: String, brandColor: UIColor) {
         self.setTitle(text, for: .normal)
-        self.layer.cornerRadius = 16
+        self.layer.cornerRadius = 12
         self.layer.cornerCurve = .continuous
         self.clipsToBounds = true
         self.layer.borderColor = brandColor.cgColor
         self.layer.borderWidth = 1
         self.setTitleColor(.white, for: .normal)
         self.backgroundColor = brandColor
+    }
+    
+    func profileButton(text: String, brandColor: UIColor) {
+        self.setTitle(text, for: .normal)
+        self.setTitleColor(brandColor, for: .normal)
+        self.layer.cornerRadius = 12
+        self.layer.cornerCurve = .continuous
+        self.clipsToBounds = true
+        self.layer.borderColor = brandColor.cgColor
+        self.layer.borderWidth = 1
+        self.backgroundColor = .clear
     }
 
 }

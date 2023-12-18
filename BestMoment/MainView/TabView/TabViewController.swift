@@ -27,14 +27,16 @@ class TabViewController : UITabBarController {
         let profile = ProfileViewController()
         profile.tabBarItem.title = "마이페이지"
         profile.tabBarItem.image = UIImage(systemName: "person.circle")
+        profile.tabBarItem.image?.withTintColor(.red)
         let profileVC = UINavigationController(rootViewController: profile)
         
         let apperance = UITabBarAppearance()
-        apperance.backgroundColor = .white
-        self.tabBar.tintColor = UIColor.systemBlue
+        apperance.backgroundColor = UIColor(named: "brandColor")
+        self.tabBar.tintColor = UIColor.white
         self.tabBar.isTranslucent = false // 불투명도
         self.tabBar.standardAppearance = apperance
         self.tabBar.scrollEdgeAppearance = apperance
+        
         
         setViewControllers([homeVC, followVC, profileVC], animated: false)
     }
