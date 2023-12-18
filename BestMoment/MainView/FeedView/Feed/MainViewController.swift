@@ -33,7 +33,6 @@ final class MainViewController : BaseViewController {
     let toggleFollowing = BehaviorSubject(value: false)
     
     let disposeBag = DisposeBag()
-    // 다음 Cursor
     private var nextCursor = ""
     private var myID: String = ""
     private var likeRow: Int = 0
