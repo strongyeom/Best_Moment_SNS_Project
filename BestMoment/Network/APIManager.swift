@@ -38,7 +38,7 @@ class APIManager {
             .validate(statusCode: 200...300)
             .responseDecodable(of: AddPostResponse.self) { response in
                 guard let status = response.response?.statusCode else { return }
-                print("response - \(response.description)")
+//                print("response - \(response.description)")
                 print("컨텐츠 상태 코드 ", status)
                 
                 switch response.result {
@@ -114,7 +114,7 @@ class APIManager {
                 .responseDecodable(of: T.self) { response in
                     guard let status = response.response?.statusCode else { return }
                     print("상태 코드 ", status)
-                    print("response - \(response.description)")
+//                    print("response - \(response.description)")
 //                    print("에러 상세 : \(response.description)")
                     switch response.result {
                     case .success(let data):

@@ -93,12 +93,10 @@ final class FollowingViewController : BaseViewController {
                     }
                     .disposed(by: cell.disposeBag)
                 
-                cell.unfollowerBtn.rx.tap
-                    .bind(with: self) { owner, _ in
-                        owner.userID.onNext(element.creator._id)
-                    }
-                    .disposed(by: cell.disposeBag)
-    
+                cell.unfollowCompletion = {
+                    self.userID.onNext(element.creator._id)
+                }
+                
                 cell.postCommentBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         let commentView = CommentViewController()

@@ -11,7 +11,7 @@ import Kingfisher
 final class FollowingCell : UITableViewCell {
    
     var disposeBag = DisposeBag()
-    
+    var unfollowCompletion: (() -> Void)?
     let routinTitle = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 17, weight: .bold)
@@ -19,23 +19,29 @@ final class FollowingCell : UITableViewCell {
         view.textAlignment = .left
         return view
     }()
-   
-    let unfollowerBtn = {
+    
+    lazy var pullDownButton = {
         let button = UIButton()
-        var config = UIButton.Configuration.tinted()
-        config.attributedTitle = AttributedString("팔로우 취소", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .medium)]))
-        config.baseForegroundColor = .systemRed
-        button.configuration = config
+        button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        button.showsMenuAsPrimaryAction = true
+        button.tintColor = .black
+        let unFollow = UIAction(title: "팔로우 취소", attributes: .destructive) { _ in
+            self.unfollowCompletion?()
+            print("팔로우 취소")
+        }
+        
+        let buttonMenu = UIMenu(title: "", children: [unFollow])
+        button.menu = buttonMenu
+        
         return button
     }()
-//
-    
+   
     let profileImage = PostImage("person.circle.fill", color: .lightGray)
 
     let nickname = {
         let view = UILabel()
         view.font = UIFont.systemFont(ofSize: 11, weight: .medium)
-        view.textColor = .lightGray
+        view.textColor = .black
         view.textAlignment = .left
         return view
     }()
@@ -104,7 +110,7 @@ final class FollowingCell : UITableViewCell {
     }
     
     private func configure() {
-        [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage, unfollowerBtn].forEach {
+        [routinTitle, nickname, releaseDate, routinDescription, likeBtn, likeCountLabel, postCommentBtn, commentCountLabel, postImage, profileImage, pullDownButton].forEach {
             contentView.addSubview($0)
         }
     }
@@ -118,10 +124,10 @@ final class FollowingCell : UITableViewCell {
        
         
         // setContentHuggingPriority : 뷰가 고유 크기보다 커지는 것을 방지하는 우선 순위를 설정
-        unfollowerBtn.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        pullDownButton.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         // setContentCompressionResistancePriority : 뷰가 고유 크기보다 작제 만들어지지 않도록 하는 우선 순위를 설정
-        unfollowerBtn.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        unfollowerBtn.snp.makeConstraints { make in
+        pullDownButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        pullDownButton.snp.makeConstraints { make in
             make.leading.equalTo(nickname.snp.trailing).offset(10)
             make.centerY.equalTo(nickname)
             make.trailing.equalToSuperview().inset(10)
@@ -184,7 +190,6 @@ final class FollowingCell : UITableViewCell {
     
     func configureUI(data: ElementReadPostResponse) {
         
-//        routinTitle.text = "제목 : \(data.title)"
         nickname.text = data.creator.nick
         releaseDate.text = data.time
         
@@ -240,13 +245,13 @@ final class FollowingCell : UITableViewCell {
         likeCountLabel.text = nil
         commentCountLabel.text = nil
         postImage.image = nil
-//        likeBtn.setImage(UIImage(systemName: "heart"), for: .normal)
+
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         self.profileImage.layer.cornerRadius = self.profileImage.frame.width / 2
-        self.profileImage.layer.borderColor = UIColor.white.cgColor
+        self.profileImage.layer.borderColor = UIColor.black.cgColor
         self.profileImage.layer.borderWidth = 1
         self.profileImage.clipsToBounds = true
     }
