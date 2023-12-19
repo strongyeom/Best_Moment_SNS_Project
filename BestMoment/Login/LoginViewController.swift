@@ -12,9 +12,9 @@ import SnapKit
 
 final class LoginViewController : BaseViewController {
     
-    let emailTextField = BaseTextField(placeHolder: "이메일을 입력해주세요.", brandColor: .blue, alignment: .center)
-    let passwordTextField = BaseTextField(placeHolder: "비밀번호를 입력해줏요", isSecure: true, brandColor: .blue)
-    let signInBtn = BaseButton(text: "로그인", brandColor: .blue)
+    let emailTextField = BaseTextField(placeHolder: "이메일을 입력해주세요.", brandColor: .systemGreen, alignment: .center)
+    let passwordTextField = BaseTextField(placeHolder: "비밀번호를 입력해줏요", isSecure: true, brandColor: .systemGreen)
+    let signInBtn = BaseButton(text: "로그인", brandColor: UIColor(named: "brandColor") ?? .systemGreen)
     let signupBtn = {
        let button = UIButton()
         button.setTitle("회원이 아니십니까?", for: .normal)
@@ -26,7 +26,9 @@ final class LoginViewController : BaseViewController {
     
     override func configure() {
         super.configure()
-       
+        title = "로그인"
+        navigationItem.backButtonDisplayMode = .minimal
+        
         bind()
     }
     

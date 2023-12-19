@@ -24,7 +24,7 @@ final class MainViewController : BaseViewController {
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = UIColor(named: "brandColor")
         config.baseForegroundColor = .white
-        config.attributedTitle = AttributedString("글쓰기", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20, weight: .semibold)]))
+        config.attributedTitle = AttributedString("글쓰기", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 18, weight: .semibold)]))
         config.image = UIImage(systemName: "plus")
         config.imagePadding = 4
         config.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 18, bottom: 15, trailing: 18)
