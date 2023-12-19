@@ -183,7 +183,7 @@ final class MainViewController : BaseViewController {
                         commentView.refreshGetPost = {
                             //                            print("넘어온 데이터")
                             owner.routinArray = []
-                            owner.getPost(next: "", limit: "")
+                            owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
                             
                         }
                         let nav = UINavigationController(rootViewController: commentView)
@@ -291,7 +291,7 @@ extension MainViewController {
             }
             .disposed(by: disposeBag)
      
-        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: "", product_id: "yeom"), section: .getPost)
+        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"), section: .getPost)
             .catch { err in
                 if let err = err as? NetworkAPIError {
                     print("CustomError : \(err.description)")

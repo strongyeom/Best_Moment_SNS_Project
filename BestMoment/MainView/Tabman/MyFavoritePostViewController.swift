@@ -48,7 +48,7 @@ final class MyFavoritePostViewController : BaseViewController {
         myFavoritesPosts
             .bind(to: collectionView.rx.items(cellIdentifier: MyPostCell.identifier, cellType: MyPostCell.self)) {
                 row, element, cell in
-                print("myArray - \(element.creator.nick)")
+//                print("myArray - \(element.creator.nick)")
                 cell.configureUI(data: element, isHidden: .favorite)
             }
             .disposed(by: disposeBag)
@@ -70,7 +70,7 @@ final class MyFavoritePostViewController : BaseViewController {
 extension MyFavoritePostViewController {
     fileprivate func requestGetLikes(next: String) {
     
-        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.getLikes(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: ""), section: .getLikes)
+        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.getLikes(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: "20"), section: .getLikes)
             .catch { err in
                 if let err = err as? NetworkAPIError {
                     print("🙏🏻 내가 좋아요한 포스팅 조회 에러 - \(err.description)")
@@ -80,8 +80,10 @@ extension MyFavoritePostViewController {
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
                 owner.myArray = response.data
-                print("myArray Count\(self.myArray.count)")
-                print("myArray \(self.myArray)")
+//                print("myArray Count\(self.myArray.count)")
+//                print("myArray \(self.myArray)")
+                print("myArray - Count : \(self.myArray.count)")
+                print("myArray - nickname: \(self.myArray.map { $0.creator.nick})")
                 owner.myFavoritesPosts.onNext(owner.myArray)
             }
             .disposed(by: disposeBag)

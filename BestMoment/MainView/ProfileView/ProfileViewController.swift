@@ -131,7 +131,7 @@ class ProfileViewController : BaseViewController {
                 return Observable.never()
             }
             .bind(with: self, onNext: { owner, response in
-                print("ProfileVC - \(response)")
+//                print("ProfileVC - \(response)")
                 owner.nickname.text = response.nick
                 owner.postCount.text = "\(response.posts.count)"
                 owner.followersCount.text = "\(response.followers.count)"

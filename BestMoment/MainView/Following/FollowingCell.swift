@@ -94,6 +94,7 @@ final class FollowingCell : UITableViewCell {
         view.layer.cornerRadius = 16
         view.layer.cornerCurve = .continuous
         view.clipsToBounds = true
+        view.contentMode = .scaleAspectFill
         return view
     }()
    

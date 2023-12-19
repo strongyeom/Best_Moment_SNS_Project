@@ -183,6 +183,7 @@ final class MainTableViewCell : UITableViewCell {
             make.size.equalTo(50)
         }
         
+        nickname.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         nickname.snp.makeConstraints { make in
             make.centerY.equalTo(profileImage)
             make.leading.equalTo(profileImage.snp.trailing).offset(10)
