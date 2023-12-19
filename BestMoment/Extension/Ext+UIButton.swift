@@ -15,6 +15,7 @@ extension UIButton {
         self.clipsToBounds = true
         self.layer.borderColor = brandColor.cgColor
         self.layer.borderWidth = 1
+        self.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
         self.setTitleColor(.white, for: .normal)
         self.backgroundColor = brandColor
     }

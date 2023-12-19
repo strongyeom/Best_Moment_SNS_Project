@@ -14,14 +14,14 @@ final class AddRoutinViewController : BaseViewController {
 //    let titleTextField = BaseTextField(placeHolder: "제목을 입력해주세요.", brandColor: .lightGray, alignment: .center)
     let dailyTextView = BasicTextView()
     
-    let saveBtn = BaseButton(text: "저장하기", brandColor: .blue)
+    let saveBtn = BaseButton(text: "저장하기", brandColor: UIColor(named: "brandColor") ?? .lightGray)
     let postImage = PostImage(nil, color: .lightGray)
     let viewModel = AddRoutinViewModel()
     let disposeBag = DisposeBag()
     var selectedImageData = PublishSubject<Data>()
     
     lazy var cancelBarBtn = {
-        let button = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelBtnClicked))
+        let button = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(cancelBtnClicked))
         return button
     }()
    
@@ -31,6 +31,7 @@ final class AddRoutinViewController : BaseViewController {
         title = "일상 추가"
         dailyTextView.delegate = self
         navigationItem.leftBarButtonItem = cancelBarBtn
+        navigationController?.navigationBar.tintColor = .black
         addKeyboardNotifications()
     }
     
