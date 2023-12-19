@@ -71,7 +71,7 @@ class MyPostViewController : BaseViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         let spacing: CGFloat = 10
-        let width = (UIScreen.main.bounds.width - (spacing * 4))
+        let width = (UIScreen.main.bounds.width - (spacing * 5))
         layout.itemSize = CGSize(width: width / 3 , height: width / 3)
         layout.minimumLineSpacing = spacing
         layout.minimumInteritemSpacing = spacing
