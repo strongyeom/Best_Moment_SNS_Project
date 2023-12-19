@@ -19,12 +19,21 @@ final class MainViewController : BaseViewController {
         return tableView
     }()
     
-    
     lazy var addPostBtn = {
-        let button = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addPostBtnTapped))
+       let button = UIButton()
+        var config = UIButton.Configuration.filled()
+        config.baseBackgroundColor = UIColor(named: "brandColor")
+        config.baseForegroundColor = .white
+        config.attributedTitle = AttributedString("글쓰기", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20, weight: .semibold)]))
+        config.image = UIImage(systemName: "plus")
+        config.imagePadding = 4
+        config.contentInsets = NSDirectionalEdgeInsets(top: 15, leading: 18, bottom: 15, trailing: 18)
+        config.imagePlacement = .leading
+        config.cornerStyle = .capsule
+        button.configuration = config
         return button
     }()
-    
+
     var routinArray: [ElementReadPostResponse] = []
     lazy var routins = BehaviorSubject(value: routinArray)
     var likeID = PublishSubject<String>()
@@ -41,11 +50,13 @@ final class MainViewController : BaseViewController {
 
     override func configure() {
         super.configure()
-        self.view.backgroundColor = .green
         print("MainViewController - configure")
+        view.addSubview(tableView)
+        view.addSubview(addPostBtn)
+       
         setNavigationBar()
         bind()
-        self.title = "홈"
+        
         UserDefaultsManager.shared.backToRoot(isRoot: true)
         
     }
@@ -58,34 +69,25 @@ final class MainViewController : BaseViewController {
     }
     
    fileprivate func setNavigationBar() {
+        self.title = "홈"
         self.navigationItem.hidesBackButton = true
-        navigationItem.rightBarButtonItem = addPostBtn
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "위로", style: .plain, target: self, action: #selector(uptoBtn))
     }
     
     override func setConstraints() {
-        view.addSubview(tableView)
+       
         tableView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
+        
+        addPostBtn.snp.makeConstraints { make in
+            make.trailing.bottom.equalToSuperview().inset(17)
+        }
+    
     }
-    
-    @objc func addPostBtnTapped() {
-        let addRoutinVC = AddRoutinViewController()
-        let nav = UINavigationController(rootViewController: addRoutinVC)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: true)
-    }
-    
-    @objc func uptoBtn() {
-        let index = IndexPath(row: 0, section: 0)
-        self.tableView.scrollToRow(at: index, at: .top, animated: true)
-    }
-    
-    
+ 
     fileprivate func bind() {
         
-        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, toggleFollowing: toggleFollowing)
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, toggleFollowing: toggleFollowing, addPostTap: addPostBtn.rx.tap)
         
         let output = viewModel.transform(input: input)
         
@@ -139,6 +141,8 @@ final class MainViewController : BaseViewController {
                         .disposed(by: cell.disposeBag)
                     
                                     }
+                
+                // 팔로잉
                 cell.followerBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         print("팔로우 버튼 눌림")
@@ -170,7 +174,7 @@ final class MainViewController : BaseViewController {
                 
                 
                 
-                
+                // 댓글
                 cell.postCommentBtn.rx.tap
                     .bind(with: self) { owner, _ in
                         let commentView = CommentViewController()
@@ -214,6 +218,15 @@ final class MainViewController : BaseViewController {
             .bind(with: self) { owner, response in
                 print("팔로잉 상태 ", response.following_status)
                 owner.getPost(next: "", limit: owner.likeRow >= 5 ? "\(owner.likeRow + 1)" : "")
+            }
+            .disposed(by: disposeBag)
+        
+        output.addPostTap
+            .bind(with: self) { owner, _ in
+                let addRoutinVC = AddRoutinViewController()
+                let nav = UINavigationController(rootViewController: addRoutinVC)
+                nav.modalPresentationStyle = .fullScreen
+                owner.present(nav, animated: true)
             }
             .disposed(by: disposeBag)
         

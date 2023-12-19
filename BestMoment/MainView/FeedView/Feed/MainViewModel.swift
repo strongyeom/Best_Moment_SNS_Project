@@ -19,7 +19,7 @@ class MainViewModel: BaseInOutPut {
         let postID: PublishSubject<String>
         let userID: PublishSubject<String>
         let toggleFollowing: BehaviorSubject<Bool>
-        
+        let addPostTap: ControlEvent<Void>
     }
     
     struct Output {
@@ -30,6 +30,7 @@ class MainViewModel: BaseInOutPut {
         let errorMessage: PublishSubject<String>
         let unFollower: Observable<FollowerStatusResponse>
         let followingStatus : Observable<FollowerStatusResponse>
+        let addPostTap: ControlEvent<Void>
     }
     
     func transform(input: Input) -> Output {
@@ -99,7 +100,6 @@ class MainViewModel: BaseInOutPut {
                     }
             }
         
-        
-        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage, unFollower: unFollower, followingStatus: followingStatus)
+        return Output(zip: zip, like: like, removePost: removePost, errorMessage: errorMessage, unFollower: unFollower, followingStatus: followingStatus, addPostTap: input.addPostTap)
     }
 }

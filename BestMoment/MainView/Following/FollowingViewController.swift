@@ -17,6 +17,9 @@ final class FollowingViewController : BaseViewController {
         tableView.separatorStyle = .none
         return tableView
     }()
+    
+    // 임의의 버튼
+    lazy var exampleBtn = UIButton()
 
     
     var followeruserIDs = Set<String>()
@@ -66,16 +69,9 @@ final class FollowingViewController : BaseViewController {
         }
     }
 
-    @objc func uptoBtn() {
-        let index = IndexPath(row: 0, section: 0)
-        self.tableView.scrollToRow(at: index, at: .top, animated: true)
-    }
-    
-
-    
     func bind() {
         
-        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, toggleFollowing: toggleFollowing)
+        let input = MainViewModel.Input(tableViewIndex: tableView.rx.itemSelected, tableViewElement: tableView.rx.modelSelected(ElementReadPostResponse.self), likeID: likeID, postID: postID, userID: userID, toggleFollowing: toggleFollowing, addPostTap: exampleBtn.rx.tap)
         
         let output = viewModel.transform(input: input)
         
