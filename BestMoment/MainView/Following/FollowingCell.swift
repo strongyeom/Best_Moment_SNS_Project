@@ -40,7 +40,7 @@ final class FollowingCell : UITableViewCell {
 
     let nickname = {
         let view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 11, weight: .medium)
+        view.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         view.textColor = .black
         view.textAlignment = .left
         return view

@@ -27,7 +27,7 @@ final class MainTableViewCell : UITableViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
         button.showsMenuAsPrimaryAction = true
-        
+        button.tintColor = .black
         let edit = UIAction(title: "편집", handler: { _ in
             self.editCompletion?()
             print("편집")
@@ -42,9 +42,9 @@ final class MainTableViewCell : UITableViewCell {
     }()
     let followerBtn = {
         let button = UIButton()
-        var config = UIButton.Configuration.tinted()
+        var config = UIButton.Configuration.gray()
         config.attributedTitle = AttributedString("팔로우", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .medium)]))
-        config.baseForegroundColor = .systemBlue
+        config.baseForegroundColor = .black
         button.configuration = config
         return button
     }()
@@ -56,8 +56,8 @@ final class MainTableViewCell : UITableViewCell {
     }()
     let nickname = {
         let view = UILabel()
-        view.font = UIFont.systemFont(ofSize: 11, weight: .medium)
-        view.textColor = .lightGray
+        view.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        view.textColor = .black
         view.textAlignment = .left
         return view
     }()
@@ -322,9 +322,9 @@ final class MainTableViewCell : UITableViewCell {
     }
     
     func followOption(text: String) -> UIButton.Configuration {
-        var config = UIButton.Configuration.tinted()
+        var config = UIButton.Configuration.gray()
         config.attributedTitle = AttributedString(text, attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 13, weight: .medium)]))
-        config.baseForegroundColor = .systemBlue
+        config.baseForegroundColor = .black
         return config
     }
     
