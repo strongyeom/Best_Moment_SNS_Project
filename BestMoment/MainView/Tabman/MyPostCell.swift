@@ -17,7 +17,7 @@ final class MyPostCell: BaseCollectionViewCell {
     }
     
     private var disposeBag = DisposeBag()
-    private let postImage = PostImage(nil, color: .lightGray)
+    private let postImage = PostImage()
     private let likeBtn = {
         let view = UIButton()
         view.setImage(UIImage(systemName: "heart"), for: .normal)

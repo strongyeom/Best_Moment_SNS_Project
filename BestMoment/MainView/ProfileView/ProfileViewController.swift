@@ -164,12 +164,23 @@ class ProfileViewController : BaseViewController {
             return requestBody
         }
         
-        if let imageUrl {
-            let url = URL(string: BaseAPI.baseUrl + imageUrl)
-            self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
-        } else {
-            self.profileImage.image = UIImage(systemName: "person.circle.fill")
+        DispatchQueue.main.async {
+            
+            self.profileImage.layer.cornerRadius = self.profileImage.frame.width / 2
+            self.profileImage.clipsToBounds = true
+            self.profileImage.layer.borderColor = UIColor.black.cgColor
+            self.profileImage.layer.borderWidth = 1
+            
+            
+            if let imageUrl {
+                let url = URL(string: BaseAPI.baseUrl + imageUrl)
+                self.profileImage.kf.setImage(with: url, options: [.requestModifier(imageDownloadRequest), .cacheOriginalImage])
+            } else {
+                self.profileImage.image = UIImage(systemName: "person.circle.fill")
+            }
         }
+        
+      
         
         
     }

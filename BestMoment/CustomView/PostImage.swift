@@ -11,11 +11,21 @@ class PostImage: UIImageView {
    
     init(_ basicImage: String?, color: UIColor?) {
         super.init(frame: .zero)
-        self.layer.cornerRadius = 12
-        self.clipsToBounds = true
+//        self.layer.cornerRadius = 12
+//        self.clipsToBounds = true
+//        self.layer.borderColor = UIColor.black.cgColor
+//        self.layer.borderWidth = 1
         self.isUserInteractionEnabled = true
         self.image = basicImage == nil ? UIImage(named: "EmptyImage") : UIImage(systemName: basicImage!)
         self.tintColor = color
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        self.layer.cornerRadius = 12
+        self.clipsToBounds = true
+        self.layer.borderColor = UIColor.clear.cgColor
+        self.layer.borderWidth = 1
     }
     
     required init?(coder: NSCoder) {
