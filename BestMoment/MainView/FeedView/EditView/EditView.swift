@@ -14,11 +14,12 @@ final class EditView : BaseView {
     let nickname = BaseLabel(text: "닉네임", fontSize: 13, weight: .medium)
     let postImage = PostImage("person.circle.fill", color: .lightGray)
     let guideText = BaseLabel(text: "사진을 클릭하여 이미지 변경", fontSize: 13, weight: .light)
+    let savedEditBtn = BaseButton(text: "수정완료", brandColor: UIColor(named: "brandColor") ?? .lightGray)
     let contentLabel = BaseLabel(text: "본문", fontSize: 22, weight: .semibold)
     let contentTextView = BasicTextView()
     
     override func configure() {
-        [profileImage, nickname, postImage, guideText, contentLabel, contentTextView].forEach {
+        [profileImage, nickname, postImage, guideText, contentLabel, contentTextView, savedEditBtn].forEach {
             self.addSubview($0)
         }
     }
@@ -37,7 +38,7 @@ final class EditView : BaseView {
         
         postImage.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.bottom).offset(10)
-            make.horizontalEdges.equalToSuperview().inset(15)
+            make.horizontalEdges.equalToSuperview()
             make.height.equalTo(self.postImage.snp.width)
         }
         
@@ -45,15 +46,24 @@ final class EditView : BaseView {
             make.top.equalTo(postImage.snp.bottom).offset(6)
             make.centerX.equalTo(self.safeAreaLayoutGuide)
         }
+        
         contentLabel.snp.makeConstraints { make in
-            make.leading.equalTo(profileImage)
             make.top.equalTo(guideText.snp.bottom).offset(10)
+            make.leading.equalTo(profileImage)
+            
         }
         contentTextView.snp.makeConstraints { make in
-            make.top.equalTo(contentLabel.snp.bottom).offset(10)
-            make.horizontalEdges.equalToSuperview().inset(15)
-            make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-20)
+            make.top.equalTo(contentLabel.snp.bottom).offset(3)
+            make.horizontalEdges.equalToSuperview().inset(10)
+            make.height.equalTo(80)
         }
+        
+        savedEditBtn.snp.makeConstraints { make in
+            make.top.equalTo(contentTextView.snp.bottom).offset(44)
+            make.horizontalEdges.equalToSuperview().inset(15)
+            make.height.equalTo(40)
+        }
+        
     }
     
     func configureUI(data: ElementReadPostResponse?) {

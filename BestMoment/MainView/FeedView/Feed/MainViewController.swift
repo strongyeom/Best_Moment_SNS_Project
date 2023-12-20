@@ -70,7 +70,7 @@ final class MainViewController : BaseViewController {
     
    fileprivate func setNavigationBar() {
         self.title = "홈"
-        self.navigationItem.hidesBackButton = true
+       navigationItem.backButtonDisplayMode = .minimal
     }
     
     override func setConstraints() {

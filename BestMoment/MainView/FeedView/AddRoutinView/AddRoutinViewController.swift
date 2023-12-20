@@ -13,7 +13,11 @@ final class AddRoutinViewController : BaseViewController {
     
 //    let titleTextField = BaseTextField(placeHolder: "제목을 입력해주세요.", brandColor: .lightGray, alignment: .center)
     let dailyTextView = BasicTextView()
-    
+    let lineView = {
+       let view = UIView()
+        view.backgroundColor = .lightGray
+        return view
+    }()
     let saveBtn = BaseButton(text: "저장하기", brandColor: UIColor(named: "brandColor") ?? .lightGray)
     let postImage = PostImage(nil, color: .lightGray)
     let viewModel = AddRoutinViewModel()
@@ -95,7 +99,7 @@ final class AddRoutinViewController : BaseViewController {
     }
     
     override func setConstraints() {
-        [dailyTextView, saveBtn, postImage].forEach {
+        [dailyTextView, lineView, saveBtn, postImage].forEach {
             view.addSubview($0)
         }
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageBtnTaaped))
@@ -108,7 +112,13 @@ final class AddRoutinViewController : BaseViewController {
         dailyTextView.snp.makeConstraints { make in
             make.top.equalTo(postImage.snp.bottom).offset(20)
             make.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
-            make.height.equalTo(100)
+            make.height.equalTo(80)
+        }
+        
+        lineView.snp.makeConstraints { make in
+            make.top.equalTo(dailyTextView.snp.bottom).offset(5)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(1)
         }
         
         saveBtn.snp.makeConstraints { make in
@@ -161,7 +171,7 @@ extension AddRoutinViewController : UITextViewDelegate {
     // 텍스트가 비어있으면 placeHolder, 회색으로 설정
     func textViewDidEndEditing(_ textView: UITextView) {
         if dailyTextView.text.isEmpty {
-            dailyTextView.text = "당신의 일상을 공유해주세요."
+            dailyTextView.text = "#해시태그 \n\n당신의 일상에서 가장 기억에 남는 순간을 기록해주세요."
             dailyTextView.textColor = .lightGray
             
         }

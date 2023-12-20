@@ -11,12 +11,7 @@ import RxSwift
 import RxCocoa
 
 final class EditViewController : BaseViewController {
-    
-    lazy var editButton = {
-        let button = UIBarButtonItem(title: "편집완료", style: .plain, target: self, action: nil)
-        return button
-    }()
-    
+   
     let editView = EditView()
   
     override func loadView() {
@@ -34,12 +29,17 @@ final class EditViewController : BaseViewController {
     override func configure() {
         super.configure()
         navigationBar()
-        editView.configureUI(data: data)
+        editViewSetting()
         addKeyboardNotifications()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTaaped))
-        editView.postImage.addGestureRecognizer(tapGesture)
         bind()
         
+    }
+    
+    fileprivate func editViewSetting() {
+        editView.configureUI(data: data)
+        editView.contentTextView.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTaaped))
+        editView.postImage.addGestureRecognizer(tapGesture)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -48,7 +48,7 @@ final class EditViewController : BaseViewController {
     }
     
     func bind() {
-        let input = EditViewModel.Input(contentText: editView.contentTextView.rx.text.orEmpty, imageData: selectedImageData, editBtn: editButton.rx.tap, postID: postID ?? "")
+        let input = EditViewModel.Input(contentText: editView.contentTextView.rx.text.orEmpty, imageData: selectedImageData, editBtn: editView.savedEditBtn.rx.tap, postID: postID ?? "")
         
         let output = vieewModel.transform(input: input)
         
@@ -72,8 +72,8 @@ final class EditViewController : BaseViewController {
     
     func navigationBar() {
         navigationItem.title = "편집"
-        navigationItem.rightBarButtonItem = editButton
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelBtnClicked))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(cancelBtnClicked))
+        navigationController?.navigationBar.tintColor = .black
     }
     
     @objc func cancelBtnClicked() {
@@ -128,5 +128,29 @@ extension EditViewController: PHPickerViewControllerDelegate {
         } else {
             print("EditVC - PHPickerControllerDelegte: canLoadObject Error")
         }
+    }
+}
+
+// MARK: - UITextViewDelegate
+extension EditViewController : UITextViewDelegate {
+    // 텍스트 칼라가 회색이면 -> nil, textColor -> black
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if editView.contentTextView.textColor == .lightGray {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    // 텍스트가 비어있으면 placeHolder, 회색으로 설정
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if editView.contentTextView.text.isEmpty {
+            editView.contentTextView.text = "#해시태그 \n\n당신의 일상에서 가장 기억에 남는 순간을 기록해주세요."
+            editView.contentTextView.textColor = .lightGray
+            
+        }
+    }
+    
+    // TextView 소문자만
+    func textViewDidChange(_ textView: UITextView) {
+        editView.contentTextView.text = textView.text.lowercased()
     }
 }
