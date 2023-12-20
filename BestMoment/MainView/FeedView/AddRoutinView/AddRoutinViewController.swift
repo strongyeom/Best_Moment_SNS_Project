@@ -28,7 +28,7 @@ final class AddRoutinViewController : BaseViewController {
     override func configure() {
         super.configure()
         bind()
-        title = "일상 추가"
+        title = "글쓰기"
         dailyTextView.delegate = self
         navigationItem.leftBarButtonItem = cancelBarBtn
         navigationController?.navigationBar.tintColor = .black

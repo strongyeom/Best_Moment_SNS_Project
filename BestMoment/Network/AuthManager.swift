@@ -30,13 +30,15 @@ class AuthManager: RequestInterceptor {
             completion(.doNotRetryWithError(error))
             return
         }
+        
+        
         AF.request(
             Router.refresh(
                 access: UserDefaultsManager.shared.accessToken,
                 refresh: UserDefaultsManager.shared.refreshToken
             )
         )
-        .validate(statusCode: 200..<300)
+//        .validate(statusCode: 200..<500)
         .responseDecodable(of: RefreshResponse.self) { result in
             print("**isRoot 상태 : \(UserDefaultsManager.shared.backToCall())")
             print("** response.Status : \(response.statusCode)")
@@ -47,18 +49,15 @@ class AuthManager: RequestInterceptor {
                 UserDefaultsManager.shared.saveAccessToken(accessToken: data.token)
 //                UserDefaultsManager.shared.backToRoot(isRoot: true)
                 completion(.retry)
-            case .failure(_):
-                 if let refreshError = RefreshError(rawValue: status) {
-                     print("** AuthManager : ", refreshError.errorDescription)
-                     if refreshError.rawValue == 418 {
-                         UserDefaultsManager.shared.backToRoot(isRoot: false)
-                         let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                          windowScene?.windows.first?.rootViewController = UINavigationController(rootViewController: LoginViewController())
-                     } else {
-                         completion(.doNotRetryWithError(refreshError))
+            case .failure(let error):
+                UserDefaultsManager.shared.backToRoot(isRoot: false)
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+                 windowScene?.windows.first?.rootViewController = UINavigationController(rootViewController: LoginViewController())
+                if let refreshError = RefreshError(rawValue: status) {
+                    completion(.doNotRetryWithError(refreshError))
                      }
-                 }
+                }
+                
             }
         }
     }
-}
