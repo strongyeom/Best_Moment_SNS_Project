@@ -91,10 +91,7 @@ final class FollowingCell : UITableViewCell {
     
     let postImage = {
         let view = UIImageView()
-        view.layer.cornerRadius = 16
-        view.layer.cornerCurve = .continuous
-        view.clipsToBounds = true
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .scaleAspectFit
         return view
     }()
    
@@ -152,8 +149,8 @@ final class FollowingCell : UITableViewCell {
   
         postImage.snp.makeConstraints { make in
             make.top.equalTo(profileImage.snp.bottom).offset(10)
-            make.horizontalEdges.equalToSuperview().inset(10)
-            make.height.equalTo(self.postImage.snp.width)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(self.postImage.snp.width).multipliedBy(0.7)
         }
         
         routinDescription.setContentCompressionResistancePriority(.defaultLow, for: .vertical)

@@ -101,7 +101,6 @@ final class MainTableViewCell : UITableViewCell {
     let postImage = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
-        view.backgroundColor = .green
         return view
     }()
     lazy var tapGesture = {

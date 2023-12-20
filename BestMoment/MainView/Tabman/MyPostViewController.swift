@@ -36,7 +36,7 @@ class MyPostViewController : BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         myArray = []
-        getPost(next: "", limit: "")
+        getPost(next: "", limit: "10")
     }
     
    fileprivate func bind() {
@@ -131,10 +131,9 @@ extension MyPostViewController {
             }
             .bind(with: self) { owner, response in
                 owner.nextCursor = response.next_cursor
-                owner.myArray.append(contentsOf: response.data)
-                
-                let filter = owner.myArray.filter { $0.creator._id == owner.myID}
-                owner.myPosts.onNext(filter)
+                let filter = response.data.filter { $0.creator._id == owner.myID}
+                owner.myArray.append(contentsOf: filter)
+                owner.myPosts.onNext(owner.myArray)
             }
             .disposed(by: disposeBag)
     }
