@@ -101,7 +101,7 @@ final class AddRoutinViewController : BaseViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageBtnTaaped))
         postImage.addGestureRecognizer(tapGesture)
         postImage.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide).inset(10)
+            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(self.postImage.snp.width).multipliedBy(0.8)
         }
        

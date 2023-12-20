@@ -36,7 +36,7 @@ class MyPostViewController : BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         myArray = []
-        getPost(next: "", limit: "10")
+        getPost(next: "", limit: "20")
     }
     
    fileprivate func bind() {
@@ -121,7 +121,7 @@ extension MyPostViewController {
         
         
         
-        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: "", limit: "", product_id: "yeom"), section: .getPost)
+        APIManager.shared.requestAPIFunction(type: ReadPostResponse.self, api: Router.readPost(accessToken: UserDefaultsManager.shared.accessToken, next: next, limit: limit, product_id: "yeom"), section: .getPost)
             .catch { err in
                 if let err = err as? NetworkAPIError {
                     print("🙏🏻 - 게시글 조회하기 에러 : \(err.description)")
