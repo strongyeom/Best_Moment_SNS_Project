@@ -174,8 +174,7 @@ extension FollowingViewController : UITableViewDelegate {
             
             if nextCursor != "0" {
                 print("MainVC - 바닥 찍었음 append 네트워크 통신 시작")
-                getPost(next: nextCursor, limit: "")
-                
+                getPost(next: nextCursor, limit: self.likeRow >= 5 ? "\(self.likeRow + 1)" : "")
             }
         }
     }

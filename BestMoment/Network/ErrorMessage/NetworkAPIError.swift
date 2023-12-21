@@ -137,6 +137,7 @@ enum NetworkAPIError: Error, CustomStringConvertible  {
     case serverError(message: String)
     
     init?(statusCode: Int, message: String) {
+        
         switch statusCode {
         case 400:
             self = .isNotRequired(message: message)

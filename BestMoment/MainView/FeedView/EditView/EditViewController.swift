@@ -61,7 +61,7 @@ final class EditViewController : BaseViewController {
     
         output.editBtnClicked
             .bind(with: self) { owner, response in
-                owner.navigationController?.popViewController(animated: true)
+                owner.dismiss(animated: true)
             }
             .disposed(by: disposeBag)
     }
@@ -136,7 +136,7 @@ extension EditViewController : UITextViewDelegate {
     // 텍스트 칼라가 회색이면 -> nil, textColor -> black
     func textViewDidBeginEditing(_ textView: UITextView) {
         if editView.contentTextView.textColor == .lightGray {
-            textView.text = nil
+            textView.text = data?.content
             textView.textColor = .black
         }
     }

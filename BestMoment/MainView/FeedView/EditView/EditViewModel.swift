@@ -28,7 +28,8 @@ class EditViewModel : BaseInOutPut {
         
         let rowData = Observable.combineLatest(input.contentText, input.imageData)
         
-        let editBtnClicked = rowData
+        let editBtnClicked = input.editBtn
+            .withLatestFrom(rowData)
             .flatMap { content, imageData in
                 APIManager.shared.requestModifyPost(api: Router.modifyPost(asccessToken: UserDefaultsManager.shared.accessToken, postID: input.postID, content: content, product_id: "yeom"), imageData: imageData)
                     .catch { err in
